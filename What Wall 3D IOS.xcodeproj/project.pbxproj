@@ -490,6 +490,7 @@
 				5E6BC14E1CD751DB00F6FF05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5E6BC14F1CD751DB00F6FF05 /* Build configuration list for PBXNativeTarget "What Wall 3D IOSTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +499,7 @@
 				5E6BC1511CD751DB00F6FF05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5E6BC1521CD751DB00F6FF05 /* Build configuration list for PBXNativeTarget "What Wall 3D IOSUITests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +508,7 @@
 				5E6BC1541CD751DB00F6FF05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
