@@ -462,6 +462,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func handlePinch(gestureRecognize: UIGestureRecognizer){
         
+        if isChoosingDifficulty{
+            return
+        }
+        
         if gestureRecognize.state == .Ended{
             isPinching = false
             pinchScale = 0
@@ -607,60 +611,47 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func handleTap(gestureRecognize: UIGestureRecognizer) {
         
         print("GVC handle tap")
-        let scnView = self.view as! SCNView
-        let viewPoint = gestureRecognize.locationInView(scnView)
-        
-        let p = myHudOverlay.convertPointFromView(viewPoint)
-        myHudOverlay.handleTap(p)
-        
         if isChoosingDifficulty{
+            
+            let scnView = self.view as! SCNView
+            let viewPoint = gestureRecognize.locationInView(scnView)
+            
+            let p = myHudOverlay.convertPointFromView(viewPoint)
+            myHudOverlay.handleTap(p)
+        
             return
         }
         
-        myGameScene.isFirstRound = false
-        // ***    myRestartLabel.hidden = true
-        if !gameScene.paused{ //while not showing the map
-            if let player = myPlayer{
-                if !player.isDying && !player.isAlive{
-                    myGameScene.playerComeBackToLife(player)
-                    
-                }
-            }
-        }
-        /*
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
         
-        // check what nodes are tapped
-        let p = gestureRecognize.locationInView(scnView)
-        let hitResults = scnView.hitTest(p, options: nil)
-        // check that we clicked on at least one object
-        if hitResults.count > 0 {
-            // retrieved the first clicked object
-            let result: AnyObject! = hitResults[0]
-            
-            // get its material
-            let material = result.node!.geometry!.firstMaterial!
-            
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.setAnimationDuration(0.5)
-            
-            // on completion - unhighlight
-            SCNTransaction.setCompletionBlock {
-                SCNTransaction.begin()
-                SCNTransaction.setAnimationDuration(0.5)
+        if !gameScene.paused { //while not showing the map
+            if isGameOver{
+                isChoosingDifficulty = true
+                myHudOverlay.easyLabel.removeFromParent()
+                myHudOverlay.hardLabel.removeFromParent()
+                myHudOverlay.ultraHardLabel.removeFromParent()
+                myHudOverlay.addChild(myHudOverlay.easyLabel)
+                myHudOverlay.addChild(myHudOverlay.hardLabel)
+                myHudOverlay.addChild(myHudOverlay.ultraHardLabel)
                 
-                material.emission.contents = UIColor.blackColor()
+                //myGameScene.reloadSceneTime()
+                myGameScene.resetForGameOver()
+                isGameOver = false
+            }else{
+                myGameScene.isFirstRound = false
                 
-                SCNTransaction.commit()
+                if let player = myPlayer{
+                    if !player.isDying && !player.isAlive{
+                        
+                        
+                        
+                        myGameScene.playerComeBackToLife(player)
+                    }
+                }
+                
             }
             
-            material.emission.contents = UIColor.redColor()
-            
-            SCNTransaction.commit()
         }
-        */
+        
     }
     
     

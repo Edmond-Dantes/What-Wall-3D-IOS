@@ -14,6 +14,8 @@ import SpriteKit
 
 var isChoosingDifficulty:Bool = true
 
+var isGameOver:Bool = false
+
 class HudOverlay: SKScene {
     
     var restartLabel:SKLabelNode = SKLabelNode()
@@ -21,6 +23,10 @@ class HudOverlay: SKScene {
     
     var easyLabel:SKLabelNode = SKLabelNode()
     var hardLabel:SKLabelNode = SKLabelNode()
+    var ultraHardLabel:SKLabelNode = SKLabelNode()
+    
+    var gameOverLabel1:SKLabelNode = SKLabelNode()
+    var gameOverLabel2:SKLabelNode = SKLabelNode()
     
     
     //var dogdeCountLabel:SKLabelNode = SKLabelNode()
@@ -48,34 +54,62 @@ class HudOverlay: SKScene {
         //self.restartLabel = myRestartLabel
         self.restartLabel.fontName = "DINAlternate-Bold"//"Chalkduster"
         self.restartLabel.fontSize = 60//65
-        self.restartLabel.text = "RESTART";
+        self.restartLabel.text = "START";
         self.restartLabel.position = CGPoint(x: 4 * self.frame.width/5, y: self.frame.height/10)
         self.restartLabel.fontColor = SKColor.orangeColor()
         self.restartLabel.hidden = false //true
+        
+        //add the game over labels
+        self.gameOverLabel1.fontName = "DINAlternate-Bold"//"Chalkduster"
+        self.gameOverLabel1.fontSize = 100//65
+        self.gameOverLabel1.text = "GAME";
+        self.gameOverLabel1.position = CGPoint(x: self.frame.width/2, y: 6 * self.frame.height/12)
+        self.gameOverLabel1.fontColor = SKColor.purpleColor()
+        self.gameOverLabel1.hidden = false //true
+        
+        self.gameOverLabel2.fontName = "DINAlternate-Bold"//"Chalkduster"
+        self.gameOverLabel2.fontSize = 100//65
+        self.gameOverLabel2.text = "OVER";
+        self.gameOverLabel2.position = CGPoint(x: self.frame.width/2, y: 4 * self.frame.height/12)
+        self.gameOverLabel2.fontColor = SKColor.purpleColor()
+        self.gameOverLabel2.hidden = false //true
+        
+        self.gameOverLabel1.removeFromParent()
+        self.gameOverLabel2.removeFromParent()
+        //self.addChild(self.gameOverLabel1)
+        //self.addChild(self.gameOverLabel2)
         
         #if os(iOS)
             
             
             self.easyLabel.fontName = "DINAlternate-Bold"//"Chalkduster"
             self.easyLabel.fontSize = 100//65
-            self.easyLabel.position = CGPoint(x: self.frame.width/2, y: 2 * self.frame.height/4 )//cornerBlockFrame.height)
-            self.easyLabel.fontColor = SKColor.redColor()
+            self.easyLabel.position = CGPoint(x: self.frame.width/2, y: 7 * self.frame.height/12 )
+            self.easyLabel.fontColor = SKColor.whiteColor()
             self.easyLabel.alpha = 1//0.5
             self.easyLabel.hidden = false //true
             self.easyLabel.text = "EASY"
             
-            //self.restartLabel = myRestartLabel
             self.hardLabel.fontName = "DINAlternate-Bold"//"Chalkduster"
             self.hardLabel.fontSize = 100//65
             self.hardLabel.text = "HARD";
-            self.hardLabel.position = CGPoint(x: self.frame.width/2, y: self.frame.height/4)
-            self.hardLabel.fontColor = SKColor.redColor()
+            self.hardLabel.position = CGPoint(x: self.frame.width/2, y: 5 * self.frame.height/12)
+            self.hardLabel.fontColor = SKColor.blueColor()
             self.hardLabel.hidden = false //true
+            
+            self.ultraHardLabel.fontName = "DINAlternate-Bold"//"Chalkduster"
+            self.ultraHardLabel.fontSize = 100//65
+            self.ultraHardLabel.text = "WTF";
+            self.ultraHardLabel.position = CGPoint(x: self.frame.width/2, y: 3 * self.frame.height/12)
+            self.ultraHardLabel.fontColor = SKColor.redColor()
+            self.ultraHardLabel.hidden = false //true
             
             self.easyLabel.removeFromParent()
             self.hardLabel.removeFromParent()
+            self.ultraHardLabel.removeFromParent()
             self.addChild(self.easyLabel)
             self.addChild(self.hardLabel)
+            self.addChild(self.ultraHardLabel)
             
             
             
@@ -112,17 +146,32 @@ class HudOverlay: SKScene {
     
     func setDifficulty(setting:CGFloat){
         if setting == EASY_SETTING{
+            gameDifficultySetting = .easy
             SPEED_PERCENTAGE = EASY_SETTING
             CONSTANT_WALLSPEED = 1000 * SPEED_PERCENTAGE
+            gameScene.isEdgeHitDeathOn = false
+            
         }else if setting == HARD_SETTING{
+            gameDifficultySetting = .hard
             SPEED_PERCENTAGE = HARD_SETTING
             CONSTANT_WALLSPEED = 1000 * SPEED_PERCENTAGE
+            gameScene.isEdgeHitDeathOn = false
+            
+        }else if setting == ULTRA_HARD_SETTING{
+            gameDifficultySetting = .ultraHard
+            SPEED_PERCENTAGE = HARD_SETTING
+            CONSTANT_WALLSPEED = 1000 * SPEED_PERCENTAGE
+            gameScene.isEdgeHitDeathOn = true
         }
     }
     
     #if os(iOS)
     
     func handleTap(p: CGPoint) {
+        if isGameOver{
+            return
+        }
+        
         if !isChoosingDifficulty{
             return
         }
@@ -139,6 +188,7 @@ class HudOverlay: SKScene {
             setDifficulty(EASY_SETTING)
             self.easyLabel.removeFromParent()
             self.hardLabel.removeFromParent()
+            self.ultraHardLabel.removeFromParent()
             isChoosingDifficulty = false
             
             
@@ -150,6 +200,17 @@ class HudOverlay: SKScene {
             setDifficulty(HARD_SETTING)
             self.easyLabel.removeFromParent()
             self.hardLabel.removeFromParent()
+            self.ultraHardLabel.removeFromParent()
+            isChoosingDifficulty = false
+            
+            
+        }else if ultraHardLabel.containsPoint(p){
+            print("changed to ULTRA_HARD")
+            
+            setDifficulty(ULTRA_HARD_SETTING)
+            self.easyLabel.removeFromParent()
+            self.hardLabel.removeFromParent()
+            self.ultraHardLabel.removeFromParent()
             isChoosingDifficulty = false
             
             
@@ -192,6 +253,19 @@ class HudOverlay: SKScene {
     #endif
     
     override func update(currentTime: NSTimeInterval) {
+        if isGameOver{
+            
+            if gameOverLabel1.parent == nil{
+                self.addChild(self.gameOverLabel1)
+                self.addChild(self.gameOverLabel2)
+            }
+            return
+        }else{
+            if gameOverLabel1.parent != nil{
+                self.gameOverLabel1.removeFromParent()
+                self.gameOverLabel2.removeFromParent()
+            }
+        }
         
         
        /* if hasMoveToView{
@@ -201,12 +275,8 @@ class HudOverlay: SKScene {
         */
         
         self.levelNumberLabel.text = myLevelNumberLabel.text
-        //self.levelNumberLabel.hidden = myLevelNumberLabel.hidden
-        //self.levelNumberLabel.alpha = myLevelNumberLabel.alpha
         
         self.restartLabel.text = myRestartLabel.text
-        //self.restartLabel.hidden = myRestartLabel.hidden
-        //self.restartLabel.alpha = myRestartLabel.alpha
  
     }
     

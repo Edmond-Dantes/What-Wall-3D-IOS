@@ -89,6 +89,13 @@ var SPEED_PERCENTAGE:CGFloat = 1//0.5//1//0.25
 
 let EASY_SETTING:CGFloat = 0.5
 let HARD_SETTING:CGFloat = 1
+let ULTRA_HARD_SETTING:CGFloat = 2
+
+enum difficultySetting{
+    case easy, hard, ultraHard
+}
+var gameDifficultySetting:difficultySetting = .hard
+
 
 /*private let*/ var CONSTANT_WALLSPEED:CGFloat = 1000 * SPEED_PERCENTAGE //must be changed with SPEED_PERCENTAGE
 
@@ -133,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /*private*/ var hasWorldMovement:Bool = false//true
     /*private*/ var isFirstRound: Bool = true //*****don't change value
     private var isFirstRoundStarted: Bool = false //*****don't change value
-    private var isEdgeHitDeathOn: Bool = false //true //false
+    /*private*/ var isEdgeHitDeathOn: Bool = false //true //false // *** used for the Ultra_Hard_Setting
     private var playerScore:Int = 0
     private var isPlayerTouched: Bool = false //*****don't change value
     private var isTrapWallPaused: Bool = false//true //change to true to pause the wall movement
@@ -350,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //restartView.fontName = "Chalkduster"
         restartView.fontSize = 20//65
-        restartView.text = "RESTART";
+        restartView.text = "START";
         //restartView.s frame = self.view!.frame//CGRect(x: 25, y: 100, width: 500, height: 500)
         //myLabel.fontSize = 65;
         restartView.position = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
@@ -1444,9 +1451,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         myTailGravityFieldNode.position = gameFrameCenter
                         
                         for tailPiece in myPlayerTail{
+                            tailPiece.position = self.convertPoint(tailPiece.position, fromNode: myPlayer!)
                             tailPiece.removeFromParent()
                             self.addChild(tailPiece)
-                            tailPiece.position = CGPoint(x: tailPiece.position.x + player.deathPosition.x , y: tailPiece.position.y + player.deathPosition.y)//self.convertPoint(tailPiece.position, fromNode: myPlayer!)
+                            //tailPiece.position = CGPoint(x: tailPiece.position.x + player.deathPosition.x , y: tailPiece.position.y + player.deathPosition.y)
                             tailPiece.physicsBody!.velocity = tailPiece.deathVelocity
                         }
                         
@@ -1466,7 +1474,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         burst.resetSimulation()
                         if playerLives > 1{
                             --playerLives
-                        }else {playerLives = playerLivesMAX}
+                        }else { //player Game OVER!!!
+                            //add GAME OVER logic
+                            
+                            isGameOver = true
+                        
+                        
+                        
+                        
+                        }
                         player.justDied = false
                         
                         
@@ -1574,7 +1590,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     if player.isDying{
                         //----add code if necessary---
-                        //myRestartLabel.text = "RESTART"
+                        
                         
                     }
                 }
@@ -1630,6 +1646,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if player.isAlive{
                     
                     self.reloadSceneTime()
+                        /*
+                    if isChoosingDifficulty{
+                        self.resetForGameOver()
+                        isGameOver = false
+                    }
+                    */
                     
                     //clear tail pieces first then add back based on the lives
                     for tailPiece in myPlayerTail{
@@ -1714,8 +1736,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     else{
                         
                         //self.isSlowedDown = false
-                        
-                        myRestartLabel.text = "RESTART"
+                        if isGameOver{
+                            myRestartLabel.text = "START"
+                        }else{
+                            myRestartLabel.text = "RESTART"
+                        }
                         playerScore = 0
                         myGravityFieldNode.strength = 9.8 * Float(SPEED_PERCENTAGE)
                         myTailGravityFieldNode.strength = 9.8 * Float(SPEED_PERCENTAGE)
@@ -2303,6 +2328,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func resetForGameOver(){
+        
+        
+        self.level = 1
+        LEVEL = self.level //1
+        self.playerLives = playerLivesMAX
+        
+        
+            
+        self.isFirstRound = true
+        self.isFirstRoundStarted = false
+        
+        
+            if let player = myPlayer{
+                
+                player.position = player.originalPosition
+                player.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
+                
+                
+                for (index, tailPiece) in myPlayerTail.enumerate(){ //fix this
+                    tailPiece.position = tailPiece.originalPosition
+                    
+                    if self.playerLives > 1{
+                        let MATH_PI:CGFloat = CGFloat(M_PI)
+                        let unitCirleRadians:CGFloat = 2 * MATH_PI / CGFloat(self.playerLives - 1) // MATH_PI / 4
+                        let angle:CGFloat = CGFloat(index) * unitCirleRadians
+                        tailPiece.position = CGPoint(x: cos(angle) * self.maxJointLimit + player.position.x , y: sin(angle) * self.maxJointLimit + player.position.y)
+                    }
+                    
+                    
+                    tailPiece.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
+                }
+                
+                
+                player.isAlive = false
+                player.contactActive = false
+                for tail in tailJoint{
+                    self.physicsWorld.removeJoint(tail)
+                }
+                tailJoint = []
+                player.removeFromParent()
+                myPresentationPlayer!.removeFromParent()
+                for tailPiece in myPlayerTail{
+                    if tailPiece.parent != nil{
+                        tailPiece.removeFromParent()
+                    }
+                }
+                for tailPiece in myPresentationTail{
+                    if tailPiece.parent != nil{
+                        tailPiece.removeFromParent()
+                    }
+                }
+            }
+        
+        self.reloadSceneTime()
+        
+        self.updateLevelMaze(self.level)
+        
+        
+        
+    }
+    
     func resetForLevelChange(){
         
         if self.currentStage == myMaze!.exitPoint{
@@ -2312,6 +2399,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if self.islevelChange{
+            
+            // ****** lives adjustment on level up ****
+            if gameDifficultySetting == .easy{
+                
+                self.playerLives = self.playerLivesMAX
+                
+            }else if gameDifficultySetting == .hard{
+                
+                self.playerLives = self.playerLives + 4
+                if self.playerLives > playerLivesMAX{
+                    self.playerLives = playerLivesMAX
+                }
+                
+            }else if gameDifficultySetting == .ultraHard{
+                self.playerLives = self.playerLives + 2
+                if self.playerLives > playerLivesMAX{
+                    self.playerLives = playerLivesMAX
+                }
+            }
+            // ****************************************
+            
             
             self.isFirstRound = true
             self.isFirstRoundStarted = false
@@ -2361,6 +2469,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.updateLevelMaze(self.level)
             
             self.islevelChange = false
+            
+            
+            
             
             
         }
@@ -2454,12 +2565,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if isFirstRound{
-            myRestartLabel.text = "Start"
+            myRestartLabel.text = "START"
             lastUpdatedTime = currentTime
             return
         }
         else if !isFirstRoundStarted{
-           // myRestartLabel.text = "RESTART"
             isFirstRoundStarted = true
         }
         
