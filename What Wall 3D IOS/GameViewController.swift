@@ -68,6 +68,9 @@ var myPlayerTailNodeArray:[SCNNode] = []
 
 var gameScene:GameScene!
 
+var myHUDView:UIView!
+
+
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     var isMapKeyPressed:[keys:Bool] = [keys.left: false, .right: false, .up: false, .down: false]
     
@@ -100,61 +103,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     private var deathTimer: CFTimeInterval = 0.0
     */
 
+    var panGesture:UIPanGestureRecognizer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        // create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
         
-        // create and add a camera to the scene
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        scene.rootNode.addChildNode(cameraNode)
-        
-        // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
-        
-        // create and add a light to the scene
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light!.type = SCNLightTypeOmni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-        scene.rootNode.addChildNode(lightNode)
-        
-        // create and add an ambient light to the scene
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = SCNLightTypeAmbient
-        ambientLightNode.light!.color = UIColor.darkGrayColor()
-        scene.rootNode.addChildNode(ambientLightNode)
-        
-        // retrieve the ship node
-        let ship = scene.rootNode.childNodeWithName("ship", recursively: true)!
-        
-        // animate the 3d object
-        ship.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(0, y: 2, z: 0, duration: 1)))
-        
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        // set the scene to the view
-        scnView.scene = scene
-        
-        // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
-        
-        // show statistics such as fps and timing information
-        scnView.showsStatistics = true
-        
-        // configure the view
-        scnView.backgroundColor = UIColor.blackColor()
-        
-        // add a tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
-        scnView.addGestureRecognizer(tapGesture)
-
-*/
-
         
         
         gameView = self.view as! GameView
@@ -170,21 +123,39 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         self.setupCamera()
         //self.addPlayerNode()
         
+        
+        #if os(iOS)
+        
         // add a tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(GameViewController.handleTap(_:)))
         myView.addGestureRecognizer(tapGesture)
         // add a pinch gesture recognizer
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(GameViewController.handlePinch(_:)))
         myView.addGestureRecognizer(pinchGesture)
         // add a pan gesture recognizer
-        let panGesture = UIPanGestureRecognizer(target: self, action: "handlePan:")
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(GameViewController.handlePan(_:)))
         panGesture.maximumNumberOfTouches = 1
-        myView.addGestureRecognizer(panGesture)
+        myView.addGestureRecognizer(panGesture) //add when map is shown and removed otherwise
+            
         // add a swipe gesture recognizer
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipe:")
-        myView.addGestureRecognizer(swipeGesture)
+        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
+        leftSwipeGesture.direction = .Left
+        myView.addGestureRecognizer(leftSwipeGesture)
+        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
+        rightSwipeGesture.direction = .Right
+        myView.addGestureRecognizer(rightSwipeGesture)
+        let upSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
+        upSwipeGesture.direction = .Up
+        myView.addGestureRecognizer(upSwipeGesture)
+        let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
+        downSwipeGesture.direction = .Down
+        myView.addGestureRecognizer(downSwipeGesture)
         
-        
+            
+            
+            
+            
+            #endif
         
         // DEBUG
         self.setupDebugDisplay()
@@ -208,6 +179,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         //Heads Up Display (SpriteKit Overlay)
         self.setupHUD()
+        #if os(iOS)
+            /*
+            // add a tap gesture recognizer to the HUD for difficulty settings
+            let hudTapGesture = UITapGestureRecognizer(target: self.myHudOverlay, action: #selector(HudOverlay.handleTap(_:)))
+            self.view!.addGestureRecognizer(hudTapGesture)
+ */
+        
+        #endif
+        
         
         self.addPlayerNode()
         
@@ -232,12 +212,37 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
 
     }
     
+    #if os(iOS)
+    
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            return .Portrait// AllButUpsideDown
+        } else {
+            return .All
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Release any cached data, images, etc that aren't in use.
+    }
+    
     func handleSwipe(gestureRecognize: UIGestureRecognizer){
         
         if !isShowingMap{
             
             print("handleSwipe")
             let swipeDirection:UISwipeGestureRecognizerDirection = (gestureRecognize as! UISwipeGestureRecognizer).direction
+            
+            print(" \(swipeDirection)")
             
             //if myGameScene.isMovingToNextArea || myPlayer!.isStunned && myPlayer!.isAlive{
                 myGameScene.controller.joyStickDirection = .neutral
@@ -292,23 +297,134 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
         
-    
+    var panVelocity:CGPoint = CGPoint()
+    var isPanGestureChanging:Bool = false
     
     func handlePan(gestureRecognize: UIGestureRecognizer){
         print("handlePan")
-        if isShowingMap && gestureRecognize.state == .Changed{
+        if isShowingMap{
+            if gestureRecognize.state == .Changed{
+                isPanGestureChanging = true
+                self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
+                
+            }else if gestureRecognize.state == .Ended{
+                self.panVelocity = CGPoint(x: 0, y: 0)
+            }
             
-            let panVelocity:CGPoint = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
-            
-            myCameraNode.position.y = myCameraNode.position.y + Float(panVelocity.y) / 100
-            myCameraNode.position.x = myCameraNode.position.x - Float(panVelocity.x) / 100
             
             
-        }else if !isShowingMap && gestureRecognize.state == .Changed{
+            //myCameraNode.position.y = myCameraNode.position.y + Float(panVelocity.y) / 300 //100
+            //myCameraNode.position.x = myCameraNode.position.x - Float(panVelocity.x) / 300 //100
+            
+            
+        }else if !isShowingMap {//&& gestureRecognize.state == .Changed{
+            
+            if myGameScene.isMovingToNextArea || myPlayer!.isStunned && myPlayer!.isAlive{
+                
+                myGameScene.controller.joyStickDirection = .neutral
+                myGameScene.controller.isChangedDirection = false
+                isKeyPressed[.up] = false
+                isKeyPressed[.right] = false
+                isKeyPressed[.down] = false
+                isKeyPressed[.left] = false
+                
+                return
+            }
+            
             
             print("handlePan not in map")
+            /*
+            myGameScene.controller.joyStickDirection = .neutral
+            myGameScene.controller.isChangedDirection = false
+            isKeyPressed[.up] = false
+            isKeyPressed[.right] = false
+            isKeyPressed[.down] = false
+            isKeyPressed[.left] = false
+            */
+            if gestureRecognize.state == .Changed{
+                isPanGestureChanging = true
+                self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
+                
+                //add here
+                if panVelocity.y.abs() > panVelocity.x.abs(){
+                    if panVelocity.y < 0 {//up
+                        print("pan - up")
+                        if !isKeyPressed[.up]!{
+                            isKeyPressed[.up] = true
+                            isKeyPressed[.right] = false
+                            isKeyPressed[.down] = false
+                            isKeyPressed[.left] = false
+                            myGameScene.controller.isChangedDirection = true
+                            myGameScene.controller.joyStickDirection = .up
+                        }else if isKeyPressed[.up]!{
+                            //myGameScene.controller.joyStickDirection = .neutral
+                            myGameScene.controller.isChangedDirection = false
+                        }
+                    }else if panVelocity.y > 0{//down
+                        print("pan - down")
+                        if !isKeyPressed[.down]!{
+                            isKeyPressed[.up] = false
+                            isKeyPressed[.right] = false
+                            isKeyPressed[.down] = true
+                            isKeyPressed[.left] = false
+                            myGameScene.controller.isChangedDirection = true
+                            myGameScene.controller.joyStickDirection = .down
+                        }else if isKeyPressed[.down]!{
+                            //myGameScene.controller.joyStickDirection = .neutral
+                            myGameScene.controller.isChangedDirection = false
+                        }
+                    }
+                }else if panVelocity.y.abs() < panVelocity.x.abs(){
+                    print("pan - right")
+                    if panVelocity.x > 0{//right
+                        if !isKeyPressed[.right]!{
+                            isKeyPressed[.up] = false
+                            isKeyPressed[.right] = true
+                            isKeyPressed[.down] = false
+                            isKeyPressed[.left] = false
+                            myGameScene.controller.isChangedDirection = true
+                            myGameScene.controller.joyStickDirection = .right
+                        }else if isKeyPressed[.right]!{
+                            //myGameScene.controller.joyStickDirection = .neutral
+                            myGameScene.controller.isChangedDirection = false
+                        }
+                    }else if panVelocity.x < 0{//left
+                        print("pan - left")
+                        if !isKeyPressed[.left]!{
+                            isKeyPressed[.up] = false
+                            isKeyPressed[.right] = false
+                            isKeyPressed[.down] = false
+                            isKeyPressed[.left] = true
+                            myGameScene.controller.isChangedDirection = true
+                            myGameScene.controller.joyStickDirection = .left
+                        }else if isKeyPressed[.left]!{
+                            //myGameScene.controller.joyStickDirection = .neutral
+                            myGameScene.controller.isChangedDirection = false
+                        }
+                    }
+                }else if panVelocity.y.abs() == panVelocity.x.abs(){
+                    //myGameScene.controller.joyStickDirection = .neutral
+                    myGameScene.controller.isChangedDirection = false
+                    isKeyPressed[.up] = false
+                    isKeyPressed[.right] = false
+                    isKeyPressed[.down] = false
+                    isKeyPressed[.left] = false
+                }
+                
+                
+                
+                
+            }else if gestureRecognize.state == .Ended{
+                self.panVelocity = CGPoint(x: 0, y: 0)
+                //myGameScene.controller.joyStickDirection = .neutral
+                myGameScene.controller.isChangedDirection = false
+                isKeyPressed[.up] = false
+                isKeyPressed[.right] = false
+                isKeyPressed[.down] = false
+                isKeyPressed[.left] = false
+            }
             
-            let panVelocity:CGPoint = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
+            
             /*
             if panVelocity.y > 0{
             myCameraNode.position.y = myCameraNode.position.y + Float(panVelocity.y) * 100//1 * Float(mapDeltaTime)*100
@@ -328,6 +444,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
     }
     
+    func addOrRemovePanGesture(){
+        
+        return
+        
+        if isShowingMap{
+            self.myView.addGestureRecognizer(self.panGesture)
+        }else if !isShowingMap{
+            self.myView.removeGestureRecognizer(self.panGesture)
+        }
+    }
+    
+    
     var isPinching:Bool = false
     var pinchScale:CGFloat = 0
     var isOutwardPinch:Bool = false
@@ -346,14 +474,17 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         }
         
         if gestureRecognize.state == .Changed {//&& !isPinching{
-            if pinchScale - (gestureRecognize as! UIPinchGestureRecognizer).scale < 0{
+            let nextPinchScale:CGFloat = (gestureRecognize as! UIPinchGestureRecognizer).scale
+            if pinchScale - nextPinchScale < 0{
                 if !isOutwardPinch{isPinching = false}
                 isOutwardPinch = true
-            }else {
+            }else if pinchScale - nextPinchScale > 0{
                 if isOutwardPinch{isPinching = false}
                 isOutwardPinch = false
+            }else if pinchScale - nextPinchScale == 0{
+                isPinching = true //false
             }
-            pinchScale = (gestureRecognize as! UIPinchGestureRecognizer).scale
+            pinchScale = nextPinchScale//(gestureRecognize as! UIPinchGestureRecognizer).scale
            // return
         }
         
@@ -386,7 +517,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
                 myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
                 myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
-                myCameraNode.position.z = 100
+                myCameraNode.position.z = 100  //test this
                 
                 
                 SCNTransaction.setCompletionBlock(
@@ -405,6 +536,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         self.myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
                         
                         //self.showMap()
+                        self.addOrRemovePanGesture()
+                        //self.myView.addGestureRecognizer(self.panGesture)
+                        
                         
                     }
                 )
@@ -412,10 +546,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
             //map on
             }else if isShowingMap && isOutwardPinch{
-                //myCameraNode.constraints = nil
-                //deathCameraPosition.x = currentCameraPosition.x
-                //deathCameraPosition.y = currentCameraPosition.y
+                
                 isShowingMap = false
+                self.addOrRemovePanGesture()
+                //self.myView.removeGestureRecognizer(self.panGesture)
                 
                 isMapKeyPressed[.up] = false
                 isMapKeyPressed[.right] = false
@@ -471,13 +605,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func handleTap(gestureRecognize: UIGestureRecognizer) {
+        
+        print("GVC handle tap")
+        let scnView = self.view as! SCNView
+        let viewPoint = gestureRecognize.locationInView(scnView)
+        
+        let p = myHudOverlay.convertPointFromView(viewPoint)
+        myHudOverlay.handleTap(p)
+        
+        if isChoosingDifficulty{
+            return
+        }
+        
         myGameScene.isFirstRound = false
         // ***    myRestartLabel.hidden = true
-        
-        if let player = myPlayer{
-            if !player.isDying && !player.isAlive{
-                myGameScene.playerComeBackToLife(player)
-                
+        if !gameScene.paused{ //while not showing the map
+            if let player = myPlayer{
+                if !player.isDying && !player.isAlive{
+                    myGameScene.playerComeBackToLife(player)
+                    
+                }
             }
         }
         /*
@@ -516,26 +663,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         */
     }
     
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
     
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
+    #endif
+
     
     private var FIELD_STRENGTH:CGFloat = /*9.8*/ 6 * CGFloat(SPEED_PERCENTAGE) /// 10  9.8
     func addPhysicsField(){
@@ -623,188 +754,188 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var returningToCurrentStageMapTime:CFTimeInterval = 0.5
     var isReturnToCurrentStageMap:Bool = false
     
-    
     #if os(OSX)
     override func keyDown(theEvent: NSEvent){
-    Swift.print("KeyDown - GameViewController")
-    
-    let key = theEvent.keyCode
-    switch key{
-    
-    case 126://up
-    if isShowingMap && !isMapKeyPressed[.down]!{
-    isMapKeyPressed[.up] = true
-    }
-    case 124://right
-    if isShowingMap && !isMapKeyPressed[.left]!{
-    isMapKeyPressed[.right] = true
-    }
-    case 125://down
-    if isShowingMap && !isMapKeyPressed[.up]!{
-    isMapKeyPressed[.down] = true
-    }
-    case 123://left
-    if isShowingMap && !isMapKeyPressed[.right]!{
-    isMapKeyPressed[.left] = true
-    }
-    
-    case 46://M
-    
-    if /*!myPlayer!.isAlive || myGameScene.isFirstRound || */ !myGameScene.isMovingToNextArea{
-    if !isShowingMap && didReturnFromMap{
-    print("View Controller starting to show map")
-    print("playerNode x y = \(myPlayerNode.position.x), \(myPlayerNode.position.y)")
-    print("cameraNode x y = \(self.myCameraNode.position.x), \(self.myCameraNode.position.y)")
-    print("currentCameraNode x y = \(self.currentCameraPosition.x), \(self.currentCameraPosition.y)")
-    //myCameraNode.constraints = nil
-    //myCameraNode.position = cameraStartPosition
-    myGameScene.paused = true
-    // --------------------------------
-    // need to pause 3D particle system here
-    // --------------------------------
-    
-    didReturnFromMap = false
-    self.showMap()
-    
-    SCNTransaction.begin()
-    SCNTransaction.setAnimationDuration(self.showingMapTime)
-    
-    myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
-    myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
-    myCameraNode.position.z = 100
-    
-    
-    SCNTransaction.setCompletionBlock(
-    {
-    self.isShowingMap = true
-    self.isMapKeyPressed[.up] = false
-    self.isMapKeyPressed[.right] = false
-    self.isMapKeyPressed[.down] = false
-    self.isMapKeyPressed[.left] = false
-    self.mapLastUpdateTime = self.mapCurrentTime
-    
-    
-    //self.hasMapView = true
-    self.myCameraNode.constraints = nil
-    self.myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
-    self.myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
-    
-    //self.showMap()
-    
-    }
-    )
-    SCNTransaction.commit()
-    }else if isShowingMap{
-    //myCameraNode.constraints = nil
-    //deathCameraPosition.x = currentCameraPosition.x
-    //deathCameraPosition.y = currentCameraPosition.y
-    isShowingMap = false
-    
-    isMapKeyPressed[.up] = false
-    isMapKeyPressed[.right] = false
-    isMapKeyPressed[.down] = false
-    isMapKeyPressed[.left] = false
-    
-    //self.removeMap()
-    self.myStageNode.hidden = false
-    self.isReturnToCurrentStageMap = true
-    //myGameScene.paused = false
-    
-    self.returningToCurrentStageMapTime = ( 1 ) * CFTimeInterval(self.cameraDistanceFromCurrentStage() / myMaze!.maxMapAreaXValue) // / myMaze!.myMazeCellSize.height)
-    
-    SCNTransaction.begin()
-    SCNTransaction.setAnimationDuration(self.returningToCurrentStageMapTime)
-    
-    myCameraNode.position.x = myPlayerNode.position.x
-    myCameraNode.position.y = myPlayerNode.position.y
-    //self.myCameraNode.position = self.currentCameraPosition
-    //myCameraNode.position = cameraStartPosition
-    
-    SCNTransaction.setCompletionBlock(
-    {
-    self.isReturnToCurrentStageMap = false
-    SCNTransaction.begin()
-    SCNTransaction.setAnimationDuration(self.showingMapTime)
-    self.myCameraNode.position = self.currentCameraPosition
-    SCNTransaction.setCompletionBlock(
-    {
-    self.removeMap()
-    //self.myCameraNode.constraints = [SCNConstraint()]
-    self.didReturnFromMap = true
-    self.myGameScene.paused = false
-    // --------------------------------
-    // need to resume 3D particle system here
-    // --------------------------------
-    
-    self.myCameraNode.position = self.currentCameraPosition
-    print("View Controller finished showing map")
-    print("playerNode x y = \(myPlayerNode.position.x), \(myPlayerNode.position.y)")
-    print("cameraNode x y = \(self.myCameraNode.position.x), \(self.myCameraNode.position.y)")
-    print("currentCameraNode x y = \(self.currentCameraPosition.x), \(self.currentCameraPosition.y)")
-    }
-    )
-    SCNTransaction.commit()
-    }
-    )
-    SCNTransaction.commit()
-    }
-    
-    }
-    case 35://P
-    if !myPlayer!.isAlive || myGameScene.isFirstRound || myGameScene.isMovingToNextArea{
-    //myGameScene.paused = false
-    }else{
-    myGameScene.paused = !myGameScene.paused
-    }
-    
-    default:
-    print("View Controller KeyDown")
-    break
-    }
-    
-    if !myGameScene.paused{
-    self.myGameScene.keyDown(theEvent)
-    }
-    //myHudOverlay.keyDown(theEvent)
-    //gameScene.keyDown(theEvent)
+        Swift.print("KeyDown - GameViewController")
+        
+        let key = theEvent.keyCode
+        switch key{
+            
+        case 126://up
+            if isShowingMap && !isMapKeyPressed[.down]!{
+                isMapKeyPressed[.up] = true
+            }
+        case 124://right
+            if isShowingMap && !isMapKeyPressed[.left]!{
+                isMapKeyPressed[.right] = true
+            }
+        case 125://down
+            if isShowingMap && !isMapKeyPressed[.up]!{
+                isMapKeyPressed[.down] = true
+            }
+        case 123://left
+            if isShowingMap && !isMapKeyPressed[.right]!{
+                isMapKeyPressed[.left] = true
+            }
+            
+        case 46://M
+            
+            if /*!myPlayer!.isAlive || myGameScene.isFirstRound || */ !myGameScene.isMovingToNextArea{
+                if !isShowingMap && didReturnFromMap{
+                    print("View Controller starting to show map")
+                    print("playerNode x y = \(myPlayerNode.position.x), \(myPlayerNode.position.y)")
+                    print("cameraNode x y = \(self.myCameraNode.position.x), \(self.myCameraNode.position.y)")
+                    print("currentCameraNode x y = \(self.currentCameraPosition.x), \(self.currentCameraPosition.y)")
+                    //myCameraNode.constraints = nil
+                    //myCameraNode.position = cameraStartPosition
+                    myGameScene.paused = true
+                    // --------------------------------
+                    // need to pause 3D particle system here
+                    // --------------------------------
+                    
+                    didReturnFromMap = false
+                    self.showMap()
+                    
+                    SCNTransaction.begin()
+                    SCNTransaction.setAnimationDuration(self.showingMapTime)
+                    
+                    myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
+                    myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
+                    myCameraNode.position.z = 100
+                    
+                    
+                    SCNTransaction.setCompletionBlock(
+                        {
+                            self.isShowingMap = true
+                            self.isMapKeyPressed[.up] = false
+                            self.isMapKeyPressed[.right] = false
+                            self.isMapKeyPressed[.down] = false
+                            self.isMapKeyPressed[.left] = false
+                            self.mapLastUpdateTime = self.mapCurrentTime
+                            
+                            
+                            //self.hasMapView = true
+                            self.myCameraNode.constraints = nil
+                            self.myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
+                            self.myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
+                            
+                            //self.showMap()
+                            
+                        }
+                    )
+                    SCNTransaction.commit()
+                }else if isShowingMap{
+                    //myCameraNode.constraints = nil
+                    //deathCameraPosition.x = currentCameraPosition.x
+                    //deathCameraPosition.y = currentCameraPosition.y
+                    isShowingMap = false
+                    
+                    isMapKeyPressed[.up] = false
+                    isMapKeyPressed[.right] = false
+                    isMapKeyPressed[.down] = false
+                    isMapKeyPressed[.left] = false
+                    
+                    //self.removeMap()
+                    self.myStageNode.hidden = false
+                    self.isReturnToCurrentStageMap = true
+                    //myGameScene.paused = false
+                    
+                    self.returningToCurrentStageMapTime = ( 1 ) * CFTimeInterval(self.cameraDistanceFromCurrentStage() / myMaze!.maxMapAreaXValue) // / myMaze!.myMazeCellSize.height)
+                    
+                    SCNTransaction.begin()
+                    SCNTransaction.setAnimationDuration(self.returningToCurrentStageMapTime)
+                    
+                    myCameraNode.position.x = myPlayerNode.position.x
+                    myCameraNode.position.y = myPlayerNode.position.y
+                    //self.myCameraNode.position = self.currentCameraPosition
+                    //myCameraNode.position = cameraStartPosition
+                    
+                    SCNTransaction.setCompletionBlock(
+                        {
+                            self.isReturnToCurrentStageMap = false
+                            SCNTransaction.begin()
+                            SCNTransaction.setAnimationDuration(self.showingMapTime)
+                            self.myCameraNode.position = self.currentCameraPosition
+                            SCNTransaction.setCompletionBlock(
+                                {
+                                    self.removeMap()
+                                    //self.myCameraNode.constraints = [SCNConstraint()]
+                                    self.didReturnFromMap = true
+                                    self.myGameScene.paused = false
+                                    // --------------------------------
+                                    // need to resume 3D particle system here
+                                    // --------------------------------
+                                    
+                                    self.myCameraNode.position = self.currentCameraPosition
+                                    print("View Controller finished showing map")
+                                    print("playerNode x y = \(myPlayerNode.position.x), \(myPlayerNode.position.y)")
+                                    print("cameraNode x y = \(self.myCameraNode.position.x), \(self.myCameraNode.position.y)")
+                                    print("currentCameraNode x y = \(self.currentCameraPosition.x), \(self.currentCameraPosition.y)")
+                                }
+                            )
+                            SCNTransaction.commit()
+                        }
+                    )
+                    SCNTransaction.commit()
+                }
+                
+            }
+        case 35://P
+            if !myPlayer!.isAlive || myGameScene.isFirstRound || myGameScene.isMovingToNextArea{
+                //myGameScene.paused = false
+            }else{
+                myGameScene.paused = !myGameScene.paused
+            }
+            
+        default:
+            print("View Controller KeyDown")
+            break
+        }
+        
+        if !myGameScene.paused{
+            self.myGameScene.keyDown(theEvent)
+        }
+        //myHudOverlay.keyDown(theEvent)
+        //gameScene.keyDown(theEvent)
     }
     
     override func keyUp(theEvent: NSEvent) {
-    
-    let key = theEvent.keyCode
-    switch key{
-    
-    case 126://up
-    if isShowingMap{
-    isMapKeyPressed[.up] = false
+        
+        let key = theEvent.keyCode
+        switch key{
+            
+        case 126://up
+            if isShowingMap{
+                isMapKeyPressed[.up] = false
+            }
+        case 124://right
+            if isShowingMap{
+                isMapKeyPressed[.right] = false
+            }
+        case 125://down
+            if isShowingMap{
+                isMapKeyPressed[.down] = false
+            }
+        case 123://left
+            if isShowingMap{
+                isMapKeyPressed[.left] = false
+            }
+        default:
+            if isShowingMap{
+                
+            }
+            break
+        }
+        
+        
+        
+        self.myGameScene.keyUp(theEvent)
+        //myHudOverlay.keyUp(theEvent)
+        //gameScene.keyUp(theEvent)
+        
+        
     }
-    case 124://right
-    if isShowingMap{
-    isMapKeyPressed[.right] = false
-    }
-    case 125://down
-    if isShowingMap{
-    isMapKeyPressed[.down] = false
-    }
-    case 123://left
-    if isShowingMap{
-    isMapKeyPressed[.left] = false
-    }
-    default:
-    if isShowingMap{
     
-    }
-    break
-    }
-    
-    
-    
-    self.myGameScene.keyUp(theEvent)
-    //myHudOverlay.keyUp(theEvent)
-    //gameScene.keyUp(theEvent)
-    
-    
-    }
     
     #endif //os(ios)
     
@@ -1008,18 +1139,31 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     myCameraNode.position.y = myMaze!.position.y - myMaze!.minMapAreaYValue
                 }
                     #elseif os(iOS)
-                if isMapKeyPressed[.up]!{
+                if isPanGestureChanging {
+                    myCameraNode.position.y = myCameraNode.position.y + Float(mapDeltaTime) * Float(panVelocity.y) / 4
+                    myCameraNode.position.x = myCameraNode.position.x - Float(mapDeltaTime) * Float(panVelocity.x) / 4
+                            
+                    isPanGestureChanging = false
+                }
+                        
+                        
+               // myCameraNode.runAction(SCNAction.moveByX(CGFloat(mapDeltaTime) * panVelocity.x, y: CGFloat(mapDeltaTime) * panVelocity.y, z: 0, duration: mapDeltaTime))
+                        
+                /*
+                if panVelocity.y > 0{
                     myCameraNode.position.y = myCameraNode.position.y + 1 * Float(mapDeltaTime)*100
-                }else if isMapKeyPressed[.down]!{
+                }else if panVelocity.y < 0{
                     myCameraNode.position.y = myCameraNode.position.y - 1 * Float(mapDeltaTime)*100
-                }
+                }//else if panVelocity.y == 0 {//myCameraNode.position.y doesn't change value}
                 
-                if isMapKeyPressed[.left]!{
+                if panVelocity.x > 0{
                     myCameraNode.position.x = myCameraNode.position.x - 1 * Float(mapDeltaTime)*100
-                }else if isMapKeyPressed[.right]!{
+                }else if panVelocity.x < 0{
                     myCameraNode.position.x = myCameraNode.position.x + 1 * Float(mapDeltaTime)*100
-                }
-                
+                }//else if panVelocity.x == 0 {//myCameraNode.position.x doesn't change value}
+                */
+                        
+                        
                 //******* Map Movement Limit **************
                 
                 if myCameraNode.position.x > (myMaze!.position.x) + Float(myMaze!.maxMapAreaXValue){
@@ -1404,16 +1548,28 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         }
     }
     
+    func checkPanGestureDuringActiveGame(){
+        if !gameScene.paused{ //with map off
+            if isPanGestureChanging {
+                isPanGestureChanging = false
+            }else if !isPanGestureChanging{
+                //add here
+                //myGameScene.controller.joyStickDirection = .neutral
+                myGameScene.controller.isChangedDirection = false
+                isKeyPressed[.up] = false
+                isKeyPressed[.right] = false
+                isKeyPressed[.down] = false
+                isKeyPressed[.left] = false
+            }
+        }
+    }
     
     func renderer(aRenderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+        //****
+        //checkPanGestureDuringActiveGame() //with map off
+        // add a timer if going to use this function
+        //***
         
-        
-        //self.cameraUpdate()
-        
-        //updateMyPlayerNode()
-        //print("3D")
-        
-        //self.update(time, forScene: myGameScene)
         
         self.animationUpdate()
         
@@ -1619,6 +1775,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             myCamera = SCNCamera()
             myCamera.xFov = 40
             myCamera.yFov = 40
+            myCamera.zFar = 110
             myCameraNode = SCNNode()
             myCameraNode.camera = myCamera
             // allows the user to manipulate the camera
@@ -1647,6 +1804,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         //        myHudOverlay.didMoveToView(myHudOverlayView)
         
         self.myView.overlaySKScene = myHudOverlay
+        myHUDView = self.view
         //self.myView.overlaySKScene = myGameScene
         
         

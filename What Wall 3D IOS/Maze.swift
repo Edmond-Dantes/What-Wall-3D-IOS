@@ -48,7 +48,7 @@ class Maze: SCNNode {
     }
     var MAZE_COLUMNS:Int {
         get{
-            return MAZE_ROWS//(3 + MAX_DEADENDS/2) * 2 + 1
+            return self.MAZE_ROWS//(3 + MAX_DEADENDS/2) * 2 + 1
         }
     }
     

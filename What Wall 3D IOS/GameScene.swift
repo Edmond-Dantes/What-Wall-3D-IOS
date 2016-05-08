@@ -85,9 +85,12 @@ extension SKSpriteNode{
 
 private let MATH_PI:CGFloat = CGFloat(M_PI)
 
-let SPEED_PERCENTAGE:CGFloat = 1//0.5//1//0.25
+var SPEED_PERCENTAGE:CGFloat = 1//0.5//1//0.25
 
-private let CONSTANT_WALLSPEED:CGFloat = 1000 * SPEED_PERCENTAGE
+let EASY_SETTING:CGFloat = 0.5
+let HARD_SETTING:CGFloat = 1
+
+/*private let*/ var CONSTANT_WALLSPEED:CGFloat = 1000 * SPEED_PERCENTAGE //must be changed with SPEED_PERCENTAGE
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -113,7 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //private let CONSTANT_WALLSPEED = 1000
     var currentStage:Int = 0 //update in stageUpLevelUp function
-    private var level:Int = 60
+    private var level:Int = 1//60
     /*private*/ var playerLives:Int = 9
     /*private*/ let playerLivesMAX:Int = 9
     //private var levelExitsArray:[SmashBlock.blockPosition] = SmashBlock.levelExitArray(1)//self.level)
@@ -133,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var isEdgeHitDeathOn: Bool = false //true //false
     private var playerScore:Int = 0
     private var isPlayerTouched: Bool = false //*****don't change value
-    private var isTrapWallPaused: Bool = true
+    private var isTrapWallPaused: Bool = false//true //change to true to pause the wall movement
     
     /*private*/ var isMovingToNextArea: Bool = false
     private var islevelChange:Bool = false
