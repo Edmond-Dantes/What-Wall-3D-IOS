@@ -77,17 +77,15 @@ class Maze: SCNNode {
     }
     
     //var myRandomOrderedMazeDirections:[MazeCell.wallLocations] = [ .up, .down, .left, .right ]
-    #if os(OSX)
+    
     var myMazeCellSize:CGSize = CGSize()
-    #elseif os(iOS)
-    var myMazeCellSize:CGSize = CGSize()
-    #endif
+    
     
     var mazeNumberMatrix:[Int] = []
     var mazeCellMatrix:[Int:MazeCell] = [:]
     var escapePath:[Int] = []
     private var currentPath:[Int] = []
-    var levelExitArray:[SmashBlock.blockPosition] = []
+    var levelExitPathArray:[SmashBlock.blockPosition] = []
     var stageExitsArray:[Int:[SmashBlock.blockPosition]] = [:]
     
     private var visitedCellCount:Int = 0
@@ -155,41 +153,41 @@ class Maze: SCNNode {
         for var currentStage = 0; currentStage < escapePath.count - 1; ++currentStage{
             let nextPathPoint = escapePath[currentStage + 1]
             let pathPoint = escapePath[currentStage]
-            self.levelExitArray.append(SmashBlock.blockPosition.rightTop)
+            self.levelExitPathArray.append(SmashBlock.blockPosition.rightTop)
             if nextPathPoint == pathPoint + 1{
                 if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
-                    self.levelExitArray[currentStage] = .rightTop
+                    self.levelExitPathArray[currentStage] = .rightTop
                 }else{
-                    self.levelExitArray[currentStage] = .rightBottom
+                    self.levelExitPathArray[currentStage] = .rightBottom
                 }
                 
             }else if nextPathPoint == pathPoint - 1{
                 if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
-                    self.levelExitArray[currentStage] = .leftTop
+                    self.levelExitPathArray[currentStage] = .leftTop
                 }else{
-                    self.levelExitArray[currentStage] = .leftBottom
+                    self.levelExitPathArray[currentStage] = .leftBottom
                 }
-                //self.levelExitArray[currentStage] = .leftTop
+                
             }else if nextPathPoint == pathPoint + MAZE_ROWS{
                 if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
-                    self.levelExitArray[currentStage] = .topRight
+                    self.levelExitPathArray[currentStage] = .topRight
                 }else{
-                    self.levelExitArray[currentStage] = .topLeft
+                    self.levelExitPathArray[currentStage] = .topLeft
                 }
-                //self.levelExitArray[currentStage] = .topRight
+                
             }else if nextPathPoint == pathPoint - MAZE_ROWS{
                 if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
-                    self.levelExitArray[currentStage] = .bottomRight
+                    self.levelExitPathArray[currentStage] = .bottomRight
                 }else{
-                    self.levelExitArray[currentStage] = .bottomLeft
+                    self.levelExitPathArray[currentStage] = .bottomLeft
                 }
-                //self.levelExitArray[currentStage] = .bottomRight
+                
             }else{
                 
             }
             
-            //insert possible exits into the stages array
-            self.stageExitsArray[pathPoint] = [self.levelExitArray[currentStage]]//possibleExitsArray
+            //insert the correct path / excape path exit into the stages exits array (at the appropriate stages = pathPoint)
+            self.stageExitsArray[pathPoint] = [self.levelExitPathArray[currentStage]]//possibleExitsArray
             
         }
     }
@@ -221,15 +219,19 @@ class Maze: SCNNode {
                         }
                     }*/
                     
+                    
+                    // *******************
+                    // the correct path / escape path exit will always be loaded first
+                    
                     if self.stageExitsArray[gridPoint] != nil{
                         for exit in self.stageExitsArray[gridPoint]!{
                             escapeExit = exit
                         }
                         possibleExitsArray.append(escapeExit!)
                     }
+                    // *******************
                     
                     
-                    //self.levelExitArray.append(SmashBlock.blockPosition.rightTop)
                     
                     // ----------------------------------------------
                     //Check here for possible paths through the maze

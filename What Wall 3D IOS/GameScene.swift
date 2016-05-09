@@ -89,7 +89,7 @@ var SPEED_PERCENTAGE:CGFloat = 1//0.5//1//0.25
 
 let EASY_SETTING:CGFloat = 0.5
 let HARD_SETTING:CGFloat = 1
-let ULTRA_HARD_SETTING:CGFloat = 2
+let ULTRA_HARD_SETTING:CGFloat = 1
 
 enum difficultySetting{
     case easy, hard, ultraHard
@@ -122,7 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //private let CONSTANT_WALLSPEED = 1000
-    var currentStage:Int = 0 //update in stageUpLevelUp function
+    var currentStage:Int = 0 //updated in stageUpLevelUp function
     private var level:Int = 1//60
     /*private*/ var playerLives:Int = 9
     /*private*/ let playerLivesMAX:Int = 9
@@ -187,57 +187,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = SKColor.clearColor()
         
         myLevelNumberLabel.text = "LEVEL \(LEVEL)";
-        /*
-        if islevelChange{
-            isFirstRound = true
-            isFirstRoundStarted = false
-            if let player = myPlayer{
-                
-                player.isAlive = false
-                //player.isDying = true
-                //player.justDied = true
-                player.contactActive = false
-                //player.deathPosition = player.position
-                for tail in tailJoint{
-                    self.physicsWorld.removeJoint(tail)
-                }
-                tailJoint = []
-                player.removeFromParent()
-                myPresentationPlayer?.removeFromParent()
-                for tailPiece in myPlayerTail{
-                    if tailPiece.parent != nil{
-                        tailPiece.removeFromParent()
-                    }
-                }
-                for tailPiece in myPresentationTail{
-                    if tailPiece.parent != nil{
-                        tailPiece.removeFromParent()
-                    }
-                }
-            }
-            reloadSceneTime()
-            
-            islevelChange = false
-        }
-        */
+        
         if myPlayer == nil{
             
         
         //Level # textbox
         let levelNumberView = SKLabelNode(fontNamed: "Chalkduster")
         
-        //restartView.fontName = "Chalkduster"
         levelNumberView.fontSize = 20//65
-        //levelNumberView.text = "LEVEL \(LEVEL)";
-        //restartView.s frame = self.view!.frame//CGRect(x: 25, y: 100, width: 500, height: 500)
-        //myLabel.fontSize = 65;
         levelNumberView.position = CGPoint(x: self.frame.width/2, y: self.frame.height/2 - cornerBlockFrame.height)
-        //restartView.backgroundColor = Color.clearColor()
         levelNumberView.fontColor = SKColor.whiteColor()
         levelNumberView.alpha = 0.5
-        // myRestartView.center = self.view.convertPoint(CGPoint(x: gameFrame.width/2, y: gameFrame.height/2), toView: myRestartView)
-        //skView.addSubview(myRestartView)
-        //restartView.zPosition = 1000
         levelNumberView.hidden = false //true
         myLevelNumberLabel = levelNumberView
         myLevelNumberLabel.name = "world"
@@ -507,45 +467,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         myGravityFieldNode.strength = 9.8 * Float(SPEED_PERCENTAGE)
         mySmashBlocks[self.exitBlock]!.color = self.wallColor
         // ********************
-        //below done also in SmashBlockLogic... waiting
-        /******/ self.exitBlock = myMaze!.stageExitsArray[currentStage]![0] //Exits include the inbetween paths
+        // sets exitBlock as the correct exit if in the correct path, otherwise ~random
+        self.exitBlock = myMaze!.stageExitsArray[currentStage]![0] //Exits include the inbetween paths
 
+        // ???need to test if the above is necessary???
         // ********************
         
-        //self.levelExitsArray[self.stageCount]//SmashBlock.randomBlockPosition()
         arrayOfBlocks.shuffle()
-        //mySmashBlocks[self.exitBlock]?.color = self.exitBlockColor
         
         world.runAction(SKAction.fadeInWithDuration(0))
-        //        self.view?.transform = CGAffineTransformMakeRotation(0)
         wallTimer = 0
         smashBlockStatus = .waiting
         smashStatusChanged = true
-        /*
-        let smashBlockArray = SmashBlock.array
-        for bPosition in smashBlockArray{
-            //mySmashBlocks[bPosition] =  SmashBlock(blockPos: bPosition)
-            mySmashBlocks[bPosition]!.position = mySmashBlocks[bPosition]!.orginalPosition
-            mySmashBlocks[bPosition]!.physicsBody!.velocity = CGVector(dx: 0, dy: 0) //blah
-        }
-        
-        if let smashBlock = mySmashBlocks[self.activeSmashBlock!]{
-            smashBlock.position = smashBlock.orginalPosition
-            myPresentationSmashBlocks[self.activeSmashBlock!]!.position = myPresentationSmashBlocks[self.activeSmashBlock!]!.orginalPosition
-        }
-        */
-        
-        reloadOriginalTrapPositions(0)
         
         
-        //updatePresentationLayer()
+        reloadOriginalTrapPositions(0) // 0 is the SKAction time duration
+        
+        
     }
     
     func updateLevelMaze(level:Int){
         
         myMaze = Maze(level: CGFloat(level))
         self.currentStage = myMaze!.startPoint
-        //self.addChild(myMaze)
     }
     
     private func addJoint(a:SKPhysicsBody, b:SKPhysicsBody, limitLength:CGFloat)-> SKPhysicsJointLimit{
@@ -2125,6 +2069,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
+    var newStageEscapeWave:Bool = false //used to make the first trap block be the escape path block
     var leavingExitBlock: SmashBlock.blockPosition = .leftTop//self.exitBlock
     
     func stageUpLevelUp(){
@@ -2174,44 +2119,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }while hasContinuedPath(.leftBottom, exitSidePartB: .leftTop, direction: .left)
         }
         
-        /*
-        func isPlayerMovingToNewAreaVertically()->Bool{
-            var vertically:Bool = false
-            
-            if self.leavingVelocity.dx.abs() > self.leavingVelocity.dy.abs(){
-                vertically = false
-            }else if self.leavingVelocity.dy.abs() > self.leavingVelocity.dx.abs(){
-                vertically = true
-            }
-            
-            return vertically
-        }
         
-        if isPlayerMovingToNewAreaVertically(){ //moving vertically
-            
-            if self.leavingVelocity.dy > 0{ //moving up
-                self.currentStage = self.currentStage + myMaze!.MAZE_ROWS*2
-            }else if self.leavingVelocity.dy <= 0{ //moving down
-                self.currentStage = self.currentStage - myMaze!.MAZE_ROWS*2
-            }
-            
-        }else if !isPlayerMovingToNewAreaVertically(){ //moving horizontally
-            
-            if self.leavingVelocity.dx > 0{ //moving right
-                self.currentStage = self.currentStage + 2
-            }else if self.leavingVelocity.dx <= 0{ //moving left
-                self.currentStage = self.currentStage - 2
-            }
-        }
-        */
         STAGE = self.currentStage
-        /*
-        if self.currentStage == myMaze!.exitPoint{
-            self.islevelChange = true
-            self.level++
-            LEVEL = self.level
-        }
-        */
+        
+        //add functionality to have the first block in the Trap logic be the Escape Path block
+        
+        newStageEscapeWave = true
+        
+        
+        
     }
     
     func arrivedInNewArea(playerPosition:CGPoint, playerVelocity: CGVector){
@@ -2273,32 +2189,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.stageUpLevelUp()
         
-        //self.leavingVelocity = playerVelocity
         
         //add stage change animation here
-        
-        /*
-
-        self.runAction(SKAction.waitForDuration(self.leavingTime)){//SKAction.moveTo(moveAreaBy, duration: 0.5)){
-            self.isLeavingOldArea = false
-            //-- need stage change animation before this count changes
-            //Increase stage count / Level count
-            self.stageUpLevelUp()
-            // ********************************
-            
-            self.arrivedInNewArea(playerPosition, playerVelocity: playerVelocity)
-            //self.paused = true
-            
-            self.afterArrivingInNewAreaAction(playerPosition, playerVelocity: playerVelocity)
-            
-            
-        }
-
-        */
-        
-        
-        
-        
         
         
         
@@ -2317,7 +2209,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 print("arrived at new area")
                 
-                //self.stageUpLevelUp()
                 
                 self.resetForLevelChange()
         
@@ -2771,29 +2662,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         mySmashBlocks[oldBlock]!.position = self.restingSmashBlockPosition!
                     }
                     
-                    //trap = SmashBlock.randomBlockPosition() // as SmashBlock.blockPosition
+                    
                     ++blockArrayCounter
                     if blockArrayCounter > 7 {
                         blockArrayCounter = 0
                         arrayOfBlocks.shuffle()
-                        //arrayOfBlocks = SmashBlock.random8array()
                     }
                     trap = arrayOfBlocks[blockArrayCounter]
+                    //next line makes the first trap be the correct exit when going to the next stage (only in the correct path)
+                    if newStageEscapeWave{
+                        trap = (myMaze!.stageExitsArray[currentStage]![0]).opposite()
+                        newStageEscapeWave = false
+                        //add logic
+                    }
                     self.activeSmashBlock = trap
                     mySmashBlocks[trap]!.color = self.smashingColor
                     
-                    //blah blah
-                    //for
+                    
                     if myMaze!.stageExitsArray[currentStage] != nil{
-                        //let tempArray = myMaze!.stageExitsArray[currentStage]
                         for exit in myMaze!.stageExitsArray[currentStage]!{
                             if trap.opposite() == exit{
                                 self.exitBlock = exit
+                                //mySmashBlocks[self.exitBlock]!.color = self.exitBlockColor
                             }
                         }
                         
                     }
-                    //regular logic change back
+                    //regular logic change back // can move the below line into the above line
                     if trap.opposite() == self.exitBlock{
                         mySmashBlocks[self.exitBlock]!.color = self.exitBlockColor
                     }

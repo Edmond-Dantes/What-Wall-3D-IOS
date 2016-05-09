@@ -144,22 +144,22 @@ class HudOverlay: SKScene {
     }
 
     
-    func setDifficulty(setting:CGFloat){
-        if setting == EASY_SETTING{
+    func setDifficulty(setting:difficultySetting){ //(setting:CGFloat){
+        if setting == .easy{
             gameDifficultySetting = .easy
             SPEED_PERCENTAGE = EASY_SETTING
             CONSTANT_WALLSPEED = 1000 * SPEED_PERCENTAGE
             gameScene.isEdgeHitDeathOn = false
             
-        }else if setting == HARD_SETTING{
+        }else if setting == .hard{
             gameDifficultySetting = .hard
             SPEED_PERCENTAGE = HARD_SETTING
             CONSTANT_WALLSPEED = 1000 * SPEED_PERCENTAGE
             gameScene.isEdgeHitDeathOn = false
             
-        }else if setting == ULTRA_HARD_SETTING{
+        }else if setting == .ultraHard{  //same as hard with edgeHitDeathOn = true
             gameDifficultySetting = .ultraHard
-            SPEED_PERCENTAGE = HARD_SETTING
+            SPEED_PERCENTAGE = ULTRA_HARD_SETTING
             CONSTANT_WALLSPEED = 1000 * SPEED_PERCENTAGE
             gameScene.isEdgeHitDeathOn = true
         }
@@ -185,7 +185,7 @@ class HudOverlay: SKScene {
         if easyLabel.containsPoint(p){
             print("changed to EASY")
             
-            setDifficulty(EASY_SETTING)
+            setDifficulty(.easy)
             self.easyLabel.removeFromParent()
             self.hardLabel.removeFromParent()
             self.ultraHardLabel.removeFromParent()
@@ -197,7 +197,7 @@ class HudOverlay: SKScene {
         }else if hardLabel.containsPoint(p){
             print("changed to HARD")
             
-            setDifficulty(HARD_SETTING)
+            setDifficulty(.hard)
             self.easyLabel.removeFromParent()
             self.hardLabel.removeFromParent()
             self.ultraHardLabel.removeFromParent()
@@ -207,7 +207,7 @@ class HudOverlay: SKScene {
         }else if ultraHardLabel.containsPoint(p){
             print("changed to ULTRA_HARD")
             
-            setDifficulty(ULTRA_HARD_SETTING)
+            setDifficulty(.ultraHard)
             self.easyLabel.removeFromParent()
             self.hardLabel.removeFromParent()
             self.ultraHardLabel.removeFromParent()
