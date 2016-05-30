@@ -15,7 +15,6 @@
 		5E6BC1321CD751DB00F6FF05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1301CD751DB00F6FF05 /* LaunchScreen.storyboard */; };
 		5E6BC13D1CD751DB00F6FF05 /* What_Wall_3D_IOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC13C1CD751DB00F6FF05 /* What_Wall_3D_IOSTests.swift */; };
 		5E6BC1481CD751DB00F6FF05 /* What_Wall_3D_IOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1471CD751DB00F6FF05 /* What_Wall_3D_IOSUITests.swift */; };
-		5E6BC1971CD7723200F6FF05 /* bluecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1811CD7723200F6FF05 /* bluecircle.png */; };
 		5E6BC1981CD7723200F6FF05 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1821CD7723200F6FF05 /* Color.swift */; };
 		5E6BC1991CD7723200F6FF05 /* CornerBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */; };
 		5E6BC19A1CD7723200F6FF05 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1841CD7723200F6FF05 /* GameScene.sks */; };
@@ -28,8 +27,6 @@
 		5E6BC1A11CD7723200F6FF05 /* MazeScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC18B1CD7723200F6FF05 /* MazeScene.sks */; };
 		5E6BC1A21CD7723200F6FF05 /* MazeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC18C1CD7723200F6FF05 /* MazeScene.swift */; };
 		5E6BC1A31CD7723200F6FF05 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */; };
-		5E6BC1A41CD7723200F6FF05 /* MyParticleSystem.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC18E1CD7723200F6FF05 /* MyParticleSystem.scnp */; };
-		5E6BC1A51CD7723200F6FF05 /* MyParticleSystem1.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC18F1CD7723200F6FF05 /* MyParticleSystem1.scnp */; };
 		5E6BC1A61CD7723200F6FF05 /* MyParticleSystem2.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */; };
 		5E6BC1A71CD7723200F6FF05 /* MyParticleSystem3.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */; };
 		5E6BC1A81CD7723200F6FF05 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1921CD7723200F6FF05 /* Player.swift */; };
@@ -71,7 +68,6 @@
 		5E6BC1431CD751DB00F6FF05 /* What Wall 3D IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "What Wall 3D IOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6BC1471CD751DB00F6FF05 /* What_Wall_3D_IOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = What_Wall_3D_IOSUITests.swift; sourceTree = "<group>"; };
 		5E6BC1491CD751DB00F6FF05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E6BC1811CD7723200F6FF05 /* bluecircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluecircle.png; sourceTree = "<group>"; };
 		5E6BC1821CD7723200F6FF05 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerBlock.swift; sourceTree = "<group>"; };
 		5E6BC1841CD7723200F6FF05 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -84,8 +80,6 @@
 		5E6BC18B1CD7723200F6FF05 /* MazeScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeScene.sks; sourceTree = "<group>"; };
 		5E6BC18C1CD7723200F6FF05 /* MazeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MazeScene.swift; sourceTree = "<group>"; };
 		5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
-		5E6BC18E1CD7723200F6FF05 /* MyParticleSystem.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem.scnp; sourceTree = "<group>"; };
-		5E6BC18F1CD7723200F6FF05 /* MyParticleSystem1.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem1.scnp; sourceTree = "<group>"; };
 		5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem2.scnp; sourceTree = "<group>"; };
 		5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem3.scnp; sourceTree = "<group>"; };
 		5E6BC1921CD7723200F6FF05 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -143,7 +137,6 @@
 		5E6BC1241CD751DB00F6FF05 /* What Wall 3D IOS */ = {
 			isa = PBXGroup;
 			children = (
-				5E6BC1811CD7723200F6FF05 /* bluecircle.png */,
 				5E6BC1821CD7723200F6FF05 /* Color.swift */,
 				5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */,
 				5E6BC1841CD7723200F6FF05 /* GameScene.sks */,
@@ -156,8 +149,6 @@
 				5E6BC18B1CD7723200F6FF05 /* MazeScene.sks */,
 				5E6BC18C1CD7723200F6FF05 /* MazeScene.swift */,
 				5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */,
-				5E6BC18E1CD7723200F6FF05 /* MyParticleSystem.scnp */,
-				5E6BC18F1CD7723200F6FF05 /* MyParticleSystem1.scnp */,
 				5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */,
 				5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */,
 				5E6BC1921CD7723200F6FF05 /* Player.swift */,
@@ -304,12 +295,9 @@
 				5E6BC1A71CD7723200F6FF05 /* MyParticleSystem3.scnp in Resources */,
 				5E6BC1AB1CD7723200F6FF05 /* spark.png in Resources */,
 				5E6BC1A91CD7723200F6FF05 /* skeletonarm.jpg in Resources */,
-				5E6BC1A41CD7723200F6FF05 /* MyParticleSystem.scnp in Resources */,
-				5E6BC1971CD7723200F6FF05 /* bluecircle.png in Resources */,
 				5E6BC1321CD751DB00F6FF05 /* LaunchScreen.storyboard in Resources */,
 				5E6BC12F1CD751DB00F6FF05 /* Assets.xcassets in Resources */,
 				5E6BC1A11CD7723200F6FF05 /* MazeScene.sks in Resources */,
-				5E6BC1A51CD7723200F6FF05 /* MyParticleSystem1.scnp in Resources */,
 				5E6BC1AC1CD7723200F6FF05 /* star.png in Resources */,
 				5E6BC19A1CD7723200F6FF05 /* GameScene.sks in Resources */,
 				5E6BC12D1CD751DB00F6FF05 /* Main.storyboard in Resources */,

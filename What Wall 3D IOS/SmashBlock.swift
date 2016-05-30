@@ -20,7 +20,6 @@ extension Array {
 }
 */
 let gameFrame:CGRect = CGRect(x: 0.0, y: 0.0, width: 100.0, height: 100.0)
-//let gameFrame:CGRect = CGRect(x: 0.0, y: 0.0, width: 100.0, height: 100.0)
 let cornerBlockFrame:CGRect = CGRect(x: 0.0, y: 0.0, width: gameFrame.width / 10, height: gameFrame.height / 10)
 
 class SmashBlock: SKSpriteNode {
@@ -37,8 +36,6 @@ class SmashBlock: SKSpriteNode {
     enum blockPosition:String {//, SequenceType{
         case leftTop = "leftTop", leftBottom = "leftBottom", rightTop = "rightTop", rightBottom = "rightBottom"
         case topLeft = "topLeft", topRight = "topRight", bottomLeft = "bottomLeft", bottomRight = "bottomRight"
-        
-        //static let array = [blockPosition.leftTop, .leftBottom, .rightTop, .rightBottom, .topLeft, .topRight, .bottomLeft, .bottomRight]
         
         func opposite() -> blockPosition{
                 switch self{
@@ -58,8 +55,8 @@ class SmashBlock: SKSpriteNode {
                     return .bottomRight
                 case .bottomRight:
                     return .topRight
-                default:
-                    break
+                //default:
+                //    break
                 }
             
         }
@@ -82,8 +79,8 @@ class SmashBlock: SKSpriteNode {
                 return .topLeft
             case .bottomRight:
                 return .bottomLeft
-            default:
-                break
+            //default:
+            //    break
             }
             
         }
@@ -154,7 +151,6 @@ class SmashBlock: SKSpriteNode {
     
     class func randomBlockPosition()->blockPosition{
         let tempArray = self.array
-        //srandom(UInt32(CFAbsoluteTimeGetCurrent()))
         return tempArray[ Int(arc4random_uniform(8)) ]
     }
     
@@ -170,8 +166,8 @@ class SmashBlock: SKSpriteNode {
             return CGVector(dx: 0, dy: -speed)
         case .bottomLeft, .bottomRight:
             return CGVector(dx: 0, dy: speed)
-        default:
-            break
+        //default:
+        //    break
         }
         
         
@@ -215,9 +211,7 @@ class SmashBlock: SKSpriteNode {
             self.size = horizontalSize
             self.position = CGPoint(x: cornerBlockFrame.width - self.size.width/2,
                 y: gameFrame.height/2 + pixelBuffer/2 + self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 1, y: 0)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.position.x - self.size.width/2, y: self.position.y + self.size.height/2)
             attachToCornerBlock = .leftTop
             axis = CGVector(dx: 1, dy: 0)
@@ -227,9 +221,7 @@ class SmashBlock: SKSpriteNode {
             self.size = horizontalSize
             self.position = CGPoint(x: cornerBlockFrame.width - self.size.width/2,
                 y: gameFrame.height/2 - pixelBuffer/2 - self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 1, y: 1)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.size.width/2, y: self.size.height/2)
             attachToCornerBlock = .leftBottom
             axis = CGVector(dx: 1, dy: 0)
@@ -239,9 +231,7 @@ class SmashBlock: SKSpriteNode {
             self.size = horizontalSize
             self.position = CGPoint(x: gameFrame.width - cornerBlockFrame.width + self.size.width/2,
                 y: gameFrame.height/2 + pixelBuffer/2 + self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 0, y: 0)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.position.x + self.size.width/2, y: self.position.y + self.size.height/2)
             attachToCornerBlock = .rightTop
             axis = CGVector(dx: -1, dy: 0)
@@ -252,9 +242,7 @@ class SmashBlock: SKSpriteNode {
             self.size = horizontalSize
             self.position = CGPoint(x: gameFrame.width - cornerBlockFrame.width + self.size.width/2,
                 y: gameFrame.height/2 - pixelBuffer/2 - self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 0, y: 1)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.position.x + self.size.width/2, y: self.position.y - self.size.height/2)
             attachToCornerBlock = .rightBottom
             axis = CGVector(dx: -1, dy: 0)
@@ -264,9 +252,7 @@ class SmashBlock: SKSpriteNode {
             self.size = verticalSize
             self.position = CGPoint(x: gameFrame.width/2 - pixelBuffer/2 - self.size.width/2,
                 y: gameFrame.height - cornerBlockFrame.height + self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 1, y: 0)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.position.x - self.size.width/2, y: self.position.y + self.size.height/2)
             attachToCornerBlock = .leftTop
             axis = CGVector(dx: 0, dy: -1)
@@ -276,9 +262,7 @@ class SmashBlock: SKSpriteNode {
             self.size = verticalSize
             self.position = CGPoint(x: gameFrame.width/2 + pixelBuffer/2 + self.size.width/2,
                 y: gameFrame.height - cornerBlockFrame.height + self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 0, y: 0)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.position.x + self.size.width/2, y: self.position.y + self.size.height/2)
             attachToCornerBlock = .rightTop
             axis = CGVector(dx: 0, dy: -1)
@@ -288,9 +272,7 @@ class SmashBlock: SKSpriteNode {
             self.size = verticalSize
             self.position = CGPoint(x: gameFrame.width/2 - pixelBuffer/2 - self.size.width/2,
                 y: cornerBlockFrame.height - self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 1, y: 1)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.position.x - self.size.width/2, y: self.position.y - self.size.height/2)
             attachToCornerBlock = .leftBottom
             axis = CGVector(dx: 0, dy: 1)
@@ -300,9 +282,7 @@ class SmashBlock: SKSpriteNode {
             self.size = verticalSize
             self.position = CGPoint(x: gameFrame.width/2 + pixelBuffer/2 + self.size.width/2,
                 y: cornerBlockFrame.height - self.size.height/2)
-            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: self.position)
-            //self.anchorPoint = CGPoint(x: 0, y: 1)
-            //println(self.position)
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
             blockCenter = CGPoint(x: self.position.x + self.size.width/2, y: self.position.y - self.size.height/2)
             attachToCornerBlock = .rightBottom
             axis = CGVector(dx: 0, dy: 1)
@@ -313,11 +293,8 @@ class SmashBlock: SKSpriteNode {
         print(blockCenter)
         
         self.orginalPosition = self.position
-        //self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-       // self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)//, center: blockCenter)
-        //self.physicsBody!.mass = 1
+        
         self.physicsBody!.restitution = 0
-        //self.physicsBody.
         self.physicsBody!.affectedByGravity = false
         self.physicsBody?.allowsRotation = false
        
@@ -326,20 +303,14 @@ class SmashBlock: SKSpriteNode {
         self.physicsBody!.contactTestBitMask = CollisionType.player.rawValue
         self.physicsBody!.fieldBitMask = CollisionType.staticWall.rawValue
         
-        //if (blockPos == .leftTop || blockPos == .leftBottom) {
-            self.physicsBody!.dynamic = false
-       // }
+        self.physicsBody!.dynamic = false
         
         
-        //???
         slidingJoint = SKPhysicsJointSliding.jointWithBodyA(self.physicsBody!,
             bodyB: (myCorners[attachToCornerBlock]?.physicsBody)!,
             anchor: self.position,
             axis: axis)
     
-       // slidingJoint.shouldEnableLimits = true
-       // slidingJoint.upperDistanceLimit = gameFrame.height //- 2 * cornerBlockFrame.height - pixelBuffer
-        
     }
 
     required init?(coder aDecoder: NSCoder) {

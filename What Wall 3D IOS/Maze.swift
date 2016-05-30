@@ -33,22 +33,20 @@ class Maze: SCNNode {
     
     var level: Int = 0
     #if os(iOS)
-    var levelHeight:Float = 0//CGFloat(level) * 15
+    var levelHeight:Float = 0
     #elseif os(OSX)
-    var levelHeight:CGFloat = 0//CGFloat(level) * 15
+    var levelHeight:CGFloat = 0
     #endif
     
-   // var MAX_DEADENDS = 10
     
     var MAZE_ROWS:Int {
         get{
             return (self.level)*2 + 3
-            //return (3 + MAX_DEADENDS/2) * 2 + 1
         }
     }
     var MAZE_COLUMNS:Int {
         get{
-            return self.MAZE_ROWS//(3 + MAX_DEADENDS/2) * 2 + 1
+            return self.MAZE_ROWS
         }
     }
     
@@ -60,7 +58,7 @@ class Maze: SCNNode {
     
     var minMapAreaXValue:CGFloat {
         get{
-            return myMazeCellSize.width/2 //+ CGFloat((MAZE_COLUMNS - 1) + 1) * myMazeCellSize.width
+            return myMazeCellSize.width/2
         }
     }
     
@@ -72,11 +70,11 @@ class Maze: SCNNode {
     
     var minMapAreaYValue:CGFloat {
         get{
-            return myMazeCellSize.height/2 //+ CGFloat((MAZE_ROWS - 1) + 1) * myMazeCellSize.height
+            return myMazeCellSize.height/2
         }
     }
     
-    //var myRandomOrderedMazeDirections:[MazeCell.wallLocations] = [ .up, .down, .left, .right ]
+    
     
     var myMazeCellSize:CGSize = CGSize()
     
@@ -94,38 +92,31 @@ class Maze: SCNNode {
     var exitPoint = 0
     private var currentPoint = 0
     private var deadEndCount = 0
-    //let MAX_DEADENDS = 2
-    //  func loadMaze(){
-    //      self.addChild(myEffectNodeGridResult)
-    //  }
+    
     
     override init(){
         super.init()
     }
     
-    init(level:CGFloat){//mazeScene:MazeScene){
+    init(level:CGFloat){
         
         super.init()
         
         print("START")
         self.level = Int(level)
         
-        //self.removeAllChildren()
-        //myMazeGrid = []
         self.mazeNumberMatrix = []
         
-        self.myMazeCellSize.width = gameFrame.width/10 //(gameFrame.width - 2 * cornerBlockFrame.width) / CGFloat(MAZE_COLUMNS)
-        //CGFloat((MAZE_ROWS - 1)/2 + 2)
-        self.myMazeCellSize.height = gameFrame.height/10 //(gameFrame.height - 2 * cornerBlockFrame.height) / CGFloat(MAZE_ROWS)        //CGFloat((MAZE_COLUMNS - 1)/2 + 2 )
+        self.myMazeCellSize.width = gameFrame.width/10
+        self.myMazeCellSize.height = gameFrame.height/10
         
         
         //------------------------
         //Loading all of the cells
         
-        for var row = 0; row < MAZE_ROWS; ++row{
-            for var column = 0; column < MAZE_COLUMNS; ++column{
+        for row in 0 ..< MAZE_ROWS{
+            for column in 0 ..< MAZE_COLUMNS{
                 
-                //println(" \(row) , \(column)")
                 let gridPoint = column + row * MAZE_COLUMNS
                 self.mazeNumberMatrix.insert(0, atIndex: gridPoint)
                 
@@ -137,20 +128,16 @@ class Maze: SCNNode {
         findAppropiateMaze()
         
         print("START")
-        //self.mazeNumberMatrix = mySimpleMazeCalculator
         loadEscapePath()
         loadStageExits()
         loadRealMaze(level)
-        //levelPathColored()
-        //loadEscapePath()
-        //loadStageExits()
         
     }
     
     func loadEscapePath(){
         //note: cell matrix has been flipped vertically so math matches x and y coordinates
         //allow only one path
-        for var currentStage = 0; currentStage < escapePath.count - 1; ++currentStage{
+        for currentStage in 0 ..< escapePath.count - 1{
             let nextPathPoint = escapePath[currentStage + 1]
             let pathPoint = escapePath[currentStage]
             self.levelExitPathArray.append(SmashBlock.blockPosition.rightTop)
@@ -194,8 +181,8 @@ class Maze: SCNNode {
     
     func loadStageExits(){
         
-        for var row = 0; row < MAZE_ROWS; ++row{
-            for var column = 0; column < MAZE_COLUMNS; ++column{
+        for row in 0 ..< MAZE_ROWS{
+            for column in 0 ..< MAZE_COLUMNS{
                 
                 var verticalExitCounter:Int = 0
                 var horizontalExitCounter:Int = 0
@@ -211,13 +198,7 @@ class Maze: SCNNode {
                     
                     var escapeExit:SmashBlock.blockPosition? = nil
                     
-                    /*if self.mazeNumberMatrix[gridPoint] == 5 || self.mazeNumberMatrix[gridPoint] == 2{
-                        for var index = 0; index < escapePath.count - 1; ++index{
-                            if escapePath[index] == gridPoint{
-                                escapeExit = self.levelExitArray[index]
-                            }
-                        }
-                    }*/
+                    
                     
                     
                     // *******************
@@ -241,7 +222,7 @@ class Maze: SCNNode {
                     //down
                     if row - 2 >= 0 && (self.mazeNumberMatrix[column + (row - 1) * MAZE_COLUMNS] != 8 && self.mazeNumberMatrix[column + (row - 1) * MAZE_COLUMNS] != 9){
                         if escapeExit == .bottomLeft || escapeExit == .bottomRight{
-                            //possibleExitsArray.append(escapeExit!)
+                            //break
                         }else{
                             if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
                                 possibleExitsArray.append(.bottomLeft)
@@ -249,13 +230,13 @@ class Maze: SCNNode {
                                 possibleExitsArray.append(.bottomRight)
                             }
                         }
-                        verticalExitCounter++
+                        verticalExitCounter += 1
                         
                     }
                     //right
                     if column + 2 <= MAZE_COLUMNS - 1 && (self.mazeNumberMatrix[(column + 1) + row  * MAZE_COLUMNS] != 8 && self.mazeNumberMatrix[(column + 1) + row  * MAZE_COLUMNS] != 9) {
                         if escapeExit == .rightTop || escapeExit == .rightBottom{
-                            //possibleExitsArray.append(escapeExit!)
+                            //break
                         }else{
                             if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
                                 possibleExitsArray.append(.rightTop)
@@ -263,12 +244,12 @@ class Maze: SCNNode {
                                 possibleExitsArray.append(.rightBottom)
                             }
                         }
-                        horizontalExitCounter++
+                        horizontalExitCounter += 1
                     }
                     //up
                     if row + 2 <= MAZE_ROWS - 1 && (self.mazeNumberMatrix[column + (row + 1) * MAZE_COLUMNS] != 8 && self.mazeNumberMatrix[column + (row + 1) * MAZE_COLUMNS] != 9) {
                         if escapeExit == .topLeft || escapeExit == .topRight{
-                            //possibleExitsArray.append(escapeExit!)
+                            //break
                         }else{
                             if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
                                 possibleExitsArray.append(.topRight)
@@ -276,12 +257,12 @@ class Maze: SCNNode {
                                 possibleExitsArray.append(.topLeft)
                             }
                         }
-                        verticalExitCounter++
+                        verticalExitCounter += 1
                     }
                     //left
                     if column - 2 >= 0 && (self.mazeNumberMatrix[(column - 1) + row * MAZE_COLUMNS] != 8 && self.mazeNumberMatrix[(column - 1) + row * MAZE_COLUMNS] != 9) {
                         if escapeExit == .leftTop || escapeExit == .leftBottom{
-                            //possibleExitsArray.append(escapeExit!)
+                            //break
                         }else{
                             if Int(arc4random_uniform(UInt32(2))) % 2 == 0{
                                 possibleExitsArray.append(.leftTop)
@@ -289,7 +270,7 @@ class Maze: SCNNode {
                                 possibleExitsArray.append(.leftBottom)
                             }
                         }
-                        horizontalExitCounter++
+                        horizontalExitCounter += 1
                     }
                     
                     
@@ -317,7 +298,7 @@ class Maze: SCNNode {
     
     func levelPathColored(){
     
-        for var i = 1; i < escapePath.count - 1; ++i{
+        for i in 1 ..< escapePath.count - 1{
             let cell = self.mazeCellMatrix[escapePath[i]]
             #if os(iOS)
             cell!.color = UIColor(colorLiteralRed: Float(i)/Float(escapePath.count - 1), green: Float(0), blue: Float((escapePath.count - 1)-i)/Float(escapePath.count - 1), alpha: Float(1)) as! Color
@@ -338,12 +319,11 @@ class Maze: SCNNode {
         
         repeat{
             
-            for row = 0; row < MAZE_ROWS; ++row{
-                for column = 0; column < MAZE_COLUMNS; ++column{
+            for row in 0 ..< MAZE_ROWS{
+                for column in 0 ..< MAZE_COLUMNS{
                     
                     let gridPoint = column + row * MAZE_COLUMNS
                     self.mazeNumberMatrix[gridPoint] = 0
-                    //mySimpleMazeCalculator[gridPoint] = 0
                     
                 }
             }
@@ -370,53 +350,8 @@ class Maze: SCNNode {
             }
             
         }
-        /*
-        //surrounding barriers
-        for pathPoint in escapePath{
-            if self.mazeNumberMatrix[pathPoint + 1] != 5 && self.mazeNumberMatrix[pathPoint + 1] != 4 && self.mazeNumberMatrix[pathPoint + 1] != 2{
-                self.mazeNumberMatrix[pathPoint + 1] = 9
-            }
-            if self.mazeNumberMatrix[pathPoint - 1] != 5 && self.mazeNumberMatrix[pathPoint - 1] != 4 && self.mazeNumberMatrix[pathPoint - 1] != 2{
-                self.mazeNumberMatrix[pathPoint - 1] = 9
-            }
-            if self.mazeNumberMatrix[pathPoint + MAZE_ROWS] != 5 && self.mazeNumberMatrix[pathPoint + MAZE_ROWS] != 4 && self.mazeNumberMatrix[pathPoint + MAZE_ROWS] != 2{
-                self.mazeNumberMatrix[pathPoint + MAZE_ROWS] = 9
-            }
-            if self.mazeNumberMatrix[pathPoint - MAZE_ROWS] != 5 && self.mazeNumberMatrix[pathPoint - MAZE_ROWS] != 4 && self.mazeNumberMatrix[pathPoint - MAZE_ROWS] != 2{
-                self.mazeNumberMatrix[pathPoint - MAZE_ROWS] = 9
-            }
-        }*/
         
         
-        //remove barriers from the holes  ************FIX THIS!!!!*****************
-        /*
-        for row = 0; row < MAZE_ROWS; ++row{
-            for column = 0; column < MAZE_COLUMNS; ++column{
-                let gridPoint = column + row * MAZE_COLUMNS
-                if self.mazeNumberMatrix[gridPoint] == 3 || self.mazeNumberMatrix[gridPoint] == 1 || self.mazeNumberMatrix[gridPoint] == 7 { //if hole (or inbetween point) remove barriers around it
-                    let barrierToHole = 6
-                    if column - 1 > 0 && self.mazeNumberMatrix[(column - 1 ) + (row ) * MAZE_COLUMNS] == 0{
-                        self.mazeNumberMatrix[(column - 1 ) + (row ) * MAZE_COLUMNS] = barrierToHole
-                    }
-                    if column + 1 < MAZE_COLUMNS - 1 && self.mazeNumberMatrix[(column + 1 ) + (row ) * MAZE_COLUMNS] == 0{
-                        self.mazeNumberMatrix[(column + 1 ) + (row ) * MAZE_COLUMNS] = barrierToHole
-                    }
-                    if row - 1 > 0 && self.mazeNumberMatrix[(column ) + (row - 1 ) * MAZE_COLUMNS] == 0{
-                        self.mazeNumberMatrix[(column ) + (row - 1 ) * MAZE_COLUMNS] = barrierToHole
-                    }
-                    if row + 1 < MAZE_ROWS - 1 && self.mazeNumberMatrix[(column ) + (row + 1 ) * MAZE_COLUMNS] == 0{
-                        self.mazeNumberMatrix[(column ) + (row + 1 ) * MAZE_COLUMNS] = barrierToHole
-                    }
-                    
-                    
-                    
-                    
-                }
-                
-                
-            }
-        }
-        */
         
         
     }
@@ -425,8 +360,8 @@ class Maze: SCNNode {
         
         //note: cell matrix is flipped vertically so math matches x and y coordinates
         
-        for var row = 0; row < MAZE_ROWS; ++row{
-            for var column = 0; column < MAZE_COLUMNS; ++column{
+        for row in 0 ..< MAZE_ROWS{
+            for column in 0 ..< MAZE_COLUMNS{
                 
                 let gridPoint = column + row * MAZE_COLUMNS
                 let cellType = self.mazeNumberMatrix[gridPoint]
@@ -449,11 +384,9 @@ class Maze: SCNNode {
                         sizeCalc.height += sizeCalc.height + 1
                     }else{
                         sizeCalc.height = 1
-                        //sizeCalc.width += sizeCalc.width
+                        
                     }
-                    // //sizeCalc.height = 1
-                    //sizeCalc.width = 1
-                    //colCalcX = CGFloat(column/2 + 1) * myMazeCellSize.width
+                    
                     
                 }
                 if row % 2 == 0 {
@@ -462,11 +395,9 @@ class Maze: SCNNode {
                         sizeCalc.width += sizeCalc.width + 1
                     }else{
                         sizeCalc.width = 1
-                        //sizeCalc.height += sizeCalc.height
+                        
                     }
-                    // //sizeCalc.width = 1
-                    //sizeCalc.height = 1
-                    //rowCalcY = CGFloat(row/2 + 1) * myMazeCellSize.height
+                    
                 }
                 
                 if row % 2 == 0 && column % 2 == 0{
@@ -485,18 +416,13 @@ class Maze: SCNNode {
                 let cell = MazeCell(gridPoint: gridPoint, size: sizeCalc)
                 cell.position = SCNVector3(x: colCalcX, y: rowCalcY, z: levelHeight)
                 
-                //***********
-                //cell.position.z = levelHeight
-                //****************
+                
                 self.mazeCellMatrix[gridPoint] = cell
                 
                 switch cellType{
                 case 1:  // visited
-                    //var tempLevel:Int = Int(level) % 10
-                    //cell.color = Color.colorArray[tempLevel]
-                    cell.color = Color.blueColor()//Color.clearColor()//Color.grayColor()
+                    cell.color = Color.blueColor()
                     cell.visited = true
-                    //cell.alpha = 0.1
                 case 2:  // start point
                     cell.color = Color.blueColor()
                     cell.visited = true
@@ -504,7 +430,7 @@ class Maze: SCNNode {
                     self.currentPoint = self.startPoint
                     
                 case 3:  // deadends
-                    cell.color = Color.grayColor()//Color.clearColor()//Color.orangeColor()//Color.yellowColor()
+                    cell.color = Color.grayColor()
                     cell.visited = true
                     
                 case 4:  // exit point
@@ -517,10 +443,10 @@ class Maze: SCNNode {
                     cell.color = Color.whiteColor()
                     
                 case 6: //coverted to holes
-                    cell.color = Color.clearColor()//Color.greenColor()
+                    cell.color = Color.clearColor()
                     cell.visited = true
                 case 7://inbetween path points
-                    cell.color = Color.whiteColor()//Color.clearColor()//Color.whiteColor()
+                    cell.color = Color.whiteColor()
                     cell.visited = true
                 case 8: // barriers
                     cell.color = Color.yellowColor()
@@ -528,31 +454,19 @@ class Maze: SCNNode {
                     cell.color = Color.brownColor()
                 case 10: //continued Path point vertical
                     cell.color = Color.orangeColor()
-                    //sizeCalc.height = 1
                 case 11: //continued Path point horizontal
                     cell.color = Color.orangeColor()
-                    //sizeCalc.width = 1
                 default: // barriers = 0
                     cell.color = Color.yellowColor()
-                    /*var tempLevel:Int = Int(level) % 10
-                    cell.color = Color.colorArray[tempLevel]
-                    //cell.color = Color.whiteColor()
-                    cell.visited = false
-                    cell.alpha = 0.9//0.1
-                    */
+                    
                     
                     
                     
                     
                 }
-                /*
-                if row % 2 == 0 && column % 2 == 0{
-                    cell.color = Color.clearColor()
-                }
-                */
+               
                 self.addChildNode(cell)
                 
-            //}
             
                 
             }
@@ -579,9 +493,6 @@ class Maze: SCNNode {
         }
         
         
-        //row = 3
-        //column = 3
-        //println(" \(column), \(row) ")
         
         
         return (column, row)
@@ -602,11 +513,10 @@ class Maze: SCNNode {
     var minEscapePathCount:Int {
         get{
             
-            return self.level * 2 + 1//MAZE_COLUMNS * self.level
+            return self.level * 2 + 1
             
             
-            /*self.escapePath.count <= self.level * 2 + 1 || self.escapePath.count > MAZE_COLUMNS * self.level / 2 && self.level >= 10 || self.escapePath.count > MAZE_COLUMNS * self.level * 2 / 3 && self.level >= 5 || self.escapePath.count > MAZE_COLUMNS * self.level && self.level > 1 || self.escapePath.count > 7 && self.level == 1
-            */
+            
         }
     }
     var maxEscapePathCount:Int {
@@ -624,15 +534,8 @@ class Maze: SCNNode {
     
     func generateMazeRecursion(column column:Int, row:Int){
         
-        /*if deadEndCount > MAX_DEADENDS{
-        return
-        }
-        */
-        //if escapePath.count >= (MAZE_ROWS - 3) * 2 + 1{//MAZE_ROWS - 2{
-        //    return
-        //}
         
-        ++visitedCellCount
+        visitedCellCount += 1
         
         //-----Keep track of currectPath
         self.currentPath.append(column + row * MAZE_COLUMNS)
@@ -642,10 +545,9 @@ class Maze: SCNNode {
         
         if self.visitedCellCount == 1{
             self.mazeNumberMatrix[column + (row) * MAZE_COLUMNS] = 2 //start and visited
-            //myMazeGrid[column + row * MAZE_COLUMNS].color = UIColor.greenColor()
         }
         
-        let currentPoint = column + row * MAZE_COLUMNS
+        
         let cellWalls = randomDirections()
         var deadEnd = true
         for direction in cellWalls{
@@ -658,7 +560,6 @@ class Maze: SCNNode {
                 if self.mazeNumberMatrix[column + (row - 2) * MAZE_COLUMNS] == 0 {
                     deadEnd = false
                     self.mazeNumberMatrix[column + (row - 1) * MAZE_COLUMNS] = 7
-                    //myMazeGrid[column + (row - 1) * MAZE_COLUMNS].color = UIColor.redColor()
                     self.currentPath.append((column ) + (row - 1) * MAZE_COLUMNS)
                     generateMazeRecursion(column: column, row: row - 2)
                     self.currentPath.removeLast()
@@ -676,7 +577,6 @@ class Maze: SCNNode {
                 if self.mazeNumberMatrix[(column + 2) + row  * MAZE_COLUMNS] == 0 {
                     deadEnd = false
                     self.mazeNumberMatrix[(column + 1) + row * MAZE_COLUMNS] = 7
-                    //myMazeGrid[(column + 1) + row * MAZE_COLUMNS].color = UIColor.redColor()
                     self.currentPath.append((column + 1 ) + (row ) * MAZE_COLUMNS)
                     generateMazeRecursion(column: column + 2, row: row )
                     self.currentPath.removeLast()
@@ -693,7 +593,6 @@ class Maze: SCNNode {
                 if self.mazeNumberMatrix[column + (row + 2) * MAZE_COLUMNS] == 0 {
                     deadEnd = false
                     self.mazeNumberMatrix[column + (row + 1) * MAZE_COLUMNS] = 7
-                    //myMazeGrid[column + (row + 1) * MAZE_COLUMNS].color = UIColor.redColor()
                     
                     self.currentPath.append((column ) + (row + 1) * MAZE_COLUMNS)
                     generateMazeRecursion(column: column, row: row + 2)
@@ -712,7 +611,6 @@ class Maze: SCNNode {
                 if self.mazeNumberMatrix[(column - 2) + row  * MAZE_COLUMNS] == 0 {
                     deadEnd = false
                     self.mazeNumberMatrix[(column - 1) + row * MAZE_COLUMNS] = 7
-                    //myMazeGrid[(column - 1) + row * MAZE_COLUMNS].color = UIColor.redColor()
                     
                     self.currentPath.append((column - 1) + row * MAZE_COLUMNS)
                     generateMazeRecursion(column: column - 2, row: row )
@@ -727,8 +625,8 @@ class Maze: SCNNode {
             
         }
         if deadEnd{
-            //            print("deadend path count = \(visitedCellCount) deadends = \(++deadEndCount)")
-            ++deadEndCount
+            
+            deadEndCount += 1
             self.mazeNumberMatrix[column + row * MAZE_COLUMNS] = 3 //deadend cell and visited
             
             if maxPathCount < visitedCellCount{
@@ -745,20 +643,9 @@ class Maze: SCNNode {
                 }
             }
 
-            /*
-            maxPathCount = visitedCellCount
-            if maxPathCount >= minEscapePathCount / 2 && maxPathCount <= maxEscapePathCount / 2{
-                //---record path with the min/max
-                if currentPath.count < self.escapePath.count || !hasCorrectEscapePath{
-                    self.escapePath = self.currentPath
-                    print("current escapePath count = \(escapePath.count) & DPC = \(visitedCellCount) ")
-                    exitPoint = column + row * MAZE_COLUMNS
-                    hasCorrectEscapePath = true
-                }
-                
-            }*/
+            
         }
-        --visitedCellCount
+        visitedCellCount -= 1
         //Pop currentPath when changing to new path
         self.currentPath.removeLast()
         

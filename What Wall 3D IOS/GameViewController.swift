@@ -68,6 +68,7 @@ var myPlayerTailNodeArray:[SCNNode] = []
 
 var gameScene:GameScene!
 
+
 var myHUDView:UIView!
 
 
@@ -76,10 +77,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     var renderCount:Int = 0
     
-    var gameView: GameView! //{
-    //    return view as! GameView
-    //}
-    var myView:SCNView!
+    var gameView: GameView!
+    weak var myView:SCNView!
     var myScene:SCNScene!
     
     var myLight:SCNNode!
@@ -93,15 +92,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var myPhysicsFieldNode:SCNNode!
     var myPhysicsField:SCNPhysicsField!
     
-    var myGameScene:GameScene!
-    //    var myGameSceneView:SKView = SKView()
+    weak var myGameScene:GameScene!
     var myHudOverlay:HudOverlay!
-    //    var myHudOverlayView:SKView = SKView()
-    
-    /*    private var deltaTime: CFTimeInterval = 0.0
-    private var lastUpdatedTime: CFTimeInterval = 0.0
-    private var deathTimer: CFTimeInterval = 0.0
-    */
 
     var panGesture:UIPanGestureRecognizer!
     
@@ -110,18 +102,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         
         
-        gameView = self.view as! GameView
-        myView = self.gameView
+        self.gameView = self.view as! GameView
+        myView = self.gameView //global
         myScene = SCNScene()
         myView.scene = myScene
-        //self.view.addSubview(myView)
         
-        myView.backgroundColor = Color.blackColor()//NSColor.whiteColor()//NSColor.blackColor()
-        //setup scene
-        //self.setupEnvironment()
+        myView.backgroundColor = Color.blackColor()
         self.setupLights()
         self.setupCamera()
-        //self.addPlayerNode()
         
         
         #if os(iOS)
@@ -173,18 +161,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
 
 
         
-        //self.addPlayerNode()
-        
         self.setupEnvironment()
         
         //Heads Up Display (SpriteKit Overlay)
         self.setupHUD()
         #if os(iOS)
-            /*
-            // add a tap gesture recognizer to the HUD for difficulty settings
-            let hudTapGesture = UITapGestureRecognizer(target: self.myHudOverlay, action: #selector(HudOverlay.handleTap(_:)))
-            self.view!.addGestureRecognizer(hudTapGesture)
- */
+            
         
         #endif
         
@@ -196,8 +178,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         self.addEmittorNode()
         
-        //Heads Up Display (SpriteKit Overlay)
-        //self.setupHUD()
         
         
         myScene.physicsWorld.contactDelegate = self
@@ -205,10 +185,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         
         self.gameView.delegate = self
-        //myGameScene.delegate = self
         
-        
-        //cameraUpdate()
 
     }
     
@@ -244,24 +221,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
             print(" \(swipeDirection)")
             
-            //if myGameScene.isMovingToNextArea || myPlayer!.isStunned && myPlayer!.isAlive{
                 myGameScene.controller.joyStickDirection = .neutral
                 myGameScene.controller.isChangedDirection = false
                 isKeyPressed[.up] = false
                 isKeyPressed[.right] = false
                 isKeyPressed[.down] = false
                 isKeyPressed[.left] = false
-             //   return
-            //}
-            /*if myPlayer!.contactActive{
-            return
-            }*/
+            
             switch swipeDirection{
             case UISwipeGestureRecognizerDirection.Up://up
                 print("handleSwipe - up")
                 if myGameScene.controller.joyStickDirection != .up && !isKeyPressed[.up]!{
                     myGameScene.controller.joyStickDirection = .up
-                    //print("\(key) up")
                     myGameScene.controller.isChangedDirection = true
                     isKeyPressed[.up] = true
                 }
@@ -269,7 +240,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 print("handleSwipe - right")
                 if myGameScene.controller.joyStickDirection != .right && !isKeyPressed[.right]!{
                     myGameScene.controller.joyStickDirection = .right
-                    //print("\(key) right")
                     myGameScene.controller.isChangedDirection = true
                     isKeyPressed[.right] = true
                 }
@@ -277,7 +247,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 print("handleSwipe - down")
                 if myGameScene.controller.joyStickDirection != .down && !isKeyPressed[.down]!{
                     myGameScene.controller.joyStickDirection = .down
-                    //print("\(key) down")
                     myGameScene.controller.isChangedDirection = true
                     isKeyPressed[.down] = true
                 }
@@ -285,7 +254,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 print("handleSwipe - left")
                 if myGameScene.controller.joyStickDirection != .left && !isKeyPressed[.left]!{
                     myGameScene.controller.joyStickDirection = .left
-                    //print("\(key) left")
                     myGameScene.controller.isChangedDirection = true
                     isKeyPressed[.left] = true
                 }
@@ -313,11 +281,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
             
             
-            //myCameraNode.position.y = myCameraNode.position.y + Float(panVelocity.y) / 300 //100
-            //myCameraNode.position.x = myCameraNode.position.x - Float(panVelocity.x) / 300 //100
             
-            
-        }else if !isShowingMap {//&& gestureRecognize.state == .Changed{
+        }else if !isShowingMap {
             
             if myGameScene.isMovingToNextArea || myPlayer!.isStunned && myPlayer!.isAlive{
                 
@@ -333,14 +298,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
             
             print("handlePan not in map")
-            /*
-            myGameScene.controller.joyStickDirection = .neutral
-            myGameScene.controller.isChangedDirection = false
-            isKeyPressed[.up] = false
-            isKeyPressed[.right] = false
-            isKeyPressed[.down] = false
-            isKeyPressed[.left] = false
-            */
             if gestureRecognize.state == .Changed{
                 isPanGestureChanging = true
                 self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
@@ -357,7 +314,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                             myGameScene.controller.isChangedDirection = true
                             myGameScene.controller.joyStickDirection = .up
                         }else if isKeyPressed[.up]!{
-                            //myGameScene.controller.joyStickDirection = .neutral
+                            
                             myGameScene.controller.isChangedDirection = false
                         }
                     }else if panVelocity.y > 0{//down
@@ -370,7 +327,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                             myGameScene.controller.isChangedDirection = true
                             myGameScene.controller.joyStickDirection = .down
                         }else if isKeyPressed[.down]!{
-                            //myGameScene.controller.joyStickDirection = .neutral
+                            
                             myGameScene.controller.isChangedDirection = false
                         }
                     }
@@ -385,7 +342,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                             myGameScene.controller.isChangedDirection = true
                             myGameScene.controller.joyStickDirection = .right
                         }else if isKeyPressed[.right]!{
-                            //myGameScene.controller.joyStickDirection = .neutral
+                            
                             myGameScene.controller.isChangedDirection = false
                         }
                     }else if panVelocity.x < 0{//left
@@ -398,12 +355,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                             myGameScene.controller.isChangedDirection = true
                             myGameScene.controller.joyStickDirection = .left
                         }else if isKeyPressed[.left]!{
-                            //myGameScene.controller.joyStickDirection = .neutral
+                            
                             myGameScene.controller.isChangedDirection = false
                         }
                     }
                 }else if panVelocity.y.abs() == panVelocity.x.abs(){
-                    //myGameScene.controller.joyStickDirection = .neutral
+                    
                     myGameScene.controller.isChangedDirection = false
                     isKeyPressed[.up] = false
                     isKeyPressed[.right] = false
@@ -416,7 +373,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
             }else if gestureRecognize.state == .Ended{
                 self.panVelocity = CGPoint(x: 0, y: 0)
-                //myGameScene.controller.joyStickDirection = .neutral
+                
                 myGameScene.controller.isChangedDirection = false
                 isKeyPressed[.up] = false
                 isKeyPressed[.right] = false
@@ -425,25 +382,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
             
             
-            /*
-            if panVelocity.y > 0{
-            myCameraNode.position.y = myCameraNode.position.y + Float(panVelocity.y) * 100//1 * Float(mapDeltaTime)*100
-            }else if panVelocity.y <= 0{
-            myCameraNode.position.y = myCameraNode.position.y - 1 * Float(mapDeltaTime)*100
-            }
-            
-            if panVelocity.x > 0{
-            myCameraNode.position.x = myCameraNode.position.x - 1 * Float(mapDeltaTime)*100
-            }else if panVelocity.x <= 0{
-            myCameraNode.position.x = myCameraNode.position.x + 1 * Float(mapDeltaTime)*100
-            }
-            */
             
         }
         
         
     }
-    
+    /*
     func addOrRemovePanGesture(){
         
         return
@@ -454,7 +398,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             self.myView.removeGestureRecognizer(self.panGesture)
         }
     }
-    
+    */
     
     var isPinching:Bool = false
     var pinchScale:CGFloat = 0
@@ -539,9 +483,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         self.myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
                         self.myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
                         
-                        //self.showMap()
-                        self.addOrRemovePanGesture()
-                        //self.myView.addGestureRecognizer(self.panGesture)
+                        //self.addOrRemovePanGesture()
                         
                         
                     }
@@ -552,28 +494,23 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }else if isShowingMap && isOutwardPinch{
                 
                 isShowingMap = false
-                self.addOrRemovePanGesture()
-                //self.myView.removeGestureRecognizer(self.panGesture)
+                //self.addOrRemovePanGesture()
                 
                 isMapKeyPressed[.up] = false
                 isMapKeyPressed[.right] = false
                 isMapKeyPressed[.down] = false
                 isMapKeyPressed[.left] = false
                 
-                //self.removeMap()
                 self.myStageNode.hidden = false
                 self.isReturnToCurrentStageMap = true
-                //myGameScene.paused = false
                 
-                self.returningToCurrentStageMapTime = ( 1 ) * CFTimeInterval(self.cameraDistanceFromCurrentStage() / myMaze!.maxMapAreaXValue) // / myMaze!.myMazeCellSize.height)
-                
+                self.returningToCurrentStageMapTime = ( 1 ) * CFTimeInterval(self.cameraDistanceFromCurrentStage() / myMaze!.maxMapAreaXValue)
                 SCNTransaction.begin()
                 SCNTransaction.setAnimationDuration(self.returningToCurrentStageMapTime)
                 
                 myCameraNode.position.x = myPlayerNode.position.x
                 myCameraNode.position.y = myPlayerNode.position.y
-                //self.myCameraNode.position = self.currentCameraPosition
-                //myCameraNode.position = cameraStartPosition
+                
                 
                 SCNTransaction.setCompletionBlock(
                     {
@@ -584,7 +521,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         SCNTransaction.setCompletionBlock(
                             {
                                 self.removeMap()
-                                //self.myCameraNode.constraints = [SCNConstraint()]
+                                
                                 self.didReturnFromMap = true
                                 self.myGameScene.paused = false
                                 // --------------------------------
@@ -633,7 +570,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 myHudOverlay.addChild(myHudOverlay.hardLabel)
                 myHudOverlay.addChild(myHudOverlay.ultraHardLabel)
                 
-                //myGameScene.reloadSceneTime()
                 myGameScene.resetForGameOver()
                 isGameOver = false
             }else{
@@ -659,43 +595,25 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     #endif
 
     
-    private var FIELD_STRENGTH:CGFloat = /*9.8*/ 6 * CGFloat(SPEED_PERCENTAGE) /// 10  9.8
+    private var FIELD_STRENGTH:CGFloat = 6 * CGFloat(SPEED_PERCENTAGE)
     func addPhysicsField(){
         myPhysicsFieldNode = SCNNode()
         myScene.rootNode.addChildNode(myPhysicsFieldNode)
-        myPhysicsFieldNode.position = SCNVector3(x: 0, y: 0, z: 0)//myStageNode.position
-        //       myPhysicsField = SCNPhysicsField()
-        myPhysicsField = SCNPhysicsField.springField()//radialGravityField() //vortexField()
+        myPhysicsFieldNode.position = SCNVector3(x: 0, y: 0, z: 0)
+        myPhysicsField = SCNPhysicsField.springField()
         myPhysicsFieldNode.physicsField = myPhysicsField
-        //myPhysicsField.minimumDistance = CGFloat.infinity// 100
-        //       myPhysicsField.active = true
         myPhysicsField.strength = FIELD_STRENGTH
-        //myPhysicsField.falloffExponent = CGFloat(0.0)
     }
     
     func addEmittorNode(){
         myEmittorNode = SCNNode()
         myParticleSystem = SCNParticleSystem(named: "MyParticleSystem3.scnp", inDirectory: nil)
         myParticleSystem.affectedByPhysicsFields = true
-        //myParticleSystem.birthLocation = ...
-        //myEmittorNode.addParticleSystem(myParticleSystem)
-        //myParticleSystem.reset()
-        //myParticleSystem
         myScene.rootNode.addChildNode(myEmittorNode)
-        //myEmittorNode.hidden = true
     }
     
     func physicsWorld(world: SCNPhysicsWorld, didBeginContact contact: SCNPhysicsContact) {
-        /*
-        let exit = myMaze.mazeCellMatrix[myMaze.exitPoint]
-        let player = myPlayerNode.presentationNode()
         
-        if contact.nodeA == player && contact.nodeB == exit || contact.nodeB == player && contact.nodeA == exit{
-        
-        isMovingToUpperLevel = true
-        
-        }
-        */
     }
     //********************************************//
     /*
@@ -712,7 +630,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     //********************************************//
     var currentStageMapPosition:SCNVector3 = SCNVector3(x: 0, y: 0, z: 0)
     func showMap(){
-        //self.myStageNode.hidden = true
         
         myScene.rootNode.addChildNode(myMaze!)
         let currentStage = myGameScene!.currentStage
@@ -724,8 +641,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func removeMap(){
-        let currentStage = myGameScene!.currentStage//myMaze!.escapePath[STAGE * 2]
-        //let currentStageMapPosition = myMaze!.mazeCellMatrix[currentStage]!.position
+        let currentStage = myGameScene!.currentStage
         
         myMaze!.mazeCellMatrix[currentStage]!.hidden = false
         myMaze!.removeFromParentNode()
@@ -739,7 +655,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     var isShowingMap:Bool = false
-    //var hasMapView:Bool = false
     var currentCameraPosition = SCNVector3(x: 0, y: 0, z: 0)
     var showingMapTime:CFTimeInterval = 0.5
     var returningToCurrentStageMapTime:CFTimeInterval = 0.5
@@ -771,14 +686,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
         case 46://M
             
-            if /*!myPlayer!.isAlive || myGameScene.isFirstRound || */ !myGameScene.isMovingToNextArea{
+            if !myGameScene.isMovingToNextArea{
                 if !isShowingMap && didReturnFromMap{
                     print("View Controller starting to show map")
                     print("playerNode x y = \(myPlayerNode.position.x), \(myPlayerNode.position.y)")
                     print("cameraNode x y = \(self.myCameraNode.position.x), \(self.myCameraNode.position.y)")
                     print("currentCameraNode x y = \(self.currentCameraPosition.x), \(self.currentCameraPosition.y)")
-                    //myCameraNode.constraints = nil
-                    //myCameraNode.position = cameraStartPosition
+    
                     myGameScene.paused = true
                     // --------------------------------
                     // need to pause 3D particle system here
@@ -804,42 +718,37 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                             self.isMapKeyPressed[.left] = false
                             self.mapLastUpdateTime = self.mapCurrentTime
                             
-                            
-                            //self.hasMapView = true
+    
                             self.myCameraNode.constraints = nil
                             self.myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
                             self.myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
-                            
-                            //self.showMap()
+    
                             
                         }
                     )
                     SCNTransaction.commit()
                 }else if isShowingMap{
-                    //myCameraNode.constraints = nil
-                    //deathCameraPosition.x = currentCameraPosition.x
-                    //deathCameraPosition.y = currentCameraPosition.y
+    
                     isShowingMap = false
                     
                     isMapKeyPressed[.up] = false
                     isMapKeyPressed[.right] = false
                     isMapKeyPressed[.down] = false
                     isMapKeyPressed[.left] = false
-                    
-                    //self.removeMap()
+    
+    
                     self.myStageNode.hidden = false
                     self.isReturnToCurrentStageMap = true
-                    //myGameScene.paused = false
+    
                     
-                    self.returningToCurrentStageMapTime = ( 1 ) * CFTimeInterval(self.cameraDistanceFromCurrentStage() / myMaze!.maxMapAreaXValue) // / myMaze!.myMazeCellSize.height)
+                    self.returningToCurrentStageMapTime = ( 1 ) * CFTimeInterval(self.cameraDistanceFromCurrentStage() / myMaze!.maxMapAreaXValue)
                     
                     SCNTransaction.begin()
                     SCNTransaction.setAnimationDuration(self.returningToCurrentStageMapTime)
                     
                     myCameraNode.position.x = myPlayerNode.position.x
                     myCameraNode.position.y = myPlayerNode.position.y
-                    //self.myCameraNode.position = self.currentCameraPosition
-                    //myCameraNode.position = cameraStartPosition
+    
                     
                     SCNTransaction.setCompletionBlock(
                         {
@@ -850,7 +759,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                             SCNTransaction.setCompletionBlock(
                                 {
                                     self.removeMap()
-                                    //self.myCameraNode.constraints = [SCNConstraint()]
+    
                                     self.didReturnFromMap = true
                                     self.myGameScene.paused = false
                                     // --------------------------------
@@ -873,7 +782,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
         case 35://P
             if !myPlayer!.isAlive || myGameScene.isFirstRound || myGameScene.isMovingToNextArea{
-                //myGameScene.paused = false
+                //break
             }else{
                 myGameScene.paused = !myGameScene.paused
             }
@@ -886,8 +795,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if !myGameScene.paused{
             self.myGameScene.keyDown(theEvent)
         }
-        //myHudOverlay.keyDown(theEvent)
-        //gameScene.keyDown(theEvent)
     }
     
     override func keyUp(theEvent: NSEvent) {
@@ -921,8 +828,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         
         self.myGameScene.keyUp(theEvent)
-        //myHudOverlay.keyUp(theEvent)
-        //gameScene.keyUp(theEvent)
         
         
     }
@@ -960,8 +865,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func playerUpdate(){
         
-        let presentationPlayer = myPresentationPlayer
-        let player = myPlayer
         
         if myGameScene.hasWorldMovement{
             myPlayerNode.position = SCNVector3(x: 0, y: 0, z: myPlayerNode.position.z)
@@ -973,7 +876,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         //check if player is alive and relate it to 3D
         let isAlive = myPlayer!.isAlive
         let isHidden = myPlayerNode.hidden
-        if isAlive {//&& myPlayerNode.hidden{
+        if isAlive {
             if isHidden{
                 myPlayerNode.hidden = false
                 
@@ -998,33 +901,31 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         
                     }
                 }
-                //                myEmittorNode.removeParticleSystem(myParticleSystem)
-                //***                gameView.scene!.removeParticleSystem(myParticleSystem)
+                
                 
                 #if os(iOS)
-                myPhysicsFieldNode.position = SCNVector3(x: Float(-gameFrame.size.width/2 + myPlayer!.position.x)  * 10  /*myStageNode.geometry!.*/ / Float(gameFrame.size.width) , y: Float(-gameFrame.size.height/2 + myPlayer!.position.y)  * 10  / Float(gameFrame.size.height), z: 0/*myPlayerNode.position.z*/)
+                myPhysicsFieldNode.position = SCNVector3(x: Float(-gameFrame.size.width/2 + myPlayer!.position.x)  * 10   / Float(gameFrame.size.width) , y: Float(-gameFrame.size.height/2 + myPlayer!.position.y)  * 10  / Float(gameFrame.size.height), z: 0)
                 #elseif os(OSX)
-                myPhysicsFieldNode.position = SCNVector3(x: (-gameFrame.size.width/2 + myPlayer!.position.x)  * 10  /*myStageNode.geometry!.*/ / gameFrame.size.width , y: (-gameFrame.size.height/2 + myPlayer!.position.y)  * 10  / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
+                myPhysicsFieldNode.position = SCNVector3(x: (-gameFrame.size.width/2 + myPlayer!.position.x)  * 10   / gameFrame.size.width , y: (-gameFrame.size.height/2 + myPlayer!.position.y)  * 10  / gameFrame.size.height, z: 0)
                  #endif
                 if !myGameScene.hasWorldMovement{
-                    myPhysicsFieldNode.position = self.myStageNode.position//SCNVector3(x: (gameFrame.size.width/2 )  * 10  /*myStageNode.geometry!.*/ / gameFrame.size.width , y: (gameFrame.size.height/2)  * 10  / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
+                    myPhysicsFieldNode.position = self.myStageNode.position
+                    
                 }
                 
             }
-        }else {//if !myPlayerNode.hidden{
+        }else {
             if !isHidden{
                 #if os(iOS)
-                myPhysicsFieldNode.position = SCNVector3(x: Float(gameFrame.size.width/2 - myPlayer!.deathPosition.x)  * 10  /*myStageNode.geometry!.*/ / Float(gameFrame.size.width) , y: Float(gameFrame.size.height/2 - myPlayer!.deathPosition.y)  * 10  / Float(gameFrame.size.height), z: Float(myPlayerNode.position.z))
+                myPhysicsFieldNode.position = SCNVector3(x: Float(gameFrame.size.width/2 - myPlayer!.deathPosition.x)  * 10 / Float(gameFrame.size.width) , y: Float(gameFrame.size.height/2 - myPlayer!.deathPosition.y)  * 10  / Float(gameFrame.size.height), z: Float(myPlayerNode.position.z))
                 #elseif os(OSX)
-                myPhysicsFieldNode.position = SCNVector3(x: (gameFrame.size.width/2 - myPlayer!.deathPosition.x)  * 10  /*myStageNode.geometry!.*/ / gameFrame.size.width , y: (gameFrame.size.height/2 - myPlayer!.deathPosition.y)  * 10  / gameFrame.size.height, z: myPlayerNode.position.z)
+                myPhysicsFieldNode.position = SCNVector3(x: (gameFrame.size.width/2 - myPlayer!.deathPosition.x)  * 10  / gameFrame.size.width , y: (gameFrame.size.height/2 - myPlayer!.deathPosition.y)  * 10  / gameFrame.size.height, z: myPlayerNode.position.z)
                 #endif
                 myEmittorNode.position = myPlayerNode.position
-                //myEmittorNode.position = SCNVector3(x: (presentationPlayer!.deathPosition.x) * 10/*myStageNode.geometry!.*/ / gameFrame.size.width , y: (presentationPlayer!.deathPosition.y) * 10 / gameFrame.size.height, z: myPlayerNode.position.z)
+                
                 
                 if !myGameScene.hasWorldMovement{
-                    myPhysicsFieldNode.position = self.myStageNode.position//SCNVector3(x: (gameFrame.size.width/2 )  * 10  /*myStageNode.geometry!.*/ / gameFrame.size.width , y: (gameFrame.size.height/2)  * 10  / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
-                    
-                    //myPlayerNode.position = SCNVector3(x: (myPlayer!.deathPosition.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / gameFrame.size.width , y: (myPlayer!.deathPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
+                    myPhysicsFieldNode.position = self.myStageNode.position
                     
                     myEmittorNode.position = myPlayerNode.position
                     
@@ -1046,14 +947,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     }
                 }
                 
-                //                gameView.scene!.addParticleSystem(myParticleSystem, withTransform: myPlayerNode.worldTransform)
-                //myEmittorNode.remove
+                
                 myPlayerNode.hidden = true
-                /*for (_, tailPiece) in myPlayerTailNodeArray.enumerate(){
-                tailPiece.hidden = true
-                }
-                */
-                //myParticleSystem.reset()
+                
             }
         }
     }
@@ -1074,29 +970,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var mapDeltaTime: NSTimeInterval = 0
     var mapCurrentTime: NSTimeInterval = 0
     
-    //var deathCameraPosition:SCNVector3 = SCNVector3(x: 0 , y: 0, z: 0)
+    
     
     func cameraUpdate(currentTime: NSTimeInterval){
-        /*
-        if !didReturnFromMap{
-        if myCameraNode.presentationNode.position.z <= currentCameraPosition.z + 10{
-        //didReturnFromMap = true
-        //isShowingMap = false
-        myCameraNode.position.x = currentCameraPosition.x
-        myCameraNode.position.y = currentCameraPosition.y
-        //myGameScene.paused = false
-        return
-        }
-        
-        }
-        */
+       
         
         self.mapCurrentTime = currentTime //used for KeyDown time keeping
         if isShowingMap || !didReturnFromMap{
-            if isShowingMap {//|| myPlayerNode.position.z > 80{
+            if isShowingMap {
                 myCameraNode.constraints = nil
-                //self.myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
-                //self.myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
                 
                 // *****add camera movement for map*****
                 mapDeltaTime = currentTime - mapLastUpdateTime
@@ -1138,22 +1020,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 }
                         
                         
-               // myCameraNode.runAction(SCNAction.moveByX(CGFloat(mapDeltaTime) * panVelocity.x, y: CGFloat(mapDeltaTime) * panVelocity.y, z: 0, duration: mapDeltaTime))
-                        
-                /*
-                if panVelocity.y > 0{
-                    myCameraNode.position.y = myCameraNode.position.y + 1 * Float(mapDeltaTime)*100
-                }else if panVelocity.y < 0{
-                    myCameraNode.position.y = myCameraNode.position.y - 1 * Float(mapDeltaTime)*100
-                }//else if panVelocity.y == 0 {//myCameraNode.position.y doesn't change value}
-                
-                if panVelocity.x > 0{
-                    myCameraNode.position.x = myCameraNode.position.x - 1 * Float(mapDeltaTime)*100
-                }else if panVelocity.x < 0{
-                    myCameraNode.position.x = myCameraNode.position.x + 1 * Float(mapDeltaTime)*100
-                }//else if panVelocity.x == 0 {//myCameraNode.position.x doesn't change value}
-                */
-                        
                         
                 //******* Map Movement Limit **************
                 
@@ -1178,12 +1044,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }else if !isReturnToCurrentStageMap{
                 myCameraNode.constraints = nil
                 let lookAtPlayerConstraint = SCNLookAtConstraint(target: myPlayerNode)
-                lookAtPlayerConstraint.gimbalLockEnabled = false//true//false
+                lookAtPlayerConstraint.gimbalLockEnabled = false
                 myCameraNode.constraints = [lookAtPlayerConstraint]
             }
-            //myCameraNode.constraints = nil
-            //myCameraNode.position = cameraStartPosition
-            //myGameScene.paused = true
             return
         }
         
@@ -1192,33 +1055,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             self.setupCamera()
         }
         
-        //if myCameraNode.constraints != nil{
         myCameraNode.constraints = nil
-        //}
         
         if !myGameScene.isLeavingOldArea{
-            //if myCameraNode.constraints != nil{
-            //    myCameraNode.constraints = nil
-            //}
-            //}
+            
             
             leavingAreaTime = 0
             leavingLastUpdateTime = currentTime
             
-            
-            //if !myGameScene.hasWorldMovement{
             let playerRadius:CGFloat = (myPlayerNode.geometry as! SCNSphere).radius
             // pathegorian theorem
             let xMaxValuePlayerNode:CGFloat = (myStageNode.geometry as! SCNPlane).width/2 - playerRadius - cornerBlockFrame.width/10
             let yMaxValuePlayerNode:CGFloat = (myStageNode.geometry as! SCNPlane).height/2 - playerRadius - cornerBlockFrame.height/10
             
             // c squared = x squared + y squared
-            let cMaxValuePlayerNode:CGFloat = sqrt( pow(xMaxValuePlayerNode, 2) + pow(yMaxValuePlayerNode, 2) )
+            //let cMaxValuePlayerNode:CGFloat = sqrt( pow(xMaxValuePlayerNode, 2) + pow(yMaxValuePlayerNode, 2) )
             
-            let midMaxValuePlayerNode:CGFloat = xMaxValuePlayerNode + (cMaxValuePlayerNode - xMaxValuePlayerNode)/2
+            //let midMaxValuePlayerNode:CGFloat = xMaxValuePlayerNode + (cMaxValuePlayerNode - xMaxValuePlayerNode)/2
             
-            var xValue:CGFloat = maxCameraDistance * CGFloat((myPlayerNode.position.x - myStageNode.position.x)) / xMaxValuePlayerNode //midMaxValuePlayerNode//cMaxValuePlayerNode //c: makes the camera angle relative to the corners
-            var yValue:CGFloat = maxCameraDistance * CGFloat((myPlayerNode.position.y - myStageNode.position.y)) / yMaxValuePlayerNode //midMaxValuePlayerNode//cMaxValuePlayerNode //c: makes the camera angle relative to the corners
+            var xValue:CGFloat = maxCameraDistance * CGFloat((myPlayerNode.position.x - myStageNode.position.x)) / xMaxValuePlayerNode //c: makes the camera angle relative to the corners
+            var yValue:CGFloat = maxCameraDistance * CGFloat((myPlayerNode.position.y - myStageNode.position.y)) / yMaxValuePlayerNode //c: makes the camera angle relative to the corners
             
             
             let cValueCameraScale:CGFloat = sqrt( pow( (xValue), 2) + pow( (yValue), 2))
@@ -1236,25 +1092,23 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 #if os(OSX)
             let x:CGFloat = CGFloat(myPlayerNode.position.x) - xValue //-xValue
             let y:CGFloat = CGFloat(myPlayerNode.position.y) - yValue //-yValue
-            let z:CGFloat = /*myPlayerNode.position.z +*/ zValueAlternative//zValue
+            let z:CGFloat =  zValueAlternative//zValue
                 #elseif os(iOS)
             let x:Float = Float(myPlayerNode.position.x) - Float(xValue) //-xValue
             let y:Float = Float(myPlayerNode.position.y) - Float(yValue) //-yValue
-            let z:Float = /*myPlayerNode.position.z +*/ Float(zValueAlternative)//zValue
+            let z:Float = Float(zValueAlternative)//zValue
                 #endif
             myCameraNode.position = SCNVector3(x: x , y: y, z: z)
             cameraMovingtoNewAreaPosition = myCameraNode.position
             currentCameraPosition = myCameraNode.position
-            //c = 20 => max distance from camera to player c pow 2 = 400 = (x2 + y2) + z2 //blah
+            //c = 20 => max distance from camera to player c pow 2 = 400 = (x2 + y2) + z2
             
-            //}else {
             
-            //}
         }else if myGameScene.isLeavingOldArea{
             let leavingDeltaTime = currentTime - leavingLastUpdateTime
-            leavingAreaTime += leavingDeltaTime//currentTime - leavingLastUpdateTime
+            leavingAreaTime += leavingDeltaTime
             leavingLastUpdateTime = currentTime
-            //myCameraNode.position = cameraMovingtoNewAreaPosition
+            
             
             if leavingAreaTime > myGameScene.leavingTime{
                 didChangeCameraForNewArea = false
@@ -1266,43 +1120,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     willChangeCameraForNewArea = true
                     
                     if !isPlayerMovingToNewAreaVertically(){
-                        //SCNTransaction.begin()
-                        //SCNTransaction.setAnimationDuration(0.1)
+                        
                         myCameraNode.position = SCNVector3(x: myStageNode.position.x - cameraMovingtoNewAreaPosition.x, y: cameraMovingtoNewAreaPosition.y, z: cameraMovingtoNewAreaPosition.z)
-                        //SCNTransaction.commit()
+                        
                     }else if isPlayerMovingToNewAreaVertically(){
-                        //SCNTransaction.begin()
-                        //SCNTransaction.setAnimationDuration(0.1)
+                        
                         myCameraNode.position = SCNVector3(x: cameraMovingtoNewAreaPosition.x, y: myStageNode.position.y - cameraMovingtoNewAreaPosition.y, z: cameraMovingtoNewAreaPosition.z)
-                        //SCNTransaction.commit()
                     }
-                    /*
-                    if myGameScene!.leavingVelocity.dx.abs() > myGameScene!.leavingVelocity.dy.abs(){
-                    myCameraNode.position = SCNVector3(x: myStageNode.position.x - cameraMovingtoNewAreaPosition.x, y: cameraMovingtoNewAreaPosition.y, z: cameraMovingtoNewAreaPosition.z)
-                    
-                    }else if myGameScene!.leavingVelocity.dy.abs() > myGameScene!.leavingVelocity.dx.abs(){
-                    myCameraNode.position = SCNVector3(x: cameraMovingtoNewAreaPosition.x, y: myStageNode.position.y - cameraMovingtoNewAreaPosition.y, z: cameraMovingtoNewAreaPosition.z)
-                    
-                    }
-                    */
-                    
                 }
-                //fix camera seeing stage problem
-                /*
-                if myCameraNode.constraints == nil{
-                myCameraNode.position = cameraStartPosition
-                let lookAtStageConstraint = SCNLookAtConstraint(target: myStageNode)
-                lookAtStageConstraint.gimbalLockEnabled = false//true //false
-                myCameraNode.constraints = [lookAtStageConstraint]
-                
-                }
-                */
-                
             }
-            
-            
-            
-            
         }
         
         
@@ -1310,7 +1136,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if myCameraNode.constraints == nil{
             
             let lookAtPlayerConstraint = SCNLookAtConstraint(target: myPlayerNode)
-            lookAtPlayerConstraint.gimbalLockEnabled = false//true//false
+            lookAtPlayerConstraint.gimbalLockEnabled = false
             myCameraNode.constraints = [lookAtPlayerConstraint]
             
         }
@@ -1321,10 +1147,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func animationUpdate(){
-        //if myPlayerNode.position.x == myGameScene.myPlayerNodeCopy.position.x &&
-        //myPlayerNode.position.y == myGameScene.myPlayerNodeCopy.position.y{
+        
         myView.playing = true
-        //}
+        
     }
     
     
@@ -1334,49 +1159,44 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             self.addPlayerNode()
         }
         
-        if myGameScene.paused{//isShowingMap || !didReturnFromMap{
+        if myGameScene.paused{
             return
         }
         
         if !myGameScene.isLeavingOldArea{
             
             
-            
-            // SCNTransaction.begin()
-            // SCNTransaction.setAnimationDuration(0)
-            //myPlayerNode.position = myGameScene.myPlayerNodeCopy.position
-            
             //all the detail added to account for corner hit deaths ie. isEdgeHitDeathOn = true
                 #if os(iOS)
             if myPlayer!.isAlive{
                 if willComeToLife{
-                    myPlayerNode.position = SCNVector3(x: Float(myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / Float(gameFrame.size.width) , y: Float(myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0/*myPlayerNode.position.z*/)
+                    myPlayerNode.position = SCNVector3(x: Float(myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10 / Float(gameFrame.size.width) , y: Float(myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0)
                     willComeToLife = false
                 }else{
-                    myPlayerNode.position = SCNVector3(x: Float(myPlayer!.position.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / Float(gameFrame.size.width) , y: Float(myPlayer!.position.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0/*myPlayerNode.position.z*/)
+                    myPlayerNode.position = SCNVector3(x: Float(myPlayer!.position.x - gameFrame.size.width/2) * 10 / Float(gameFrame.size.width) , y: Float(myPlayer!.position.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0)
                 }
                 
             }else if !myPlayer!.isAlive{
                 willComeToLife = true
-                myPlayerNode.position = SCNVector3(x: Float(myPlayer!.deathPosition.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / Float(gameFrame.size.width) , y: Float(myPlayer!.deathPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0/*myPlayerNode.position.z*/)
+                myPlayerNode.position = SCNVector3(x: Float(myPlayer!.deathPosition.x - gameFrame.size.width/2) * 10 / Float(gameFrame.size.width) , y: Float(myPlayer!.deathPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0)
                 if gameScene.isFirstRound{
-                    myPlayerNode.position = SCNVector3(x: Float(myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / Float(gameFrame.size.width) , y: Float(myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0/*myPlayerNode.position.z*/)
+                    myPlayerNode.position = SCNVector3(x: Float(myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10 / Float(gameFrame.size.width) , y: Float(myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0)
                 }
             }
                 #elseif os(OSX)
             if myPlayer!.isAlive{
                 if willComeToLife{
-                    myPlayerNode.position = SCNVector3(x: (myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / gameFrame.size.width , y: (myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
+                    myPlayerNode.position = SCNVector3(x: (myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10 / gameFrame.size.width , y: (myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
                     willComeToLife = false
                 }else{
-                    myPlayerNode.position = SCNVector3(x: (myPlayer!.position.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / gameFrame.size.width , y: (myPlayer!.position.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
+                    myPlayerNode.position = SCNVector3(x: (myPlayer!.position.x - gameFrame.size.width/2) * 10 / gameFrame.size.width , y: (myPlayer!.position.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
                 }
                 
             }else if !myPlayer!.isAlive{
                 willComeToLife = true
-                myPlayerNode.position = SCNVector3(x: (myPlayer!.deathPosition.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / gameFrame.size.width , y: (myPlayer!.deathPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
+                myPlayerNode.position = SCNVector3(x: (myPlayer!.deathPosition.x - gameFrame.size.width/2) * 10 / gameFrame.size.width , y: (myPlayer!.deathPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
                 if gameScene.isFirstRound{
-                    myPlayerNode.position = SCNVector3(x: (myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / gameFrame.size.width , y: (myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0/*myPlayerNode.position.z*/)
+                    myPlayerNode.position = SCNVector3(x: (myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10 / gameFrame.size.width , y: (myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
                 }
             }
                 #endif
@@ -1390,26 +1210,25 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     if myPlayer!.isAlive{
                         
                         myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: Float(myPlayerTail[tailIndex].position.x ) * 10 / Float(gameFrame.size.width) + myPlayerNode.position.x , y: Float(myPlayerTail[tailIndex].position.y) * 10 / Float(gameFrame.size.height) + myPlayerNode.position.y, z: 0)
-                        //myPlayerTailNodeArray[tailIndex].hidden = false
+                        
                         
                     }else if !myPlayer!.isAlive{
                         
                         myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: Float(myPlayerTail[tailIndex].position.x - gameFrame.size.width/2) * 10 / Float(gameFrame.size.width) , y: Float(myPlayerTail[tailIndex].position.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0)
                         if myGameScene.isFirstRound{
-                            //myPlayerTailNodeArray[tailIndex].hidden = true
+                            //break
                         }
                     }
                         #elseif os(OSX)
                     if myPlayer!.isAlive{
                         
                         myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: (myPlayerTail[tailIndex].position.x ) * 10 / gameFrame.size.width + myPlayerNode.position.x , y: (myPlayerTail[tailIndex].position.y) * 10 / gameFrame.size.height + myPlayerNode.position.y, z: 0)
-                        //myPlayerTailNodeArray[tailIndex].hidden = false
                         
                     }else if !myPlayer!.isAlive{
                         
                         myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: (myPlayerTail[tailIndex].position.x - gameFrame.size.width/2) * 10 / gameFrame.size.width , y: (myPlayerTail[tailIndex].position.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
                         if myGameScene.isFirstRound{
-                            //myPlayerTailNodeArray[tailIndex].hidden = true
+                            //break
                         }
                     }
                     
@@ -1420,9 +1239,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 }
                 
             }
-            
-            
-            //SCNTransaction.commit()
             
             
         }else if myGameScene.isLeavingOldArea{
@@ -1438,29 +1254,24 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 velocityY = myGameScene!.leavingVelocity.dy / speedReductionFactor
             }
             
-            //SCNTransaction.begin()
-            //SCNTransaction.setAnimationDuration(0)
                 #if os(OSX)
-            myPlayerNode.position  = SCNVector3(x: myPlayerNode.position.x + (velocityX * 10 / gameFrame.size.width) , y: myPlayerNode.position.y + (velocityY * 10 / gameFrame.size.height), z: 0/*myPlayerNode.position.z*/)
+            myPlayerNode.position  = SCNVector3(x: myPlayerNode.position.x + (velocityX * 10 / gameFrame.size.width) , y: myPlayerNode.position.y + (velocityY * 10 / gameFrame.size.height), z: 0)
                 #elseif os(iOS)
-            myPlayerNode.position = SCNVector3(x: myPlayerNode.position.x + Float(velocityX * 10 / gameFrame.size.width) , y: myPlayerNode.position.y + Float(velocityY * 10 / gameFrame.size.height), z: 0/*myPlayerNode.position.z*/)
+            myPlayerNode.position = SCNVector3(x: myPlayerNode.position.x + Float(velocityX * 10 / gameFrame.size.width) , y: myPlayerNode.position.y + Float(velocityY * 10 / gameFrame.size.height), z: 0)
                 #endif
             
         
             for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerate(){
                 
-                //if myPlayer!.isAlive{
+                
                     #if os(iOS)
-                myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: Float(myPlayerTail[tailIndex].position.x ) /* * velocityX */ * 10 / Float(gameFrame.size.width) + myPlayerNode.position.x, y: Float(myPlayerTail[tailIndex].position.y) /* * velocityY */ * 10 / Float(gameFrame.size.height) + myPlayerNode.position.y, z: 0)
+                myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: Float(myPlayerTail[tailIndex].position.x ) * 10 / Float(gameFrame.size.width) + myPlayerNode.position.x, y: Float(myPlayerTail[tailIndex].position.y) * 10 / Float(gameFrame.size.height) + myPlayerNode.position.y, z: 0)
                     #elseif os(OSX)
-                myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: (myPlayerTail[tailIndex].position.x ) /* * velocityX */ * 10 / gameFrame.size.width + myPlayerNode.position.x, y: (myPlayerTail[tailIndex].position.y) /* * velocityY */ * 10 / gameFrame.size.height + myPlayerNode.position.y, z: 0)
+                myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: (myPlayerTail[tailIndex].position.x ) * 10 / gameFrame.size.width + myPlayerNode.position.x, y: (myPlayerTail[tailIndex].position.y) * 10 / gameFrame.size.height + myPlayerNode.position.y, z: 0)
                     #endif
                 
-                //myPlayerTailNodeArray[tailIndex].hidden = false
-                
-                // }
             }
-            //SCNTransaction.commit()
+            
             
             //check if the Player has arrived in the new area
             if leavingAreaTime > myGameScene.leavingTime/2{
@@ -1497,11 +1308,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     //********************************
                     
                     myGameScene.arrivedInNewArea(myGameScene.arrivingPosition, playerVelocity: myGameScene.leavingVelocity)
-                    //self.paused = true
+                    
                     
                     myGameScene.afterArrivingInNewAreaAction(myGameScene.arrivingPosition, playerVelocity: myGameScene.leavingVelocity)
                     
-                    //didReachNewArea = false
                 }
                 
             }
@@ -1525,12 +1335,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
                 for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerate(){
                     
-                    //if myPlayer!.isAlive{
                     
                     myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: myPlayerTailNodeArray[tailIndex].position.x - newPlayerNodePositionX , y: myPlayerTailNodeArray[tailIndex].position.y - newPlayerNodePositionY, z: 0)
-                    //myPlayerTailNodeArray[tailIndex].hidden = false
                     
-                    // }
+                    
                 }
             }
             
@@ -1545,7 +1353,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 isPanGestureChanging = false
             }else if !isPanGestureChanging{
                 //add here
-                //myGameScene.controller.joyStickDirection = .neutral
+                
                 myGameScene.controller.isChangedDirection = false
                 isKeyPressed[.up] = false
                 isKeyPressed[.right] = false
@@ -1571,52 +1379,23 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         self.deathEffectUpdate() // if isSlowedDown or not
         self.playerUpdate()
         
-        // Moving to a new stage
-        /*        if myGameScene.isMovingToNextArea{
-        myGameScene.lastUpdatedTime = currentTime
-        return
-        }
-        */
-        // animating a death scene shaking...
-        /*        deltaTime = currentTime - lastUpdatedTime
-        lastUpdatedTime = currentTime
-        */
-        
-        //if myPlayer!.isDying{self.deathScene(myGameScene.deltaTime)}
-        
-        
         self.cameraUpdate(time)
         
     }
     
     func renderer(aRenderer: SCNSceneRenderer, didApplyAnimationsAtTime time: NSTimeInterval) {
         
-        
     }
     
     func renderer(aRenderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: NSTimeInterval) {
-        //myGameScene.didSimulatePhysics()
-        //self.playerUpdate()
-        //print("3D")
-        //didSimulatePhysicsForScene(myGameScene)
+    
     }
     
     func renderer(aRenderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: NSTimeInterval) {
-        //self.playerUpdate()
-        //self.animationUpdate()
-        //print("3D")
         
     }
     
     func renderer(aRenderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: NSTimeInterval) {
-        //self.playerUpdate()
-        //myPlayerNode.position = myGameScene.myPlayerNodeCopy.position
-        //animationUpdate()
-        
-        //print("3D")
-        // updateMyPlayerNode()
-        
-        
         
     }
     //******************************
@@ -1624,38 +1403,25 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     
     func addPlayerNode(){
-        //myGlobalPlayerNode = self.myPlayerNode
+        
         myPlayerNode = SCNNode()
-        //myGlobalPlayerNode.position = self.myPlayerNode.position
+        
         let player = myPlayerNode
-        //        let presentationPlayer = myPresentationPlayer
-        /*presentationPlayer!.hidden = true
-        for child in presentationPlayer!.children {
-        //let child = node
-        child.hidden = false
+       
         
-        }
-        */
-        
-        player.geometry = SCNSphere(radius: myPlayer!.radius * 10 / gameFrame.width)// SCNSphere(radius: 5)
-        
-        //player.rotation = SCNVector4(x: 1, y: 0, z: 0, w: CGFloat(M_PI)/4 )
+        player.geometry = SCNSphere(radius: myPlayer!.radius * 10 / gameFrame.width)
         player.position = SCNVector3(x: 0, y: 0, z: 0)
         player.geometry!.firstMaterial!.diffuse.contents = Color.blueColor()
-        //myTestTrap.geometry?.firstMaterial?.doubleSided = true
         
-        //fix the ratio so that it works for all resizing - stageNode size vs gameFrame size
-        //        player.position = SCNVector3(x: (presentationPlayer!.position.x - gameFrame.size.width/2) * 10/*myStageNode.geometry!.*/ / gameFrame.size.width , y: (presentationPlayer!.position.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
         
         myScene.rootNode.addChildNode(player)
-        //myPlayerNode.hidden = true
+        
         player.hidden = true
         
         func addPlayerTailNode()->SCNNode{
             let tail = SCNNode()
-            tail.geometry = SCNSphere(radius: myPlayerTail[0].radius * 10 / gameFrame.width)// SCNSphere(radius: 5)
+            tail.geometry = SCNSphere(radius: myPlayerTail[0].radius * 10 / gameFrame.width)
             
-            //player.rotation = SCNVector4(x: 1, y: 0, z: 0, w: CGFloat(M_PI)/4 )
             tail.position = SCNVector3(x: 0, y: 0, z: 0)
             tail.geometry!.firstMaterial!.diffuse.contents = Color.blueColor()
             
@@ -1669,34 +1435,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             myPlayerTailNodeArray = []
             
             for life in 0...(myGameScene.playerLivesMAX - 2){
-                //myPlayerTail.append(Player(r: radius))
                 
                 myPlayerTailNodeArray.append(addPlayerTailNode())
                 myPlayerTailNodeArray[life].hidden = true
                 myScene.rootNode.addChildNode(myPlayerTailNodeArray[life])
             }
         }
-        
-        
-        /*
-        let playerLives = myGameScene.playerLives
-        if playerLives > 1{
-        for tailIndex in 0...playerLives - 2{
-        
-        let tailPiece = myPlayerTail[tailIndex]
-        if tailPiece.parent == nil{
-        //self.addChild(tailPiece)
-        myPlayer!.addChild(tailPiece)
-        }
-        
-        let presentationTailPiece = myPresentationTail[tailIndex]
-        if presentationTailPiece.parent == nil{
-        //self.world.addChild(presentationTailPiece)
-        myPresentationPlayer!.addChild(presentationTailPiece)
-        }
-        }
-        }
-        */
         
     }
     
@@ -1707,38 +1451,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func setupEnvironment(){
         let myTestTrap = SCNNode()
         self.myStageNode = myTestTrap
-        /*
-        let myMaterial = SCNMaterial()
-        myMaterial.diffuse.contents = gameScene
-        gameScene!.size = CGSize(width: 10, height: 10)
-        //myMaterial.diffuse.contents = SKScene(size: <#CGSize#>)
-        myTestTrap.geometry?.materials = [myMaterial]
-        */
+        
         if myGameScene == nil{
             myGameScene = GameScene(size: CGSize(width: 100, height: 100))
         }
         gameScene = self.myGameScene
-        let materialScene = myGameScene//SKScene(size: CGSize(width: 100, height: 100))
-        //materialScene.size = CGSize(width: 100, height: 100)
-        //        myGameSceneView.presentScene(myGameScene)
-        //        materialScene.didMoveToView(myGameSceneView)
-        //materialScene.yScale = CGFloat(-1)
+        let materialScene = myGameScene
         
-        myTestTrap.geometry = SCNPlane(width: 10, height: 10)// SCNSphere(radius: 5)
+        myTestTrap.geometry = SCNPlane(width: 10, height: 10)
         myTestTrap.position = SCNVector3(x: 0, y: 0, z: 0)
-        //        myTestTrap.rotation = SCNVector4(x: 1, y: 0, z: 0, w: CGFloat(M_PI) )
+        
             #if os(iOS)
-        myTestTrap.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(M_PI))//3 * CGFloat(M_PI)/4 ) //CGFloat(M_PI))
+        myTestTrap.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(M_PI))
+                
             #elseif os(OSX)
-        myTestTrap.rotation = SCNVector4(x: 1, y: 0, z: 0, w: CGFloat(M_PI))//3 * CGFloat(M_PI)/4 ) //CGFloat(M_PI))
+        myTestTrap.rotation = SCNVector4(x: 1, y: 0, z: 0, w: CGFloat(M_PI))
+                
             #endif
         myTestTrap.geometry!.firstMaterial!.diffuse.contents = materialScene
-        //myTestTrap.geometry?.firstMaterial?.diffuse.contentsTransform = SCNMatrix4MakeTranslation(5, 5, 1)
-        //myTestTrap.geometry?.firstMaterial?.diffuse.contentsTransform = SCNMatrix4MakeScale(2, 2, 2)
         myTestTrap.geometry!.firstMaterial!.doubleSided = true   //****** Fix sides
-        //        myTestTrap.transform = SCNMatrix4MakeRotation(CGFloat(M_PI), 1, 0, 0) //******* Fix sides
         
-        //        myTestTrap.geometry?.firstMaterial?.cullMode = SCNCullMode.Front
         
         myScene.rootNode.addChildNode(myTestTrap)
         
@@ -1746,14 +1478,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func setupLights(){
         
-        /*
-        let myLight = SCNLight()
-        let myLightNode = SCNNode()
-        myLight.type = SCNLightTypeOmni
-        myLightNode.light = myLight
-        myLightNode.position = SCNVector3(x: -30, y: 30, z: 60)
-        myScene.rootNode.addChildNode(myLightNode)
-        */
         myView.autoenablesDefaultLighting = true
         
     }
@@ -1769,40 +1493,27 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             myCamera.zFar = 110
             myCameraNode = SCNNode()
             myCameraNode.camera = myCamera
-            // allows the user to manipulate the camera
-   //         self.gameView.allowsCameraControl = true
+            
             myScene.rootNode.addChildNode(myCameraNode)
         }
         myCameraNode.camera = myCamera
         #if os(iOS)
-        myCameraNode.position = SCNVector3(x: 0, y: 0 /*-gameFrame.size.height/2 / 10*/ , z: Float(maxCameraDistance))//12)//CGFloat(levelHeight) + 12)
+        myCameraNode.position = SCNVector3(x: 0, y: 0  , z: Float(maxCameraDistance))
         #elseif os(OSX)
-        myCameraNode.position = SCNVector3(x: 0, y: 0 /*-gameFrame.size.height/2 / 10*/ , z: maxCameraDistance)//12)//CGFloat(levelHeight) + 12)
+        myCameraNode.position = SCNVector3(x: 0, y: 0, z: maxCameraDistance)
         #endif
-        //myCameraNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: 1*CGFloat(M_PI)/4)
-        //myScene.rootNode.addChildNode(myCameraNode)
         
-        // allows the user to manipulate the camera
-        //self.gameView.allowsCameraControl = true
+        
     }
     
     func setupHUD(){
         //add Heads Up Display (SpriteKit Overlay) code here!!!
         
-        myHudOverlay = HudOverlay(size: self.view.bounds.size)//CGSize(width: 1000, height: 1000))
-        // myHudOverlay.size = CGSize(width: 100, height: 100)
-        //        myHudOverlayView.presentScene(myHudOverlay)
-        //        myHudOverlay.didMoveToView(myHudOverlayView)
+        myHudOverlay = HudOverlay(size: self.view.bounds.size)
+        
         
         self.myView.overlaySKScene = myHudOverlay
         myHUDView = self.view
-        //self.myView.overlaySKScene = myGameScene
-        
-        
-        //        self.myView.overlaySKScene!.delegate = self
-        //        self.myView!.window!.makeFirstResponder(myHudOverlay)
-        //        self.myView.noResponderFor("mouseDown:")
-        
         
     }
     
@@ -1822,11 +1533,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             return
         }
         
-        let centerPoint = CGPoint(x: gameFrame.width/2, y: gameFrame.height/2)
-        var differenceVector = CGPoint(x: centerPoint.x - myPlayer!.deathPosition.x, y: centerPoint.y - myPlayer!.deathPosition.y)
-        if !myGameScene.hasWorldMovement{
-            differenceVector = CGPoint(x: 0, y: 0)
-        }
         if self.myGameScene.deathTimer == 0{
             // --- used in GameScene -- 2D
             //self.slowDownSceneTime()
@@ -1834,20 +1540,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             sizeEffectSwitch = true
         }
         
-        //        self.deathTimer += deltaTime
         if self.myGameScene.deathTimer <= 1 || !sizeEffectSwitch{
-            //return
-            ++sizeEffectSwitchCounter
+            
+            sizeEffectSwitchCounter += 1
             if sizeEffectSwitch && sizeEffectSwitchCounter >= 3 {
                 
-                //                self.myStageNode.position = SCNVector3(x: ( 1 - 1.01 ) * gameFrame.width/2 + differenceVector.x, y: ( 1 - 1.01 ) * gameFrame.height/2 + differenceVector.y, z: 0)
-                self.myStageNode.scale = SCNVector3(x: 1.01, y: 1.01, z: 1)  //.setScale(1.01)
+                self.myStageNode.scale = SCNVector3(x: 1.01, y: 1.01, z: 1)
                 sizeEffectSwitch = !sizeEffectSwitch
                 sizeEffectSwitchCounter = 0
             }
             else if !sizeEffectSwitch && sizeEffectSwitchCounter >= 3{
-                self.myStageNode.scale = SCNVector3(x: 1, y: 1, z: 1)//.setScale(1)
-                //                self.myStageNode.position = SCNVector3(x: differenceVector.x, y: differenceVector.y, z: 0) //differenceVector
+                self.myStageNode.scale = SCNVector3(x: 1, y: 1, z: 1)
+                
                 sizeEffectSwitch = !sizeEffectSwitch
                 sizeEffectSwitchCounter = 0
             }
@@ -1855,8 +1559,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
         }
         else{
-            //           self.deathTimer = 0
-            //           myPlayer!.isDying = false
+            //break
             
         }
         
