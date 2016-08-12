@@ -11,7 +11,7 @@ import SpriteKit
 
 
 
-
+var mymyMaze:Maze? = nil
 
 
 class MazeScene: SKScene, SKPhysicsContactDelegate {
@@ -44,14 +44,14 @@ class MazeScene: SKScene, SKPhysicsContactDelegate {
         
         
         self.stage = STAGE
-        if myMaze == nil{
-        myMaze = Maze(level: CGFloat(level))
+        if mymyMaze == nil{
+        mymyMaze = Maze(level: CGFloat(level))
 
         }else{
             if self.level != LEVEL{
                 self.level = LEVEL
                 
-                myMaze = Maze(level: CGFloat(level))
+                mymyMaze = Maze(level: CGFloat(level))
                 
                 levelNumberView.removeFromParent()
                 

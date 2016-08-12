@@ -9,6 +9,7 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import GoogleMobileAds
 
 extension SCNVector3 {
     init(_ x: Float, _ y: Float, _ z: Float) {
@@ -72,12 +73,31 @@ var gameScene:GameScene!
 var myHUDView:UIView!
 
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
+    
+    var optionsData:[String:AnyObject] = [:]
+    //var imageData:[UIImage] = []
+    
+    // ************ for the stars in the background
+    weak var emittorNode:SCNNode! //= SCNNode()
+    weak var particleSystem:SCNParticleSystem! //= SCNParticleSystem(named: "MyParticleSystem2.scnp", inDirectory: nil)
+    // ************
+    let backgroundNode = SCNNode()
+    
+    
+    var myMaze:Maze? = nil
+    
+    
     var isMapKeyPressed:[keys:Bool] = [keys.left: false, .right: false, .up: false, .down: false]
     
     var renderCount:Int = 0
     
-    var gameView: GameView!
+    @IBOutlet weak var bannerView: GADBannerView!
+    
+    @IBOutlet weak var gameView: GameView!
+    
+    
+    //var gameView: GameView!
     weak var myView:SCNView!
     var myScene:SCNScene!
     
@@ -92,20 +112,223 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var myPhysicsFieldNode:SCNNode!
     var myPhysicsField:SCNPhysicsField!
     
-    weak var myGameScene:GameScene!
+    var myGameScene:GameScene!
     var myHudOverlay:HudOverlay!
 
     var panGesture:UIPanGestureRecognizer!
     
+    
+    func clearMemoryBeforeLoad(){
+        //return ()
+        myStageNode = nil
+        self.myEmittorNode = nil
+        myParticleSystem = nil
+        myPhysicsFieldNode = nil
+        myPhysicsField = nil
+        
+        myGameScene = nil
+        myHudOverlay = nil
+        
+        panGesture = nil
+        
+        myPlayerNode = nil
+        myPlayerTailNodeArray = []
+        
+        
+        // **********************
+        
+        // Dictionary to hold the corner block objects
+        myCorners = [:]
+        myPresentationCorners = [:]
+        
+        mySmashBlocks = [:]
+        myPresentationSmashBlocks = [:]
+        
+        
+        myPlayer = nil
+        myPlayerTail = []
+        myPresentationPlayer = nil
+        myPresentationTail = []
+        tailJoint = []
+        
+        myEmitterNode = nil
+    }
+    
+    func clearMemoryAfterGame(){
+        //return ()
+        
+        //emittorNode = nil
+        //particleSystem = nil
+        
+        //emittorNode.removeParticleSystem(particleSystem!)
+        //emittorNode.removeFromParentNode()
+        
+        
+        
+        
+        myHUDView = nil
+        
+        //optionsData = [:]
+        
+        //bannerView = nil
+        
+        //gameView = nil
+        
+        
+        //var gameView: GameView!
+        //myView = nil
+        myScene = nil
+        
+        myLight = nil
+        myCamera = nil
+        //myCameraNode = nil
+        
+        //if let _ = myMaze{
+        //myMaze = nil
+        //}
+        
+        gameScene = nil
+ 
+    }
+    /*
+    override func viewWillDisappear(animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        //updateGlobalBackgroundImage()
+    }
+    */
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        clearMemoryAfterGame()
+    }
+    override func viewDidDisappear(animated: Bool) {
+        
+        super.viewDidDisappear(animated)
+        
+        //clearMemoryAfterGame()
+        
+        
+ 
+    }
+    
+    func backToTitleScreen() {
+        //imageData.shuffle()
+        //updateGlobalBackgroundImage()
+        self.performSegueWithIdentifier("unwindFromGame", sender: self)//nil)
+        
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        //let vc = parentViewController as! TitlePageViewController
+        //vc.backgroundNode.geometry!.firstMaterial!.diffuse.contents = self.imageData[0]
+        
+        print("shouldPerformSegueWithIdentifier called")
+        
+        return false//true
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier! == "unwindFromGame"{
+            
+            //let titleVC = segue.destinationViewController as! TitlePageViewController
+            //self.emittorNode.removeFromParentNode()
+            //titleVC.emittorNode = self.emittorNode
+            //titleVC.titlePageSCNView.scene?.rootNode.addChildNode(self.emittorNode)
+            //titleVC.emittorNode.position = SCNVector3(x: 0, y: 0, z: 0)
+            self.particleSystem?.reset()//titleVC.particleSystem!.reset()
+            
+            //self.imageData.shuffle()
+            
+            //titleVC.imageData = self.imageData
+            
+            //titleVC.returnedFromGame = true
+            //let myMaterial = imageData[0]//titleVC.imageData[0]
+            //titleVC.backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
+            
+            
+            
+        }
+        
+        
+    }
+    func updateGlobalBackgroundImage(){
+        //imageData.shuffle()
+        //let myMaterial = imageData[0]
+        
+        //globalBackgroundNode.geometry!.firstMaterial!.diffuse.contents = nil
+        //globalBackgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
+    }
+    
+    func setupGameOptionsLives(){
+    
+        START_LIVES = optionsData["lives"] as! Int
+    }
+    
+    func setupGameOptionsLevel(){
+        
+        LEVEL = optionsData["level"] as! Int
+    }
+    
+    func setupGameOptionsDifficulty(){
+    
+            
+            let difficulty = optionsData["difficulty"] as! Int
+            
+            if difficulty == 1{
+                gameDifficultySetting = .easy
+            }else if difficulty == 2{
+                gameDifficultySetting = .hard
+            }else if difficulty == 3{
+                gameDifficultySetting = .ultraHard
+       
+        }
+        
+        //************************
+        //MARK: setting difficulty from options menu - saved in plist and set from OptionDetailsController
+        myHudOverlay.setDifficulty(gameDifficultySetting)
+        //************************
+    }
+    
+    func setupBackgroundStars(){
+        //return
+        //self.emittorNode.removeFromParentNode()
+        self.myScene.rootNode.addChildNode(emittorNode)
+        emittorNode.position = SCNVector3(x: 0, y: 0, z: -1)
+        //emittorNode.addParticleSystem(particleSystem!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("GAME VIEW DID LOADDDDDDDDDDDDD")
+        
+        //self.parentViewController!.dism
+        
+        clearMemoryBeforeLoad()
+        
+        gameView.controller = self
         
         
-        self.gameView = self.view as! GameView
+        
+        //************************
+        //MARK: level/lives settings
+        setupGameOptionsLevel()
+        setupGameOptionsLives()
+        //************************
+        
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.loadRequest(GADRequest())
+        
+      
         myView = self.gameView //global
         myScene = SCNScene()
         myView.scene = myScene
+        
+        
         
         myView.backgroundColor = Color.blackColor()
         self.setupLights()
@@ -162,31 +385,28 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
 
         
         self.setupEnvironment()
-        
+        self.setupBackground()
+        self.updateBackgroundImage(LEVEL)
         //Heads Up Display (SpriteKit Overlay)
         self.setupHUD()
         #if os(iOS)
-            
-        
         #endif
-        
-        
         self.addPlayerNode()
-        
-        
         self.addPhysicsField()
-        
         self.addEmittorNode()
         
-        
+        self.setupBackgroundStars()
         
         myScene.physicsWorld.contactDelegate = self
         myScene.physicsWorld.gravity = SCNVector3(x: 0, y: 0, z: 0)
         
-        
         self.gameView.delegate = self
         
 
+        
+        self.setupGameOptionsDifficulty()
+        
+        
     }
     
     #if os(iOS)
@@ -195,10 +415,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         return true
     }
     
-    override func prefersStatusBarHidden() -> Bool {
-        return true
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
     
+    /*
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             return .Portrait// AllButUpsideDown
@@ -206,7 +427,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             return .All
         }
     }
-    
+    */
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
@@ -267,18 +488,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
     var panVelocity:CGPoint = CGPoint()
     var isPanGestureChanging:Bool = false
+    var hasPanGestureEnded:Bool = false
     
     func handlePan(gestureRecognize: UIGestureRecognizer){
         print("handlePan")
         if isShowingMap{
             if gestureRecognize.state == .Changed{
+                hasPanGestureEnded = false
                 isPanGestureChanging = true
                 self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
                 
             }else if gestureRecognize.state == .Ended{
-                self.panVelocity = CGPoint(x: 0, y: 0)
+                //self.panVelocity = CGPoint(x: 0, y: 0)
+                
+                hasPanGestureEnded = true//false
             }
             
+            if gestureRecognize.state == UIGestureRecognizerState.Possible{
+                    panVelocity.y = 0
+                    panVelocity.x = 0
+            }
             
             
             
@@ -446,6 +675,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
            
             //map off
             if !isShowingMap && didReturnFromMap && !isOutwardPinch{
+                
+                particleSystem.reset()
+                emittorNode.removeFromParentNode()
+                
                 print("View Controller starting to show map")
                 print("playerNode x y = \(myPlayerNode.position.x), \(myPlayerNode.position.y)")
                 print("cameraNode x y = \(self.myCameraNode.position.x), \(self.myCameraNode.position.y)")
@@ -492,7 +725,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
             //map on
             }else if isShowingMap && isOutwardPinch{
-                
+                // *** background stars return to stage ***
+                //emittorNode.position.z = -1
+                //self.myScene.rootNode.addChildNode(emittorNode)
+                //particleSystem.speedFactor = 3
+                // ************
                 isShowingMap = false
                 //self.addOrRemovePanGesture()
                 
@@ -514,12 +751,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
                 SCNTransaction.setCompletionBlock(
                     {
+                        self.myScene.rootNode.addChildNode(self.emittorNode)
+                        self.particleSystem.speedFactor = 3
                         self.isReturnToCurrentStageMap = false
                         SCNTransaction.begin()
                         SCNTransaction.setAnimationDuration(self.showingMapTime)
                         self.myCameraNode.position = self.currentCameraPosition
                         SCNTransaction.setCompletionBlock(
                             {
+                                self.particleSystem.speedFactor = 1
                                 self.removeMap()
                                 
                                 self.didReturnFromMap = true
@@ -545,12 +785,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
     }
     
+    
+    var hasGameEnded:Bool = false
     func handleTap(gestureRecognize: UIGestureRecognizer) {
         
         print("GVC handle tap")
         if isChoosingDifficulty{
             
-            let scnView = self.view as! SCNView
+            //let scnView = self.view as! SCNView
+            let scnView = self.gameView as SCNView
             let viewPoint = gestureRecognize.locationInView(scnView)
             
             let p = myHudOverlay.convertPointFromView(viewPoint)
@@ -560,19 +803,43 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         }
         
         
-        if !gameScene.paused { //while not showing the map
+        if !myGameScene.paused { //while not showing the map
+            
+            
+            
             if isGameOver{
-                isChoosingDifficulty = true
-                myHudOverlay.easyLabel.removeFromParent()
-                myHudOverlay.hardLabel.removeFromParent()
-                myHudOverlay.ultraHardLabel.removeFromParent()
-                myHudOverlay.addChild(myHudOverlay.easyLabel)
-                myHudOverlay.addChild(myHudOverlay.hardLabel)
-                myHudOverlay.addChild(myHudOverlay.ultraHardLabel)
                 
-                myGameScene.resetForGameOver()
-                isGameOver = false
+                if let player = myPlayer{
+                    if !player.isDying && !player.isAlive{
+                        
+                        isGameOver = false
+                        hasGameEnded = true
+                        imageData.shuffle()
+                        
+                        //myGameScene.playerComeBackToLife(player)
+                    }
+                }
+                
+                
+                //isGameOver = false
+                //******************
+                //******************  
+//                myGameScene.resetForGameOver()
+                //******************
+                //******************
+                
+                
+                //******************
+                //add logic to go back to title screen
+                //self.backToTitleScreen()
+                
+                //******************
+                
             }else{
+                //************************
+                //MARK: setting difficulty from options menu
+//                myHudOverlay.setDifficulty(gameDifficultySetting)
+                //************************
                 myGameScene.isFirstRound = false
                 
                 if let player = myPlayer{
@@ -587,7 +854,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
             
         }
+     
         
+ 
     }
     
     
@@ -630,9 +899,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     //********************************************//
     var currentStageMapPosition:SCNVector3 = SCNVector3(x: 0, y: 0, z: 0)
     func showMap(){
-        
+        myScene = myView.scene
         myScene.rootNode.addChildNode(myMaze!)
-        let currentStage = myGameScene!.currentStage
+        let currentStage = myGameScene.currentStage//myGameScene!.currentStage
         currentStageMapPosition = myMaze!.mazeCellMatrix[currentStage]!.position
         
         myMaze!.mazeCellMatrix[currentStage]!.hidden = true
@@ -641,7 +910,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func removeMap(){
-        let currentStage = myGameScene!.currentStage
+        let currentStage = myGameScene.currentStage//myGameScene!.currentStage
         
         myMaze!.mazeCellMatrix[currentStage]!.hidden = false
         myMaze!.removeFromParentNode()
@@ -853,10 +1122,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func isPlayerMovingToNewAreaVertically()->Bool{
         var vertically:Bool = false
-        
-        if myGameScene!.leavingVelocity.dx.abs() > myGameScene!.leavingVelocity.dy.abs(){
+        //if myGameScene!.leavingVelocity.dx.abs() > myGameScene!.leavingVelocity.dy.abs(){
+        if myGameScene.leavingVelocity.dx.abs() > myGameScene.leavingVelocity.dy.abs(){
             vertically = false
-        }else if myGameScene!.leavingVelocity.dy.abs() > myGameScene!.leavingVelocity.dx.abs(){
+        //}else if myGameScene!.leavingVelocity.dy.abs() > myGameScene!.leavingVelocity.dx.abs(){
+        }else if myGameScene.leavingVelocity.dy.abs() > myGameScene.leavingVelocity.dx.abs(){
             vertically = true
         }
         
@@ -1019,7 +1289,27 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     isPanGestureChanging = false
                 }
                         
-                        
+                        if isShowingMap{ //delete
+                            if hasPanGestureEnded{
+                                let totalPanVelocity = sqrt(pow(panVelocity.y, 2) + pow(panVelocity.x, 2))
+                                
+                                //asfsdfadsf
+                                
+                                panVelocity.y -= 0.05 * panVelocity.y
+                                panVelocity.x -= 0.05 * panVelocity.x
+                                
+                                if totalPanVelocity < 1 {
+                                    hasPanGestureEnded = false
+                                    panVelocity.y = 0
+                                    panVelocity.x = 0
+                                }
+                                
+                                myCameraNode.position.y = myCameraNode.position.y + Float(mapDeltaTime) * Float(panVelocity.y) / 4
+                                myCameraNode.position.x = myCameraNode.position.x - Float(mapDeltaTime) * Float(panVelocity.x) / 4
+                                
+                            }
+                            
+                        }
                         
                 //******* Map Movement Limit **************
                 
@@ -1179,7 +1469,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }else if !myPlayer!.isAlive{
                 willComeToLife = true
                 myPlayerNode.position = SCNVector3(x: Float(myPlayer!.deathPosition.x - gameFrame.size.width/2) * 10 / Float(gameFrame.size.width) , y: Float(myPlayer!.deathPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0)
-                if gameScene.isFirstRound{
+                if myGameScene.isFirstRound{
                     myPlayerNode.position = SCNVector3(x: Float(myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10 / Float(gameFrame.size.width) , y: Float(myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / Float(gameFrame.size.height), z: 0)
                 }
             }
@@ -1195,7 +1485,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }else if !myPlayer!.isAlive{
                 willComeToLife = true
                 myPlayerNode.position = SCNVector3(x: (myPlayer!.deathPosition.x - gameFrame.size.width/2) * 10 / gameFrame.size.width , y: (myPlayer!.deathPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
-                if gameScene.isFirstRound{
+                if myGameScene.isFirstRound{
                     myPlayerNode.position = SCNVector3(x: (myPlayer!.originalPosition.x - gameFrame.size.width/2) * 10 / gameFrame.size.width , y: (myPlayer!.originalPosition.y - gameFrame.size.height/2) * 10 / gameFrame.size.height, z: 0)
                 }
             }
@@ -1247,11 +1537,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             var velocityX = myPlayer!.physicsBody!.velocity.dx
             var velocityY = myPlayer!.physicsBody!.velocity.dy
             
-            if velocityX.abs() > (myGameScene!.leavingVelocity.dx / speedReductionFactor).abs(){
-                velocityX = myGameScene!.leavingVelocity.dx / speedReductionFactor
+            //(myGameScene!.leavingVelocity.dx / speedReductionFactor).abs(){
+            if velocityX.abs() > (myGameScene.leavingVelocity.dx / speedReductionFactor).abs(){
+                velocityX = myGameScene.leavingVelocity.dx / speedReductionFactor//myGameScene!.leavingVelocity.dx / speedReductionFactor
             }
-            if velocityY.abs() > (myGameScene!.leavingVelocity.dy / speedReductionFactor).abs(){
-                velocityY = myGameScene!.leavingVelocity.dy / speedReductionFactor
+            //(myGameScene!.leavingVelocity.dy / speedReductionFactor).abs(){
+            if velocityY.abs() > (myGameScene.leavingVelocity.dy / speedReductionFactor).abs(){
+                velocityY = myGameScene.leavingVelocity.dy / speedReductionFactor//myGameScene!.leavingVelocity.dy / speedReductionFactor
             }
             
                 #if os(OSX)
@@ -1362,12 +1654,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
         }
     }
-    
+    var hasChangedGlobalBackground:Bool = false
     func renderer(aRenderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
         //****
         //checkPanGestureDuringActiveGame() //with map off
         // add a timer if going to use this function
         //***
+        
+        if isGameOver && !hasChangedGlobalBackground{
+            hasChangedGlobalBackground = true
+        }
+    
+        
+        if hasGameEnded{
+            hasChangedGlobalBackground = false
+            self.backToTitleScreen()
+            return
+        }
+        
+        if myGameScene.willChangeBackground{
+            updateBackgroundImage(myGameScene.level)
+            self.myMaze = myGameScene.myMaze
+            
+            myGameScene.willChangeBackground = false
+        }
         
         
         self.animationUpdate()
@@ -1380,6 +1690,21 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         self.playerUpdate()
         
         self.cameraUpdate(time)
+        
+        // ******* update background stars to pause during map
+        
+            if !isShowingMap{
+                //emittorNode.position.z = -1
+                //particleSystem.speedFactor = 1
+            }else{
+                //particleSystem.reset()
+                //emittorNode.position.z = myCameraNode.position.z + 15
+                //particleSystem.speedFactor = 0
+            }
+        
+        
+        // ***********************
+        
         
     }
     
@@ -1397,13 +1722,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func renderer(aRenderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: NSTimeInterval) {
         
+        
+        
     }
     //******************************
     //*****************************
     
     
     func addPlayerNode(){
-        
+        myPlayerNode = nil
         myPlayerNode = SCNNode()
         
         let player = myPlayerNode
@@ -1430,11 +1757,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         }
         
         
-        
-        if myGameScene.playerLivesMAX > 1{
+        if myGameScene.playerLivesMAX > 1{//myGameScene.playerLivesMAX > 1{
             myPlayerTailNodeArray = []
             
-            for life in 0...(myGameScene.playerLivesMAX - 2){
+            for life in 0...(myGameScene.playerLivesMAX - 2){//(myGameScene.playerLivesMAX - 2){
                 
                 myPlayerTailNodeArray.append(addPlayerTailNode())
                 myPlayerTailNodeArray[life].hidden = true
@@ -1444,18 +1770,48 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
     }
     
+    func setupBackground(){
     
+        myScene.rootNode.addChildNode(backgroundNode)
+        backgroundNode.geometry = SCNSphere(radius: 750)
+        backgroundNode.position = SCNVector3(x: 0, y: 0, z: -200)
+        
+        
+        #if os(iOS)
+            backgroundNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(M_PI))
+            
+        #elseif os(OSX)
+            backgroundNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: CGFloat(M_PI))
+            
+        #endif
+        
+        let myMaterial = imageData[(LEVEL - 1) % 10 ]
+        backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
+        backgroundNode.geometry!.firstMaterial!.doubleSided = true
+    }
     
+    func updateBackgroundImage(level:Int){
+        
+        let myMaterial = imageData[(level - 1) % 10 ]
+        backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
+    }
     
     
     func setupEnvironment(){
         let myTestTrap = SCNNode()
         self.myStageNode = myTestTrap
+        myPlayer = nil
+        myMaze = nil
         
-        if myGameScene == nil{
-            myGameScene = GameScene(size: CGSize(width: 100, height: 100))
-        }
-        gameScene = self.myGameScene
+        //gameScene = nil
+        
+        //myGameScene = nil
+        myGameScene = GameScene(size: CGSize(width: 100, height: 100))
+        gameScene = myGameScene
+        //gameScene = myGameScene
+        self.myMaze = myGameScene.myMaze
+        
+        
         let materialScene = myGameScene
         
         myTestTrap.geometry = SCNPlane(width: 10, height: 10)
@@ -1490,7 +1846,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             myCamera = SCNCamera()
             myCamera.xFov = 40
             myCamera.yFov = 40
-            myCamera.zFar = 110
+            myCamera.zFar = 10000//110
             myCameraNode = SCNNode()
             myCameraNode.camera = myCamera
             
@@ -1519,7 +1875,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func setupDebugDisplay(){
         // show statistics such as fps and timing information
-        self.gameView.showsStatistics = true
+        //self.gameView.showsStatistics = true
     }
     
     

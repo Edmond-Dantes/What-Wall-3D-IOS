@@ -45,14 +45,15 @@ var myGravityFieldNode = SKFieldNode()
 
 var LEVEL:Int = 1
 var STAGE:Int = 0
+var START_LIVES:Int = 9
 //var levelExitArray:[SmashBlock.blockPosition] = []
 
 
 
 //#if os(iOS)
 
-var myRestartLabel:SKLabelNode = SKLabelNode()
-var myLevelNumberLabel:SKLabelNode = SKLabelNode()
+var myRestartLabel:SKLabelNode! //= SKLabelNode()
+var myLevelNumberLabel:SKLabelNode! //= SKLabelNode()
 
 
 extension SKSpriteNode{
@@ -87,6 +88,9 @@ var gameDifficultySetting:difficultySetting = .hard
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    
+    var myMaze:Maze? = nil
+    
     var myPlayerNodeCopy:SCNNode! = SCNNode()
     
     let centerNode = SKNode()
@@ -107,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //private let CONSTANT_WALLSPEED = 1000
     var currentStage:Int = 0 //updated in stageUpLevelUp function
-    private var level:Int = 1//60
+    /*private*/ var level:Int = 1//60  //could use LEVEL globally instead of public gamescene level
     /*private*/ var playerLives:Int = 9
     /*private*/ let playerLivesMAX:Int = 9
     private var stageCount:Int = 0
@@ -164,10 +168,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.init(size: size)//override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
+        /*
+        self.level = 1
+        LEVEL = self.level //1
+        self.playerLives = playerLivesMAX
+
+        self.isFirstRound = true
+        self.isFirstRoundStarted = false
+        */
         
         self.backgroundColor = SKColor.clearColor()
         
-        myLevelNumberLabel.text = "LEVEL \(LEVEL)";
+        myPlayer = nil
         
         if myPlayer == nil{
             
@@ -185,12 +197,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         myLevelNumberLabel.zPosition = -100
         world.addChild(myLevelNumberLabel)
             
-        LEVEL = self.level
+        self.level = LEVEL
+        self.playerLives = START_LIVES
+            
         myLevelNumberLabel.text = "LEVEL \(LEVEL)"
-/************/
-            myLevelNumberLabel.hidden = true
-/************/
-        //Single smash trap box area contained in a SKSpriteNode
+        myLevelNumberLabel.hidden = true
         
         
         //Dictionary to hold the corner block objects
@@ -247,8 +258,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //world.addChild(myPresentationPlayer!)
             myPlayerTail = []
             myPresentationTail = []
-            if playerLivesMAX > 1{
-                for life in 0...(playerLivesMAX - 2){
+            if playerLivesMAX > 1{ //playerLivesMAX > 1{
+                for life in 0...(playerLivesMAX - 2){ //0...(playerLivesMAX - 2){
                     myPlayerTail.append(Player(r: radius))
                     myPresentationTail.append(myPlayerTail[life].clone(radius))
                 }
@@ -396,6 +407,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func reloadSceneTime() {
+        
         WALLSPEED = CONSTANT_WALLSPEED
         myGravityFieldNode.strength = 9.8 * Float(SPEED_PERCENTAGE)
         mySmashBlocks[self.exitBlock]!.color = self.wallColor
@@ -1017,9 +1029,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func updatePresentationLayer(){
     
-        if myPlayer!.isDying{
+        //if myPlayer!.isDying{
          //   return
-        }
+       // }
         //for-in loop to add the corners to the scene
         for (position ,corner) in myCorners {
             myPresentationCorners[position]!.position = corner.position
@@ -1138,37 +1150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.reloadSceneTime()
                     
                     //clear tail pieces first then add back based on the lives
-                    for tailPiece in myPlayerTail{
-                        if tailPiece.parent != nil{
-                            tailPiece.removeFromParent()
-                        }
-                    }
-                    for tailPiece in myPresentationTail{
-                        if tailPiece.parent != nil{
-                            tailPiece.removeFromParent()
-                        }
-                    }
-                    //adding player and tail back
-                    self.addChild(player)
-                    world.addChild(myPresentationPlayer!)
-                    myTailGravityFieldNode.removeFromParent()
-                    player.addChild(myTailGravityFieldNode)
-                    myTailGravityFieldNode.position = CGPoint(x: 0, y: 0)
-                    
-                    if playerLives > 1{
-                        for tailIndex in 0...playerLives - 2{
-                            
-                            let tailPiece = myPlayerTail[tailIndex]
-                            if tailPiece.parent == nil{
-                                player.addChild(tailPiece)
-                            }
-                            
-                            let presentationTailPiece = myPresentationTail[tailIndex]
-                            if presentationTailPiece.parent == nil{
-                                myPresentationPlayer!.addChild(presentationTailPiece)
-                            }
-                        }
-                    }
+                    self.reloadForPlayerLives(player)
                     
                     
                     player.position = player.originalPosition
@@ -1232,8 +1214,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
+    }
+    
+    private func reloadForPlayerLives(player:Player){
+        //clear tail pieces first then add back based on the lives
+        for tailPiece in myPlayerTail{
+            if tailPiece.parent != nil{
+                tailPiece.removeFromParent()
+            }
+        }
+        for tailPiece in myPresentationTail{
+            if tailPiece.parent != nil{
+                tailPiece.removeFromParent()
+            }
+        }
+        //adding player and tail back
+        self.addChild(player)
+        world.addChild(myPresentationPlayer!)
+        myTailGravityFieldNode.removeFromParent()
+        player.addChild(myTailGravityFieldNode)
+        myTailGravityFieldNode.position = CGPoint(x: 0, y: 0)
         
-        
+        if playerLives > 1{
+            for tailIndex in 0...playerLives - 2{
+                
+                let tailPiece = myPlayerTail[tailIndex]
+                if tailPiece.parent == nil{
+                    player.addChild(tailPiece)
+                }
+                
+                let presentationTailPiece = myPresentationTail[tailIndex]
+                if presentationTailPiece.parent == nil{
+                    myPresentationPlayer!.addChild(presentationTailPiece)
+                }
+            }
+        }
     }
     
     private func connectPlayerJoints(){
@@ -1708,14 +1723,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.level = 1
         LEVEL = self.level //1
-        self.playerLives = playerLivesMAX
+        //self.playerLives = START_LIVES//playerLivesMAX
         
         
             
         self.isFirstRound = true
         self.isFirstRoundStarted = false
         
-        
+        /*
             if let player = myPlayer{
                 
                 player.position = player.originalPosition
@@ -1756,8 +1771,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
+        */
         
-        self.reloadSceneTime()
+        
+        
+//        self.reloadSceneTime()
+        
+        /*
+        myMaze = nil
+        myPlayer = nil
+        
+        
+        myCorners = [:]
+        myPresentationCorners = [:]
+        
+        mySmashBlocks = [:]
+        myPresentationSmashBlocks = [:]
+        
+        
+        myPlayer = nil
+        myPlayerTail = []
+        myPresentationPlayer = nil
+        myPresentationTail = []
+        tailJoint = []
+        
+        */
+       
+        
+        //var isKeyPressed:[keys:Bool] = [keys.left: false, .right: false, .up: false, .down: false]
+        
+        /*
+        myEmitterNode = nil
+        
+        myGravityFieldNode = SKFieldNode()
+        
+        
+        LEVEL = 1
+        STAGE = 0
+        
+        
+        myRestartLabel = SKLabelNode()
+        myLevelNumberLabel = SKLabelNode()
+        
+        */
+        
         
         self.updateLevelMaze(self.level)
         
@@ -1765,6 +1822,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    var willChangeBackground:Bool = false
     func resetForLevelChange(){
         
         if self.currentStage == myMaze!.exitPoint{
@@ -1775,22 +1833,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if self.islevelChange{
             
+            willChangeBackground = true
             // ****** lives adjustment on level up ****
             if gameDifficultySetting == .easy{
                 
-                self.playerLives = self.playerLivesMAX
+                self.playerLives = START_LIVES//self.playerLivesMAX
                 
             }else if gameDifficultySetting == .hard{
                 
                 self.playerLives = self.playerLives + 4
-                if self.playerLives > playerLivesMAX{
-                    self.playerLives = playerLivesMAX
+                if self.playerLives > START_LIVES{//playerLivesMAX{
+                    self.playerLives = START_LIVES//playerLivesMAX
                 }
                 
             }else if gameDifficultySetting == .ultraHard{
                 self.playerLives = self.playerLives + 2
-                if self.playerLives > playerLivesMAX{
-                    self.playerLives = playerLivesMAX
+                if self.playerLives > START_LIVES{//playerLivesMAX{
+                    self.playerLives = START_LIVES//playerLivesMAX
                 }
             }
             // ****************************************

@@ -12,6 +12,20 @@ class GameView: SCNView {
     
     #if os(iOS)
     
+    weak var controller:GameViewController!
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        if controller.isShowingMap{
+            
+            
+            controller.panVelocity.y = 0
+            controller.panVelocity.x = 0
+        }
+    }
+    
+    
+    
     #elseif os(OSX)
     
     override func mouseUp(theEvent: NSEvent) {

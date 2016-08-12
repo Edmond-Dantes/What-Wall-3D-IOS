@@ -24,12 +24,14 @@ extension Array {
     }
 }
 
-var mySimpleMazeCalculator = [Int]()
+//var mySimpleMazeCalculator = [Int]()
 
-var myMaze:Maze? = nil
+//var myMaze:Maze? = nil
 
 
 class Maze: SCNNode {
+    
+    var mySimpleMazeCalculator = [Int]()
     
     var level: Int = 0
     #if os(iOS)

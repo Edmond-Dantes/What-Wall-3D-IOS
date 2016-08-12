@@ -12,7 +12,7 @@ import SpriteKit
 
 
 
-var isChoosingDifficulty:Bool = true
+var isChoosingDifficulty:Bool = false//true
 
 var isGameOver:Bool = false
 
@@ -38,11 +38,7 @@ class HudOverlay: SKScene {
         super.init(size: size)//override func didMoveToView(view: SKView) {
         
         self.level = LEVEL
-        //self.stage = STAGE
         
-        
-        
-        //self.levelNumberLabel = myLevelNumberLabel
         self.levelNumberLabel.fontName = "DINAlternate-Bold"//"Chalkduster"
         self.levelNumberLabel.fontSize = 60//65
         self.levelNumberLabel.position = CGPoint(x: self.frame.width/5, y: self.frame.height/10 )//cornerBlockFrame.height)
@@ -104,13 +100,17 @@ class HudOverlay: SKScene {
             self.ultraHardLabel.fontColor = SKColor.redColor()
             self.ultraHardLabel.hidden = false //true
             
+            //************************
+            // moved difficulty choices to the options screen
+            /*
             self.easyLabel.removeFromParent()
             self.hardLabel.removeFromParent()
             self.ultraHardLabel.removeFromParent()
             self.addChild(self.easyLabel)
             self.addChild(self.hardLabel)
             self.addChild(self.ultraHardLabel)
-            
+            */
+            //************************
             
             
             

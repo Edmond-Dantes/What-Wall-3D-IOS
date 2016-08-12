@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46C04FB791BE7A44015DB168 /* Pods_What_Wall_3D_IOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52D6E6D431E813F292AFE5A /* Pods_What_Wall_3D_IOSTests.framework */; };
 		5E6BC1261CD751DB00F6FF05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1251CD751DB00F6FF05 /* AppDelegate.swift */; };
 		5E6BC1281CD751DB00F6FF05 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1271CD751DB00F6FF05 /* art.scnassets */; };
 		5E6BC12A1CD751DB00F6FF05 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1291CD751DB00F6FF05 /* GameViewController.swift */; };
@@ -30,10 +31,21 @@
 		5E6BC1A61CD7723200F6FF05 /* MyParticleSystem2.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */; };
 		5E6BC1A71CD7723200F6FF05 /* MyParticleSystem3.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */; };
 		5E6BC1A81CD7723200F6FF05 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1921CD7723200F6FF05 /* Player.swift */; };
-		5E6BC1A91CD7723200F6FF05 /* skeletonarm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1931CD7723200F6FF05 /* skeletonarm.jpg */; };
 		5E6BC1AA1CD7723200F6FF05 /* SmashBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1941CD7723200F6FF05 /* SmashBlock.swift */; };
 		5E6BC1AB1CD7723200F6FF05 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1951CD7723200F6FF05 /* spark.png */; };
 		5E6BC1AC1CD7723200F6FF05 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1961CD7723200F6FF05 /* star.png */; };
+		7D6AA26DA8AD8AA9A70703C8 /* Pods_What_Wall_3D_IOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2ED88C241346C206069170C /* Pods_What_Wall_3D_IOSUITests.framework */; };
+		8505160D1D3F104D004D8047 /* NasaAPIAccountInfo in Resources */ = {isa = PBXBuildFile; fileRef = 8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */; };
+		8542FEBC1D465F2B0080F505 /* catseye3_hst_800.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8542FEBB1D465F2B0080F505 /* catseye3_hst_800.jpg */; };
+		855A3BE61D58551A008AF847 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BE51D58551A008AF847 /* GoogleService-Info.plist */; };
+		855A3BEE1D58CCD0008AF847 /* OptionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */; };
+		855A3BF21D5B536A008AF847 /* NASA images in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BF11D5B536A008AF847 /* NASA images */; };
+		855A3BF41D5C826D008AF847 /* NASAImages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BF31D5C826D008AF847 /* NASAImages.plist */; };
+		855A3BF61D5DFB18008AF847 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BF51D5DFB18008AF847 /* RootViewController.swift */; };
+		858C5BA31CFEFDE200180C2B /* Options.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858C5BA21CFEFDE200180C2B /* Options.plist */; };
+		85F9EEA61D2A9F170033F1F0 /* TitlePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */; };
+		85F9EEAA1D2ACEC90033F1F0 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */; };
+		BAC443EE66F5A67E0DB57DA0 /* Pods_What_Wall_3D_IOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3515F94219850C7CF23BCE6 /* Pods_What_Wall_3D_IOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		19383F67FC5807333BFD78C5 /* Pods-What Wall 3D IOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOSUITests/Pods-What Wall 3D IOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4465DEA6E3A4A8723CEF6DEA /* Pods-What Wall 3D IOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOSTests/Pods-What Wall 3D IOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E6BC1221CD751DB00F6FF05 /* What Wall 3D IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "What Wall 3D IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6BC1251CD751DB00F6FF05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E6BC1271CD751DB00F6FF05 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -83,10 +97,26 @@
 		5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem2.scnp; sourceTree = "<group>"; };
 		5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem3.scnp; sourceTree = "<group>"; };
 		5E6BC1921CD7723200F6FF05 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		5E6BC1931CD7723200F6FF05 /* skeletonarm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = skeletonarm.jpg; sourceTree = "<group>"; };
 		5E6BC1941CD7723200F6FF05 /* SmashBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmashBlock.swift; sourceTree = "<group>"; };
 		5E6BC1951CD7723200F6FF05 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		5E6BC1961CD7723200F6FF05 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NasaAPIAccountInfo; sourceTree = "<group>"; };
+		8542FEBB1D465F2B0080F505 /* catseye3_hst_800.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = catseye3_hst_800.jpg; path = ../../../catseye3_hst_800.jpg; sourceTree = "<group>"; };
+		855A3BE51D58551A008AF847 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDetailsViewController.swift; sourceTree = "<group>"; };
+		855A3BF11D5B536A008AF847 /* NASA images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "NASA images"; path = "../../../../Documents/NASA images"; sourceTree = "<group>"; };
+		855A3BF31D5C826D008AF847 /* NASAImages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NASAImages.plist; sourceTree = "<group>"; };
+		855A3BF51D5DFB18008AF847 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		858C5BA21CFEFDE200180C2B /* Options.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Options.plist; sourceTree = "<group>"; };
+		85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitlePageViewController.swift; sourceTree = "<group>"; };
+		85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		8AAE02ED659CC14A36048DF3 /* Pods-What Wall 3D IOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOSTests/Pods-What Wall 3D IOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		9D3150717E9FBAB83DDF75BE /* Pods-What Wall 3D IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOS/Pods-What Wall 3D IOS.debug.xcconfig"; sourceTree = "<group>"; };
+		AB3265D4602F2CF5DB8AF7BB /* Pods-What Wall 3D IOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOSUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOSUITests/Pods-What Wall 3D IOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C3515F94219850C7CF23BCE6 /* Pods_What_Wall_3D_IOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_What_Wall_3D_IOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D52D6E6D431E813F292AFE5A /* Pods_What_Wall_3D_IOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_What_Wall_3D_IOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2ED88C241346C206069170C /* Pods_What_Wall_3D_IOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_What_Wall_3D_IOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3337401632092CF164670B7 /* Pods-What Wall 3D IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOS/Pods-What Wall 3D IOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAC443EE66F5A67E0DB57DA0 /* Pods_What_Wall_3D_IOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C04FB791BE7A44015DB168 /* Pods_What_Wall_3D_IOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D6AA26DA8AD8AA9A70703C8 /* Pods_What_Wall_3D_IOSUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +154,8 @@
 				5E6BC13B1CD751DB00F6FF05 /* What Wall 3D IOSTests */,
 				5E6BC1461CD751DB00F6FF05 /* What Wall 3D IOSUITests */,
 				5E6BC1231CD751DB00F6FF05 /* Products */,
+				B45D2F8A218F937A490AAE02 /* Pods */,
+				89817678FF83ADF261805111 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,11 +172,11 @@
 		5E6BC1241CD751DB00F6FF05 /* What Wall 3D IOS */ = {
 			isa = PBXGroup;
 			children = (
+				8542FEBB1D465F2B0080F505 /* catseye3_hst_800.jpg */,
 				5E6BC1821CD7723200F6FF05 /* Color.swift */,
 				5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */,
 				5E6BC1841CD7723200F6FF05 /* GameScene.sks */,
 				5E6BC1851CD7723200F6FF05 /* GameScene.swift */,
-				5E6BC1861CD7723200F6FF05 /* GameView.swift */,
 				5E6BC1871CD7723200F6FF05 /* HudOverlay.swift */,
 				5E6BC1881CD7723200F6FF05 /* JoyStick.swift */,
 				5E6BC1891CD7723200F6FF05 /* Maze.swift */,
@@ -152,17 +187,26 @@
 				5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */,
 				5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */,
 				5E6BC1921CD7723200F6FF05 /* Player.swift */,
-				5E6BC1931CD7723200F6FF05 /* skeletonarm.jpg */,
-				5E6BC1941CD7723200F6FF05 /* SmashBlock.swift */,
 				5E6BC1951CD7723200F6FF05 /* spark.png */,
+				5E6BC1941CD7723200F6FF05 /* SmashBlock.swift */,
 				5E6BC1961CD7723200F6FF05 /* star.png */,
 				5E6BC1251CD751DB00F6FF05 /* AppDelegate.swift */,
-				5E6BC1271CD751DB00F6FF05 /* art.scnassets */,
+				5E6BC1861CD7723200F6FF05 /* GameView.swift */,
 				5E6BC1291CD751DB00F6FF05 /* GameViewController.swift */,
 				5E6BC12B1CD751DB00F6FF05 /* Main.storyboard */,
-				5E6BC12E1CD751DB00F6FF05 /* Assets.xcassets */,
+				855A3BF51D5DFB18008AF847 /* RootViewController.swift */,
 				5E6BC1301CD751DB00F6FF05 /* LaunchScreen.storyboard */,
+				85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */,
+				85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */,
+				855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */,
 				5E6BC1331CD751DB00F6FF05 /* Info.plist */,
+				855A3BE51D58551A008AF847 /* GoogleService-Info.plist */,
+				858C5BA21CFEFDE200180C2B /* Options.plist */,
+				8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */,
+				855A3BF31D5C826D008AF847 /* NASAImages.plist */,
+				5E6BC1271CD751DB00F6FF05 /* art.scnassets */,
+				5E6BC12E1CD751DB00F6FF05 /* Assets.xcassets */,
+				855A3BF11D5B536A008AF847 /* NASA images */,
 			);
 			path = "What Wall 3D IOS";
 			sourceTree = "<group>";
@@ -185,6 +229,29 @@
 			path = "What Wall 3D IOSUITests";
 			sourceTree = "<group>";
 		};
+		89817678FF83ADF261805111 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3515F94219850C7CF23BCE6 /* Pods_What_Wall_3D_IOS.framework */,
+				D52D6E6D431E813F292AFE5A /* Pods_What_Wall_3D_IOSTests.framework */,
+				F2ED88C241346C206069170C /* Pods_What_Wall_3D_IOSUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B45D2F8A218F937A490AAE02 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9D3150717E9FBAB83DDF75BE /* Pods-What Wall 3D IOS.debug.xcconfig */,
+				F3337401632092CF164670B7 /* Pods-What Wall 3D IOS.release.xcconfig */,
+				4465DEA6E3A4A8723CEF6DEA /* Pods-What Wall 3D IOSTests.debug.xcconfig */,
+				8AAE02ED659CC14A36048DF3 /* Pods-What Wall 3D IOSTests.release.xcconfig */,
+				AB3265D4602F2CF5DB8AF7BB /* Pods-What Wall 3D IOSUITests.debug.xcconfig */,
+				19383F67FC5807333BFD78C5 /* Pods-What Wall 3D IOSUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -192,9 +259,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E6BC14C1CD751DB00F6FF05 /* Build configuration list for PBXNativeTarget "What Wall 3D IOS" */;
 			buildPhases = (
+				8E390B8DAFF57A3A2F02E10A /* [CP] Check Pods Manifest.lock */,
 				5E6BC11E1CD751DB00F6FF05 /* Sources */,
 				5E6BC11F1CD751DB00F6FF05 /* Frameworks */,
 				5E6BC1201CD751DB00F6FF05 /* Resources */,
+				338CEC0B37A9D7B4151B5CFE /* [CP] Embed Pods Frameworks */,
+				A42DB2207DD57978B451F3F5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,9 +279,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E6BC14F1CD751DB00F6FF05 /* Build configuration list for PBXNativeTarget "What Wall 3D IOSTests" */;
 			buildPhases = (
+				9D5A7F649DA42C22D81D5925 /* [CP] Check Pods Manifest.lock */,
 				5E6BC1341CD751DB00F6FF05 /* Sources */,
 				5E6BC1351CD751DB00F6FF05 /* Frameworks */,
 				5E6BC1361CD751DB00F6FF05 /* Resources */,
+				A2DE7F27465F03D0E17A43B8 /* [CP] Embed Pods Frameworks */,
+				631116EB98448CA6F587429D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -227,9 +300,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E6BC1521CD751DB00F6FF05 /* Build configuration list for PBXNativeTarget "What Wall 3D IOSUITests" */;
 			buildPhases = (
+				2D3031371AF8F8CB34BC8D1A /* [CP] Check Pods Manifest.lock */,
 				5E6BC13F1CD751DB00F6FF05 /* Sources */,
 				5E6BC1401CD751DB00F6FF05 /* Frameworks */,
 				5E6BC1411CD751DB00F6FF05 /* Resources */,
+				1368C9F93B22236A86301955 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -292,12 +367,17 @@
 			files = (
 				5E6BC1A61CD7723200F6FF05 /* MyParticleSystem2.scnp in Resources */,
 				5E6BC1281CD751DB00F6FF05 /* art.scnassets in Resources */,
+				8505160D1D3F104D004D8047 /* NasaAPIAccountInfo in Resources */,
 				5E6BC1A71CD7723200F6FF05 /* MyParticleSystem3.scnp in Resources */,
+				855A3BF21D5B536A008AF847 /* NASA images in Resources */,
 				5E6BC1AB1CD7723200F6FF05 /* spark.png in Resources */,
-				5E6BC1A91CD7723200F6FF05 /* skeletonarm.jpg in Resources */,
+				8542FEBC1D465F2B0080F505 /* catseye3_hst_800.jpg in Resources */,
 				5E6BC1321CD751DB00F6FF05 /* LaunchScreen.storyboard in Resources */,
 				5E6BC12F1CD751DB00F6FF05 /* Assets.xcassets in Resources */,
+				855A3BF41D5C826D008AF847 /* NASAImages.plist in Resources */,
 				5E6BC1A11CD7723200F6FF05 /* MazeScene.sks in Resources */,
+				855A3BE61D58551A008AF847 /* GoogleService-Info.plist in Resources */,
+				858C5BA31CFEFDE200180C2B /* Options.plist in Resources */,
 				5E6BC1AC1CD7723200F6FF05 /* star.png in Resources */,
 				5E6BC19A1CD7723200F6FF05 /* GameScene.sks in Resources */,
 				5E6BC12D1CD751DB00F6FF05 /* Main.storyboard in Resources */,
@@ -321,23 +401,150 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1368C9F93B22236A86301955 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-What Wall 3D IOSUITests/Pods-What Wall 3D IOSUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D3031371AF8F8CB34BC8D1A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		338CEC0B37A9D7B4151B5CFE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-What Wall 3D IOS/Pods-What Wall 3D IOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		631116EB98448CA6F587429D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-What Wall 3D IOSTests/Pods-What Wall 3D IOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E390B8DAFF57A3A2F02E10A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9D5A7F649DA42C22D81D5925 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A2DE7F27465F03D0E17A43B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-What Wall 3D IOSTests/Pods-What Wall 3D IOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A42DB2207DD57978B451F3F5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-What Wall 3D IOS/Pods-What Wall 3D IOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5E6BC11E1CD751DB00F6FF05 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				5E6BC1AA1CD7723200F6FF05 /* SmashBlock.swift in Sources */,
+				855A3BF61D5DFB18008AF847 /* RootViewController.swift in Sources */,
 				5E6BC19B1CD7723200F6FF05 /* GameScene.swift in Sources */,
 				5E6BC19E1CD7723200F6FF05 /* JoyStick.swift in Sources */,
 				5E6BC19F1CD7723200F6FF05 /* Maze.swift in Sources */,
 				5E6BC1991CD7723200F6FF05 /* CornerBlock.swift in Sources */,
+				85F9EEAA1D2ACEC90033F1F0 /* OptionsViewController.swift in Sources */,
 				5E6BC1A81CD7723200F6FF05 /* Player.swift in Sources */,
 				5E6BC1A01CD7723200F6FF05 /* MazeCell.swift in Sources */,
 				5E6BC12A1CD751DB00F6FF05 /* GameViewController.swift in Sources */,
+				85F9EEA61D2A9F170033F1F0 /* TitlePageViewController.swift in Sources */,
 				5E6BC1261CD751DB00F6FF05 /* AppDelegate.swift in Sources */,
 				5E6BC1A21CD7723200F6FF05 /* MazeScene.swift in Sources */,
 				5E6BC19D1CD7723200F6FF05 /* HudOverlay.swift in Sources */,
 				5E6BC19C1CD7723200F6FF05 /* GameView.swift in Sources */,
+				855A3BEE1D58CCD0008AF847 /* OptionDetailsViewController.swift in Sources */,
 				5E6BC1981CD7723200F6FF05 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,13 +685,14 @@
 		};
 		5E6BC14D1CD751DB00F6FF05 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D3150717E9FBAB83DDF75BE /* Pods-What Wall 3D IOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "What Wall 3D IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.future.What-Wall-3D-IOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aggressiveTurtle.What-Wall-3D-IOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -492,13 +700,14 @@
 		};
 		5E6BC14E1CD751DB00F6FF05 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3337401632092CF164670B7 /* Pods-What Wall 3D IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "What Wall 3D IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.future.What-Wall-3D-IOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aggressiveTurtle.What-Wall-3D-IOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -506,6 +715,7 @@
 		};
 		5E6BC1501CD751DB00F6FF05 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4465DEA6E3A4A8723CEF6DEA /* Pods-What Wall 3D IOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -519,6 +729,7 @@
 		};
 		5E6BC1511CD751DB00F6FF05 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AAE02ED659CC14A36048DF3 /* Pods-What Wall 3D IOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "What Wall 3D IOSTests/Info.plist";
@@ -531,6 +742,7 @@
 		};
 		5E6BC1531CD751DB00F6FF05 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB3265D4602F2CF5DB8AF7BB /* Pods-What Wall 3D IOSUITests.debug.xcconfig */;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = "What Wall 3D IOSUITests/Info.plist";
@@ -544,6 +756,7 @@
 		};
 		5E6BC1541CD751DB00F6FF05 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19383F67FC5807333BFD78C5 /* Pods-What Wall 3D IOSUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "What Wall 3D IOSUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
