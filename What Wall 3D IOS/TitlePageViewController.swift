@@ -89,7 +89,7 @@ class TitlePageViewController: UIViewController {
         print("TITLE PAGE VIEW CONTROLLER")
         
         
-        optionsData = readPropertyList("Options")! as! [String:AnyObject]
+        optionsData = readPropertyList("Options") as! [String:AnyObject]
         imageDataStrings = readPropertyList("NASAImages")! as! [String]
         
         imageData = []
@@ -114,11 +114,17 @@ class TitlePageViewController: UIViewController {
         
         //imageData.shuffle()
         
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        bannerView.loadRequest(GADRequest())
+        if !(optionsData["optionsUnlocked"] as! Bool){
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.rootViewController = self
+            bannerView.loadRequest(GADRequest())
+            bannerView.hidden = false//true
+        }else{
+            bannerView.hidden = true
+        }
         
     }
+    
     
     func readPropertyList(plistName:String)->AnyObject?{//[String:AnyObject]{
         
@@ -138,15 +144,17 @@ class TitlePageViewController: UIViewController {
             
             if !fileManager.fileExistsAtPath(plistDestinationPath!){
                 plistData = NSDictionary(contentsOfFile: plistSourcePath!) as! [String : AnyObject]
-
+                
                 do{
                     try fileManager.copyItemAtPath(plistSourcePath!, toPath: documentDirectory)
                 }catch{
                     print("error copying options plist from bundle to directory: \(error)")
                 }
                 
+                
             }else{
                 plistData = NSDictionary(contentsOfFile: plistDestinationPath!) as! [String : AnyObject]
+                
             }
             data = plistData //as [String:AnyObject]
             return plistData
@@ -200,10 +208,14 @@ class TitlePageViewController: UIViewController {
             
             
         }
-        
+    }
+    
+    @IBAction func testCongratsAction(sender: AnyObject) {
+        self.performSegueWithIdentifier("test", sender: nil)
         
         
     }
+    
     
     var returnedFromGame:Bool = false
     
@@ -239,8 +251,17 @@ class TitlePageViewController: UIViewController {
             
             let optionsVC = segue.destinationViewController as! OptionsViewController
             optionsVC.optionsData = self.optionsData
-            
+            print(optionsVC.optionsData)
             optionsVC.myScene = self.titlePageSCNView.scene!
+            
+            //emittorNode.removeParticleSystem(particleSystem!)
+            
+        }else if segue.identifier == "test" {
+            
+            let testVC = segue.destinationViewController as! CongratulationsViewController
+            testVC.optionsData = self.optionsData
+            print(testVC.optionsData)
+            
             
             //emittorNode.removeParticleSystem(particleSystem!)
             

@@ -33,17 +33,7 @@ class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-/*
-        //self.navigationBarHidden = true
         
-        print("ROOT CONTROLLER")
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        let titleVC = storyboard.instantiateViewControllerWithIdentifier("title")//self.storyboard!.instantiateViewControllerWithIdentifier("title")
-        self.showViewController(titleVC, sender: self)
-        
-        //performSegueWithIdentifier("showTitle", sender: nil)
- */
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -64,6 +54,19 @@ class RootViewController: UIViewController {
     
     */
     
+    func loadPropertyList(plistName:String, propertyListData:AnyObject){
+        
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let plistPath:String? = (documentDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist") 
+        
+        (propertyListData as! NSDictionary).writeToFile(plistPath!, atomically: true)
+        
+    }
+    
+    @IBAction func unwindFromGameBeaten(segue: UIStoryboardSegue){
+        loadPropertyList("Options", propertyListData: self.optionsData)
+    }
+    
     @IBAction func unwindFromTitleToGame(segue: UIStoryboardSegue){
         //performSegueWithIdentifier("showGame", sender: nil)
     }
@@ -76,7 +79,11 @@ class RootViewController: UIViewController {
         //add segue related information
         if segue.identifier! == "showTitle"{
             
-            print("Show Title")
+            //print("Show Title")
+            //let titleVC = segue.destinationViewController as! TitlePageViewController
+            //titleVC.optionsData = self.optionsData
+            
+            //titleVC.loadPropertyList("Options", propertyListData: self.optionsData)
             
         }else if segue.identifier! == "showGame" {
             

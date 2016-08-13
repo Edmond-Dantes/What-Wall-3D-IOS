@@ -1895,9 +1895,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
-            
-            self.updateLevelMaze(self.level)
-            
+            if self.level > 30{
+                self.updateLevelMaze(self.level)
+            }
             self.islevelChange = false
             
             

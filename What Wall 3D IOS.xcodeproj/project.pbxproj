@@ -25,8 +25,6 @@
 		5E6BC19E1CD7723200F6FF05 /* JoyStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1881CD7723200F6FF05 /* JoyStick.swift */; };
 		5E6BC19F1CD7723200F6FF05 /* Maze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1891CD7723200F6FF05 /* Maze.swift */; };
 		5E6BC1A01CD7723200F6FF05 /* MazeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC18A1CD7723200F6FF05 /* MazeCell.swift */; };
-		5E6BC1A11CD7723200F6FF05 /* MazeScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC18B1CD7723200F6FF05 /* MazeScene.sks */; };
-		5E6BC1A21CD7723200F6FF05 /* MazeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC18C1CD7723200F6FF05 /* MazeScene.swift */; };
 		5E6BC1A31CD7723200F6FF05 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */; };
 		5E6BC1A61CD7723200F6FF05 /* MyParticleSystem2.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */; };
 		5E6BC1A71CD7723200F6FF05 /* MyParticleSystem3.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */; };
@@ -36,13 +34,13 @@
 		5E6BC1AC1CD7723200F6FF05 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1961CD7723200F6FF05 /* star.png */; };
 		7D6AA26DA8AD8AA9A70703C8 /* Pods_What_Wall_3D_IOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2ED88C241346C206069170C /* Pods_What_Wall_3D_IOSUITests.framework */; };
 		8505160D1D3F104D004D8047 /* NasaAPIAccountInfo in Resources */ = {isa = PBXBuildFile; fileRef = 8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */; };
-		8542FEBC1D465F2B0080F505 /* catseye3_hst_800.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8542FEBB1D465F2B0080F505 /* catseye3_hst_800.jpg */; };
 		855A3BE61D58551A008AF847 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BE51D58551A008AF847 /* GoogleService-Info.plist */; };
 		855A3BEE1D58CCD0008AF847 /* OptionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */; };
 		855A3BF21D5B536A008AF847 /* NASA images in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BF11D5B536A008AF847 /* NASA images */; };
 		855A3BF41D5C826D008AF847 /* NASAImages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BF31D5C826D008AF847 /* NASAImages.plist */; };
 		855A3BF61D5DFB18008AF847 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BF51D5DFB18008AF847 /* RootViewController.swift */; };
-		858C5BA31CFEFDE200180C2B /* Options.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858C5BA21CFEFDE200180C2B /* Options.plist */; };
+		855A3BF81D5F03BB008AF847 /* CongratulationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BF71D5F03BB008AF847 /* CongratulationsViewController.swift */; };
+		855A3BFA1D5F58A3008AF847 /* Options.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BF91D5F58A3008AF847 /* Options.plist */; };
 		85F9EEA61D2A9F170033F1F0 /* TitlePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */; };
 		85F9EEAA1D2ACEC90033F1F0 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */; };
 		BAC443EE66F5A67E0DB57DA0 /* Pods_What_Wall_3D_IOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3515F94219850C7CF23BCE6 /* Pods_What_Wall_3D_IOS.framework */; };
@@ -91,8 +89,6 @@
 		5E6BC1881CD7723200F6FF05 /* JoyStick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoyStick.swift; sourceTree = "<group>"; };
 		5E6BC1891CD7723200F6FF05 /* Maze.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maze.swift; sourceTree = "<group>"; };
 		5E6BC18A1CD7723200F6FF05 /* MazeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MazeCell.swift; sourceTree = "<group>"; };
-		5E6BC18B1CD7723200F6FF05 /* MazeScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeScene.sks; sourceTree = "<group>"; };
-		5E6BC18C1CD7723200F6FF05 /* MazeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MazeScene.swift; sourceTree = "<group>"; };
 		5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem2.scnp; sourceTree = "<group>"; };
 		5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = MyParticleSystem3.scnp; sourceTree = "<group>"; };
@@ -101,13 +97,13 @@
 		5E6BC1951CD7723200F6FF05 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		5E6BC1961CD7723200F6FF05 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NasaAPIAccountInfo; sourceTree = "<group>"; };
-		8542FEBB1D465F2B0080F505 /* catseye3_hst_800.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = catseye3_hst_800.jpg; path = ../../../catseye3_hst_800.jpg; sourceTree = "<group>"; };
 		855A3BE51D58551A008AF847 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDetailsViewController.swift; sourceTree = "<group>"; };
 		855A3BF11D5B536A008AF847 /* NASA images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "NASA images"; path = "../../../../Documents/NASA images"; sourceTree = "<group>"; };
 		855A3BF31D5C826D008AF847 /* NASAImages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NASAImages.plist; sourceTree = "<group>"; };
 		855A3BF51D5DFB18008AF847 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
-		858C5BA21CFEFDE200180C2B /* Options.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Options.plist; sourceTree = "<group>"; };
+		855A3BF71D5F03BB008AF847 /* CongratulationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CongratulationsViewController.swift; sourceTree = "<group>"; };
+		855A3BF91D5F58A3008AF847 /* Options.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Options.plist; sourceTree = "<group>"; };
 		85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitlePageViewController.swift; sourceTree = "<group>"; };
 		85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		8AAE02ED659CC14A36048DF3 /* Pods-What Wall 3D IOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOSTests/Pods-What Wall 3D IOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,7 +168,6 @@
 		5E6BC1241CD751DB00F6FF05 /* What Wall 3D IOS */ = {
 			isa = PBXGroup;
 			children = (
-				8542FEBB1D465F2B0080F505 /* catseye3_hst_800.jpg */,
 				5E6BC1821CD7723200F6FF05 /* Color.swift */,
 				5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */,
 				5E6BC1841CD7723200F6FF05 /* GameScene.sks */,
@@ -181,8 +176,6 @@
 				5E6BC1881CD7723200F6FF05 /* JoyStick.swift */,
 				5E6BC1891CD7723200F6FF05 /* Maze.swift */,
 				5E6BC18A1CD7723200F6FF05 /* MazeCell.swift */,
-				5E6BC18B1CD7723200F6FF05 /* MazeScene.sks */,
-				5E6BC18C1CD7723200F6FF05 /* MazeScene.swift */,
 				5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */,
 				5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */,
 				5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */,
@@ -193,15 +186,16 @@
 				5E6BC1251CD751DB00F6FF05 /* AppDelegate.swift */,
 				5E6BC1861CD7723200F6FF05 /* GameView.swift */,
 				5E6BC1291CD751DB00F6FF05 /* GameViewController.swift */,
+				855A3BF71D5F03BB008AF847 /* CongratulationsViewController.swift */,
 				5E6BC12B1CD751DB00F6FF05 /* Main.storyboard */,
 				855A3BF51D5DFB18008AF847 /* RootViewController.swift */,
 				5E6BC1301CD751DB00F6FF05 /* LaunchScreen.storyboard */,
 				85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */,
 				85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */,
 				855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */,
+				855A3BF91D5F58A3008AF847 /* Options.plist */,
 				5E6BC1331CD751DB00F6FF05 /* Info.plist */,
 				855A3BE51D58551A008AF847 /* GoogleService-Info.plist */,
-				858C5BA21CFEFDE200180C2B /* Options.plist */,
 				8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */,
 				855A3BF31D5C826D008AF847 /* NASAImages.plist */,
 				5E6BC1271CD751DB00F6FF05 /* art.scnassets */,
@@ -371,13 +365,11 @@
 				5E6BC1A71CD7723200F6FF05 /* MyParticleSystem3.scnp in Resources */,
 				855A3BF21D5B536A008AF847 /* NASA images in Resources */,
 				5E6BC1AB1CD7723200F6FF05 /* spark.png in Resources */,
-				8542FEBC1D465F2B0080F505 /* catseye3_hst_800.jpg in Resources */,
 				5E6BC1321CD751DB00F6FF05 /* LaunchScreen.storyboard in Resources */,
+				855A3BFA1D5F58A3008AF847 /* Options.plist in Resources */,
 				5E6BC12F1CD751DB00F6FF05 /* Assets.xcassets in Resources */,
 				855A3BF41D5C826D008AF847 /* NASAImages.plist in Resources */,
-				5E6BC1A11CD7723200F6FF05 /* MazeScene.sks in Resources */,
 				855A3BE61D58551A008AF847 /* GoogleService-Info.plist in Resources */,
-				858C5BA31CFEFDE200180C2B /* Options.plist in Resources */,
 				5E6BC1AC1CD7723200F6FF05 /* star.png in Resources */,
 				5E6BC19A1CD7723200F6FF05 /* GameScene.sks in Resources */,
 				5E6BC12D1CD751DB00F6FF05 /* Main.storyboard in Resources */,
@@ -541,8 +533,8 @@
 				5E6BC12A1CD751DB00F6FF05 /* GameViewController.swift in Sources */,
 				85F9EEA61D2A9F170033F1F0 /* TitlePageViewController.swift in Sources */,
 				5E6BC1261CD751DB00F6FF05 /* AppDelegate.swift in Sources */,
-				5E6BC1A21CD7723200F6FF05 /* MazeScene.swift in Sources */,
 				5E6BC19D1CD7723200F6FF05 /* HudOverlay.swift in Sources */,
+				855A3BF81D5F03BB008AF847 /* CongratulationsViewController.swift in Sources */,
 				5E6BC19C1CD7723200F6FF05 /* GameView.swift in Sources */,
 				855A3BEE1D58CCD0008AF847 /* OptionDetailsViewController.swift in Sources */,
 				5E6BC1981CD7723200F6FF05 /* Color.swift in Sources */,

@@ -44,11 +44,14 @@ class OptionsViewController: UIViewController {
         optionsPageSCNView.scene = myScene
         optionsPageSCNView.backgroundColor = UIColor.blackColor()
         
-        
-        
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        bannerView.loadRequest(GADRequest())
+        if !(optionsData["optionsUnlocked"] as! Bool){
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.rootViewController = self
+            bannerView.loadRequest(GADRequest())
+            bannerView.hidden = false//true
+        }else{
+            bannerView.hidden = true
+        }
         
     }
     
@@ -93,6 +96,8 @@ class OptionsViewController: UIViewController {
             
             let optionDetailsVC = segue.destinationViewController as! OptionDetailsViewController
             optionDetailsVC.optionsData = self.optionsData
+            
+            print(optionDetailsVC.optionsData)
             
             optionDetailsVC.myScene = self.optionsPageSCNView.scene!
             

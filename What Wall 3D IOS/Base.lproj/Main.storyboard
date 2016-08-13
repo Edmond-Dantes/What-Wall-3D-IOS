@@ -49,6 +49,7 @@
                         <outlet property="bannerView" destination="v0o-tg-CqU" id="lTI-Ak-0h0"/>
                         <outlet property="gameView" destination="FCx-jA-02u" id="UQY-tb-4Hx"/>
                         <segue destination="NmB-LO-UAC" kind="unwind" identifier="unwindFromGame" animates="NO" unwindAction="unwindFromGameToTitle:" id="7o1-xS-QLE"/>
+                        <segue destination="4wr-6L-wcL" kind="show" identifier="GameBeatenScreen" animates="NO" id="6YA-l3-Za3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hM1-4j-n5t" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -67,7 +68,22 @@
                     <view key="view" contentMode="scaleToFill" id="ecE-wW-Ggd">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.aggressiveturtle.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZA5-F1-uZK">
+                                <rect key="frame" x="197" y="559" width="206" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="206" id="T40-sS-Nyt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ZA5-F1-uZK" secondAttribute="bottom" constant="20" symbolic="YES" id="2HM-7w-05e"/>
+                            <constraint firstItem="ZA5-F1-uZK" firstAttribute="centerX" secondItem="ecE-wW-Ggd" secondAttribute="centerX" id="8EK-ey-6RN"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="s6G-kK-mO7" kind="show" identifier="showGame" animates="NO" id="3Z8-zc-F7C"/>
@@ -106,6 +122,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WHAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yg3-fl-KY9">
                                         <rect key="frame" x="0.0" y="0.0" width="309" height="137"/>
+                                        <gestureRecognizers/>
                                         <fontDescription key="fontDescription" name="IowanOldStyle-BoldItalic" family="Iowan Old Style" pointSize="100"/>
                                         <color key="textColor" red="1" green="0.81048276100855632" blue="0.058521001936069683" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -117,6 +134,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="vAl-Hr-V5y" appends="YES" id="UMM-zM-sO8"/>
+                                </connections>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Oci-eq-r2e">
                                 <rect key="frame" x="20" y="343" width="560" height="249"/>
@@ -189,10 +209,16 @@
                         <outlet property="titlePageSCNView" destination="uyN-gI-esk" id="r2k-Ef-1Ua"/>
                         <segue destination="tfP-tp-4h0" kind="show" identifier="optionsSegue" animates="NO" id="Tz0-mc-gJw"/>
                         <segue destination="A3f-kw-81y" kind="unwind" identifier="startGameSegue" animates="NO" unwindAction="unwindFromTitleToGame:" id="Q4P-9N-Zxe"/>
+                        <segue destination="4wr-6L-wcL" kind="show" identifier="test" animates="NO" id="ARa-vM-ENI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TSy-IR-0QQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="A3f-kw-81y" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="vAl-Hr-V5y">
+                    <connections>
+                        <action selector="testCongratsAction:" destination="gAE-jQ-9IK" id="IiR-HD-Umd"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-585" y="941"/>
         </scene>
@@ -305,6 +331,51 @@
             </objects>
             <point key="canvasLocation" x="135" y="941"/>
         </scene>
+        <!--Congratulations View Controller-->
+        <scene sceneID="xjY-Cn-bBf">
+            <objects>
+                <viewController id="4wr-6L-wcL" customClass="CongratulationsViewController" customModule="What_Wall_3D_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Yko-vR-HQa"/>
+                        <viewControllerLayoutGuide type="bottom" id="iZz-pZ-dPo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="amf-ga-6ya">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOU BEAT THE GAME!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jde-jF-WQh">
+                                <rect key="frame" x="0.0" y="225" width="600" height="149"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="jde-jF-WQh" firstAttribute="centerY" secondItem="amf-ga-6ya" secondAttribute="centerY" id="L2l-wF-eA6"/>
+                            <constraint firstAttribute="trailing" secondItem="jde-jF-WQh" secondAttribute="trailing" id="MhN-Ag-OJT"/>
+                            <constraint firstItem="jde-jF-WQh" firstAttribute="top" secondItem="Yko-vR-HQa" secondAttribute="bottom" constant="205" id="amh-1t-TYJ"/>
+                            <constraint firstItem="jde-jF-WQh" firstAttribute="leading" secondItem="amf-ga-6ya" secondAttribute="leading" id="rTh-X9-sFQ"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="sUc-De-tsb" appends="YES" id="OUJ-LF-sIB"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <segue destination="BcV-cd-bBw" kind="unwind" identifier="unwindFromGameBeaten" animates="NO" unwindAction="unwindFromGameBeaten:" id="0nA-X4-bWV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X9y-MG-00m" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="BcV-cd-bBw" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="sUc-De-tsb">
+                    <connections>
+                        <action selector="returnToTitleTapAction:" destination="4wr-6L-wcL" id="d1H-QH-oHO"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="848" y="201"/>
+        </scene>
         <!--Option Details View Controller-->
         <scene sceneID="3S2-JE-Tq7">
             <objects>
@@ -386,4 +457,7 @@
             <point key="canvasLocation" x="868" y="941"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ARa-vM-ENI"/>
+    </inferredMetricsTieBreakers>
 </document>

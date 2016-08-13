@@ -37,25 +37,29 @@ class OptionDetailsViewController: UIViewController, UIPickerViewDataSource, UIP
         
         if maxPickerViewRows == 3{ //difficulty
             
-            let optionDifficulty:Int = optionsData["difficulty"] as! Int - 1
+            let optionDifficulty:Int = self.optionsData["difficulty"] as! Int - 1
             pickerView.selectRow(optionDifficulty, inComponent: 0, animated: false)
             
         }else if maxPickerViewRows == 30{ //levels
             
-            let optionLevel:Int = optionsData["level"] as! Int - 1
+            let optionLevel:Int = (optionsData["level"] as! Int) - 1
             pickerView.selectRow(optionLevel, inComponent: 0, animated: false)
         }else if maxPickerViewRows == 9{ //lives
             
-            let optionLives:Int = optionsData["lives"] as! Int - 1
+            let optionLives:Int = (optionsData["lives"] as! Int) - 1
             pickerView.selectRow(optionLives, inComponent: 0, animated: false)
         }
         optionDetailsSCNView.scene = myScene
         optionDetailsSCNView.backgroundColor = UIColor.blackColor()
         
-        
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        bannerView.loadRequest(GADRequest())
+        if !(optionsData["optionsUnlocked"] as! Bool){
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.rootViewController = self
+            bannerView.loadRequest(GADRequest())
+            bannerView.hidden = false//true
+        }else{
+            bannerView.hidden = true
+        }
         
         
         

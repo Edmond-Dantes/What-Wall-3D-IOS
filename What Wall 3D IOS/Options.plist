@@ -4,15 +4,11 @@
 <dict>
 	<key>level</key>
 	<integer>1</integer>
-	<key>password</key>
-	<integer>0</integer>
 	<key>difficulty</key>
-	<integer>3</integer>
+	<integer>1</integer>
 	<key>lives</key>
-	<integer>9</integer>
+	<integer>5</integer>
 	<key>optionsUnlocked</key>
-	<true/>
-	<key>nasaAuthKey</key>
-	<string>Tw8by8tPf3lpmWWM8tgdQpAk8FdRAe0UkQ0lXXPG</string>
+	<false/>
 </dict>
 </plist>

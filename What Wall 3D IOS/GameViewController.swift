@@ -233,22 +233,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         if segue.identifier! == "unwindFromGame"{
             
-            //let titleVC = segue.destinationViewController as! TitlePageViewController
-            //self.emittorNode.removeFromParentNode()
-            //titleVC.emittorNode = self.emittorNode
-            //titleVC.titlePageSCNView.scene?.rootNode.addChildNode(self.emittorNode)
-            //titleVC.emittorNode.position = SCNVector3(x: 0, y: 0, z: 0)
             self.particleSystem?.reset()//titleVC.particleSystem!.reset()
-            
-            //self.imageData.shuffle()
-            
-            //titleVC.imageData = self.imageData
-            
-            //titleVC.returnedFromGame = true
-            //let myMaterial = imageData[0]//titleVC.imageData[0]
-            //titleVC.backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
-            
-            
             
         }
         
@@ -319,10 +304,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         setupGameOptionsLives()
         //************************
         
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        bannerView.loadRequest(GADRequest())
-        
+        if !(optionsData["optionsUnlocked"] as! Bool){
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.rootViewController = self
+            bannerView.loadRequest(GADRequest())
+            bannerView.hidden = false//true
+        }else{
+            bannerView.hidden = true
+        }
       
         myView = self.gameView //global
         myScene = SCNScene()
@@ -814,7 +803,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         
                         isGameOver = false
                         hasGameEnded = true
-                        imageData.shuffle()
+                        //imageData.shuffle()  //done in the title's viewdidload
                         
                         //myGameScene.playerComeBackToLife(player)
                     }
@@ -1672,7 +1661,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             return
         }
         
-        if myGameScene.willChangeBackground{
+        if myGameScene.willChangeBackground{ //Level up
+            if myGameScene.level > 30 { //"You Beat the Game"
+                myGameScene.myMaze = nil
+                self.myMaze = nil
+                
+                self.performSegueWithIdentifier("CongratulationsScreen", sender: nil)
+                return
+            }
             updateBackgroundImage(myGameScene.level)
             self.myMaze = myGameScene.myMaze
             
@@ -1785,7 +1781,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
         #endif
         
-        let myMaterial = imageData[(LEVEL - 1) % 10 ]
+        let myMaterial = imageData[(LEVEL - 1) % imageData.count ]
         backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
         backgroundNode.geometry!.firstMaterial!.doubleSided = true
     }
