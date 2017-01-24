@@ -129,26 +129,37 @@ class TitlePageViewController: UIViewController {
     func readPropertyList(plistName:String)->AnyObject?{//[String:AnyObject]{
         
         var data:AnyObject?
-        
+        let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
         //Bundle path
         let plistSourcePath:String? = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")!
         
         //Document Directory Path
         let fileManager = NSFileManager.defaultManager()
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let plistDestinationPath:String? = (documentDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
-        
+        //let documentDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, .UserDomainMask, true)[0]
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
+        let plistDestinationPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
 
         if plistName == "Options"{
             var plistData:[String:AnyObject] = [:]
             
             if !fileManager.fileExistsAtPath(plistDestinationPath!){
+                print("******************File Doesn't Exist******************")
+                print("Creating Directory******************")
+                do{
+                   try fileManager.createDirectoryAtPath(customDirectory, withIntermediateDirectories: false, attributes: nil)
+                }catch{
+                    print("|||********* error creating Directory: \((error as NSError).localizedDescription) *********|||")
+                }
+                
+                
                 plistData = NSDictionary(contentsOfFile: plistSourcePath!) as! [String : AnyObject]
                 
                 do{
-                    try fileManager.copyItemAtPath(plistSourcePath!, toPath: documentDirectory)
+                    try fileManager.copyItemAtPath(plistSourcePath!, toPath: plistDestinationPath!)//documentDirectory)
                 }catch{
-                    print("error copying options plist from bundle to directory: \(error)")
+                    print("||| ************************** error copying options plist from bundle to directory: \((error as NSError).localizedDescription) ************************** |||")
+                    
                 }
                 
                 
@@ -173,8 +184,11 @@ class TitlePageViewController: UIViewController {
     
     func loadPropertyList(plistName:String, propertyListData:AnyObject){
         
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let plistPath:String? = (documentDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")  //("OptionsSettings.plist")
+        //let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
+        let plistPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
         
         (propertyListData as! NSDictionary).writeToFile(plistPath!, atomically: true)
         
@@ -273,7 +287,7 @@ class TitlePageViewController: UIViewController {
     
     @IBAction func unwindFromOptions(segue: UIStoryboardSegue){
     
-        loadPropertyList("Options", propertyListData: optionsData)
+        //loadPropertyList("Options", propertyListData: optionsData)
     
     }
     

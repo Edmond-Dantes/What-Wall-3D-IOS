@@ -34,6 +34,8 @@
 		5E6BC1AC1CD7723200F6FF05 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1961CD7723200F6FF05 /* star.png */; };
 		7D6AA26DA8AD8AA9A70703C8 /* Pods_What_Wall_3D_IOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2ED88C241346C206069170C /* Pods_What_Wall_3D_IOSUITests.framework */; };
 		8505160D1D3F104D004D8047 /* NasaAPIAccountInfo in Resources */ = {isa = PBXBuildFile; fileRef = 8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */; };
+		851115C01D90D681006CF8C3 /* Logo image in Resources */ = {isa = PBXBuildFile; fileRef = 851115BF1D90D681006CF8C3 /* Logo image */; };
+		854188D61D62177700006F02 /* tutorial images in Resources */ = {isa = PBXBuildFile; fileRef = 854188D51D62177700006F02 /* tutorial images */; };
 		855A3BE61D58551A008AF847 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BE51D58551A008AF847 /* GoogleService-Info.plist */; };
 		855A3BEE1D58CCD0008AF847 /* OptionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */; };
 		855A3BF21D5B536A008AF847 /* NASA images in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BF11D5B536A008AF847 /* NASA images */; };
@@ -97,6 +99,8 @@
 		5E6BC1951CD7723200F6FF05 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		5E6BC1961CD7723200F6FF05 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NasaAPIAccountInfo; sourceTree = "<group>"; };
+		851115BF1D90D681006CF8C3 /* Logo image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Logo image"; sourceTree = SOURCE_ROOT; };
+		854188D51D62177700006F02 /* tutorial images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "tutorial images"; sourceTree = SOURCE_ROOT; };
 		855A3BE51D58551A008AF847 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDetailsViewController.swift; sourceTree = "<group>"; };
 		855A3BF11D5B536A008AF847 /* NASA images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "NASA images"; path = "../../../../Documents/NASA images"; sourceTree = "<group>"; };
@@ -198,8 +202,10 @@
 				855A3BE51D58551A008AF847 /* GoogleService-Info.plist */,
 				8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */,
 				855A3BF31D5C826D008AF847 /* NASAImages.plist */,
+				851115BF1D90D681006CF8C3 /* Logo image */,
 				5E6BC1271CD751DB00F6FF05 /* art.scnassets */,
 				5E6BC12E1CD751DB00F6FF05 /* Assets.xcassets */,
+				854188D51D62177700006F02 /* tutorial images */,
 				855A3BF11D5B536A008AF847 /* NASA images */,
 			);
 			path = "What Wall 3D IOS";
@@ -368,8 +374,10 @@
 				5E6BC1321CD751DB00F6FF05 /* LaunchScreen.storyboard in Resources */,
 				855A3BFA1D5F58A3008AF847 /* Options.plist in Resources */,
 				5E6BC12F1CD751DB00F6FF05 /* Assets.xcassets in Resources */,
+				854188D61D62177700006F02 /* tutorial images in Resources */,
 				855A3BF41D5C826D008AF847 /* NASAImages.plist in Resources */,
 				855A3BE61D58551A008AF847 /* GoogleService-Info.plist in Resources */,
+				851115C01D90D681006CF8C3 /* Logo image in Resources */,
 				5E6BC1AC1CD7723200F6FF05 /* star.png in Resources */,
 				5E6BC19A1CD7723200F6FF05 /* GameScene.sks in Resources */,
 				5E6BC12D1CD751DB00F6FF05 /* Main.storyboard in Resources */,
@@ -736,6 +744,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB3265D4602F2CF5DB8AF7BB /* Pods-What Wall 3D IOSUITests.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = "What Wall 3D IOSUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -750,6 +759,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 19383F67FC5807333BFD78C5 /* Pods-What Wall 3D IOSUITests.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "What Wall 3D IOSUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.future.What-Wall-3D-IOSUITests";

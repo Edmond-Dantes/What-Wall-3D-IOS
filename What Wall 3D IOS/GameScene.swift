@@ -77,6 +77,8 @@ let EASY_SETTING:CGFloat = 0.5
 let HARD_SETTING:CGFloat = 1
 let ULTRA_HARD_SETTING:CGFloat = 1
 
+//var TIME_UNTIL_TRAP:CFTimeInterval = 0.5
+
 enum difficultySetting{
     case easy, hard, ultraHard
 }
@@ -88,6 +90,7 @@ var gameDifficultySetting:difficultySetting = .hard
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var TIME_UNTIL_TRAP:CFTimeInterval = 0.5
     
     var myMaze:Maze? = nil
     
@@ -117,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var stageCount:Int = 0
     private let entranceTime: NSTimeInterval = 0.5 / NSTimeInterval(SPEED_PERCENTAGE)
     
-    private var exitBlock: SmashBlock.blockPosition = SmashBlock.blockPosition.bottomLeft
+    /*private*/ var exitBlock: SmashBlock.blockPosition = SmashBlock.blockPosition.bottomLeft
     private let exitBlockColor: SKColor = SKColor.blueColor()
     private let wallColor: SKColor = SKColor.yellowColor()
     private let smashingColor: SKColor = SKColor.redColor()
@@ -130,7 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /*private*/ var isEdgeHitDeathOn: Bool = false //true //false // *** used for the Ultra_Hard_Setting
     private var playerScore:Int = 0
     private var isPlayerTouched: Bool = false //*****don't change value
-    private var isTrapWallPaused: Bool = false//true //change to true to pause the wall movement
+    /*private*/ var isTrapWallPaused: Bool = false//true //change to true to pause the wall movement
     
     /*private*/ var isMovingToNextArea: Bool = false
     private var islevelChange:Bool = false
@@ -140,17 +143,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var WALLSPEED:CGFloat = CONSTANT_WALLSPEED
     private let DEATHVELOCITY:CGFloat = 900
-    private var smashBlockStatus: SmashBlock.activity = .waiting
-    private var smashStatusChanged: Bool = false
-    private var activeSmashBlock: SmashBlock.blockPosition? = nil
+    /*private*/ var smashBlockStatus: SmashBlock.activity = .waiting
+    /*private*/ var smashStatusChanged: Bool = false
+    /*private*/ var activeSmashBlock: SmashBlock.blockPosition? = nil
     private var oldSmashBlock: SmashBlock.blockPosition? = nil
     private var arrayOfBlocks: [SmashBlock.blockPosition] = SmashBlock.random8array()
     private var restingSmashBlockPosition: CGPoint? = nil
-    private var pauseSmashBlockLogic:Bool = false
+    //private var pauseSmashBlockLogic:Bool = false
     
     /*private*/ var deltaTime: CFTimeInterval = 0.0
     /*private*/ var lastUpdatedTime: CFTimeInterval = 0.0
-    private var wallTimer: CFTimeInterval = 0.0
+    /*private*/ var wallTimer: CFTimeInterval = 0.0
     
     /*private*/ var deathTimer: CFTimeInterval = 0.0
     
@@ -427,6 +430,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         reloadOriginalTrapPositions(0) // 0 is the SKAction time duration
+        
+        if level == 1{
+            //myPlayer?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        }
         
         
     }
@@ -1696,7 +1703,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
 
-    
+    var hasArrivedTutorial:Bool = false
     func afterArrivingInNewAreaAction(playerPosition:CGPoint, playerVelocity: CGVector){
         self.runAction(SKAction.waitForDuration(0.01)){ // stupid fix for player Velocity problem
             myPlayer!.physicsBody!.velocity = playerVelocity
@@ -1713,6 +1720,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
                 self.reloadSceneTime()
                 
+                if self.level == 1 {
+                    myPlayer?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                    self.hasArrivedTutorial = true
+                    if gameDifficultySetting != .easy{
+                        self.hasArrivedTutorial = false
+                    }
+                }
             }
             
         }
@@ -1730,98 +1744,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.isFirstRound = true
         self.isFirstRoundStarted = false
         
-        /*
-            if let player = myPlayer{
-                
-                player.position = player.originalPosition
-                player.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
-                
-                
-                for (index, tailPiece) in myPlayerTail.enumerate(){ //fix this
-                    tailPiece.position = tailPiece.originalPosition
-                    
-                    if self.playerLives > 1{
-                        let MATH_PI:CGFloat = CGFloat(M_PI)
-                        let unitCirleRadians:CGFloat = 2 * MATH_PI / CGFloat(self.playerLives - 1)
-                        let angle:CGFloat = CGFloat(index) * unitCirleRadians
-                        tailPiece.position = CGPoint(x: cos(angle) * self.maxJointLimit + player.position.x , y: sin(angle) * self.maxJointLimit + player.position.y)
-                    }
-                    
-                    
-                    tailPiece.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
-                }
-                
-                
-                player.isAlive = false
-                player.contactActive = false
-                for tail in tailJoint{
-                    self.physicsWorld.removeJoint(tail)
-                }
-                tailJoint = []
-                player.removeFromParent()
-                myPresentationPlayer!.removeFromParent()
-                for tailPiece in myPlayerTail{
-                    if tailPiece.parent != nil{
-                        tailPiece.removeFromParent()
-                    }
-                }
-                for tailPiece in myPresentationTail{
-                    if tailPiece.parent != nil{
-                        tailPiece.removeFromParent()
-                    }
-                }
-            }
-        */
-        
-        
-        
-//        self.reloadSceneTime()
-        
-        /*
-        myMaze = nil
-        myPlayer = nil
-        
-        
-        myCorners = [:]
-        myPresentationCorners = [:]
-        
-        mySmashBlocks = [:]
-        myPresentationSmashBlocks = [:]
-        
-        
-        myPlayer = nil
-        myPlayerTail = []
-        myPresentationPlayer = nil
-        myPresentationTail = []
-        tailJoint = []
-        
-        */
-       
-        
-        //var isKeyPressed:[keys:Bool] = [keys.left: false, .right: false, .up: false, .down: false]
-        
-        /*
-        myEmitterNode = nil
-        
-        myGravityFieldNode = SKFieldNode()
-        
-        
-        LEVEL = 1
-        STAGE = 0
-        
-        
-        myRestartLabel = SKLabelNode()
-        myLevelNumberLabel = SKLabelNode()
-        
-        */
-        
-        
         self.updateLevelMaze(self.level)
         
         
         
     }
     
+    var isGameBeaten:Bool = false
     var willChangeBackground:Bool = false
     func resetForLevelChange(){
         
@@ -1896,6 +1825,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if self.level > 30{
+                isGameBeaten = true
+            }else{
+            
                 self.updateLevelMaze(self.level)
             }
             self.islevelChange = false
@@ -2002,7 +1934,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // ***************** //
         }
         if needsRecoveryTimeFromPause{
-            deltaTime = 0.25 // *TIME_UNTIL_TRAP / 2*
+            deltaTime = 0.25//.25 // *TIME_UNTIL_TRAP / 2*
+            if gameDifficultySetting != .easy{
+                deltaTime = 0.1
+            }
             needsRecoveryTimeFromPause = false
         }
         if !isTrapWallPaused{
@@ -2011,6 +1946,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.updatePlayer()
         
         
+        if self.level == 1 && hasArrivedTutorial{
+            if gameDifficultySetting != .easy{
+                myPlayer?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                hasArrivedTutorial = false
+            }
+        }
         
     }
     
@@ -2258,7 +2199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func SmashBlockLogic(deltaTime: CFTimeInterval) {
         
-        var TIME_UNTIL_TRAP = 0.5 /// CFTimeInterval(SPEED_PERCENTAGE)
+        TIME_UNTIL_TRAP = 0.5 /// CFTimeInterval(SPEED_PERCENTAGE)
         if SPEED_PERCENTAGE < 1{
             TIME_UNTIL_TRAP =  0.25/CFTimeInterval(SPEED_PERCENTAGE)
         }
@@ -2275,13 +2216,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        
+        /*
         if pauseSmashBlockLogic{ // if true blocks pause
             speed(CGVector(dx: 0, dy: 0))
             
             return
         }
-        
+        */
         if let trap = self.activeSmashBlock{
             
             switch smashBlockStatus{

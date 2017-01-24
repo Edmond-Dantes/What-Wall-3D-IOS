@@ -56,8 +56,11 @@ class RootViewController: UIViewController {
     
     func loadPropertyList(plistName:String, propertyListData:AnyObject){
         
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let plistPath:String? = (documentDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist") 
+        //let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
+        let plistPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
         
         (propertyListData as! NSDictionary).writeToFile(plistPath!, atomically: true)
         

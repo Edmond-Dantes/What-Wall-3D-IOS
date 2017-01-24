@@ -28,6 +28,8 @@ class HudOverlay: SKScene {
     var gameOverLabel1:SKLabelNode = SKLabelNode()
     var gameOverLabel2:SKLabelNode = SKLabelNode()
     
+    var image:SKSpriteNode!
+    
     
     //var dogdeCountLabel:SKLabelNode = SKLabelNode()
     var level:Int = 1
@@ -38,6 +40,16 @@ class HudOverlay: SKScene {
         super.init(size: size)//override func didMoveToView(view: SKView) {
         
         self.level = LEVEL
+        
+        
+        image = SKSpriteNode()
+        image.position = CGPoint(x: self.frame.width/2, y: self.frame.height/2 )
+        image.size = CGSize(width: self.frame.width/5, height: self.frame.height/5)
+        self.addChild(self.image)
+        image.hidden = false
+        //image = SKSpriteNode(imageNamed: "spark.png")
+        
+        
         
         self.levelNumberLabel.fontName = "DINAlternate-Bold"//"Chalkduster"
         self.levelNumberLabel.fontSize = 60//65

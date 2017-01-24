@@ -9,6 +9,7 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import SpriteKit
 import GoogleMobileAds
 
 extension SCNVector3 {
@@ -95,6 +96,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     @IBOutlet weak var bannerView: GADBannerView!
     
     @IBOutlet weak var gameView: GameView!
+    
+    @IBOutlet weak var imageView: UIImageView!
+    
+    var tutorialImages:[String:SKSpriteNode] = [:]
     
     
     //var gameView: GameView!
@@ -198,6 +203,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     */
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //imageView.image = UIImage(named: "tutorial images/up.png")
+        //print(" got here \(imageView.image)")
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -295,8 +306,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         clearMemoryBeforeLoad()
         
         gameView.controller = self
+        let folder = "tutorial images"
         
+        tutorialImages = ["left":SKSpriteNode(imageNamed: "\(folder)/left.png"), "right":SKSpriteNode(imageNamed: "\(folder)/right.png"), "up":SKSpriteNode(imageNamed: "\(folder)/up.png"), "down":SKSpriteNode(imageNamed: "\(folder)/down.png"), "in":SKSpriteNode(imageNamed: "\(folder)/in.png"), "out":SKSpriteNode(imageNamed: "\(folder)/out.png"), "tap":SKSpriteNode(imageNamed: "\(folder)/tap.png")]
         
+        //imageView.image = UIImage()//(named: "\(folder)/left.png")!//tutorialImages["right"]
         
         //************************
         //MARK: level/lives settings
@@ -422,12 +436,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         // Release any cached data, images, etc that aren't in use.
     }
     
+    //var currentSwipeDirection:UISwipeGestureRecognizerDirection? = nil
+    
     func handleSwipe(gestureRecognize: UIGestureRecognizer){
         
         if !isShowingMap{
             
             print("handleSwipe")
             let swipeDirection:UISwipeGestureRecognizerDirection = (gestureRecognize as! UISwipeGestureRecognizer).direction
+            //currentSwipeDirection = swipeDirection
             
             print(" \(swipeDirection)")
             
@@ -502,6 +519,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
         }else if !isShowingMap {
             
+            
             if myGameScene.isMovingToNextArea || myPlayer!.isStunned && myPlayer!.isAlive{
                 
                 myGameScene.controller.joyStickDirection = .neutral
@@ -515,66 +533,102 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
             
             
+            
+            
             print("handlePan not in map")
             if gestureRecognize.state == .Changed{
                 isPanGestureChanging = true
                 self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
                 
+                let timer:CFTimeInterval = myGameScene.wallTimer
+                let totalWaitingTime:CFTimeInterval = myGameScene.TIME_UNTIL_TRAP
+                let status:SmashBlock.activity = myGameScene.smashBlockStatus
+                
+                if status == .waiting{
+                    var pauseOnSec:CFTimeInterval = totalWaitingTime/1.5
+                    //if optionsData["difficulty"]
+                    if gameDifficultySetting == .easy{
+                        pauseOnSec = totalWaitingTime/3
+                    }
+                    
+                    if timer < pauseOnSec {
+                        pauseControls = true
+                    }else{
+                        pauseControls = false
+                    }
+                    
+                }else{
+                    pauseControls = true
+                }
+                
+                //if pauseControls{return}
                 //add here
                 if panVelocity.y.abs() > panVelocity.x.abs(){
                     if panVelocity.y < 0 {//up
                         print("pan - up")
-                        if !isKeyPressed[.up]!{
-                            isKeyPressed[.up] = true
-                            isKeyPressed[.right] = false
-                            isKeyPressed[.down] = false
-                            isKeyPressed[.left] = false
-                            myGameScene.controller.isChangedDirection = true
-                            myGameScene.controller.joyStickDirection = .up
-                        }else if isKeyPressed[.up]!{
-                            
-                            myGameScene.controller.isChangedDirection = false
+                        if didCorrectSwipe(.up){
+                            if !isKeyPressed[.up]!{
+                                isKeyPressed[.up] = true
+                                isKeyPressed[.right] = false
+                                isKeyPressed[.down] = false
+                                isKeyPressed[.left] = false
+                                myGameScene.controller.isChangedDirection = true
+                                myGameScene.controller.joyStickDirection = .up
+                            }else if isKeyPressed[.up]!{
+                                
+                                myGameScene.controller.isChangedDirection = false
+                            }
                         }
                     }else if panVelocity.y > 0{//down
                         print("pan - down")
-                        if !isKeyPressed[.down]!{
-                            isKeyPressed[.up] = false
-                            isKeyPressed[.right] = false
-                            isKeyPressed[.down] = true
-                            isKeyPressed[.left] = false
-                            myGameScene.controller.isChangedDirection = true
-                            myGameScene.controller.joyStickDirection = .down
-                        }else if isKeyPressed[.down]!{
-                            
-                            myGameScene.controller.isChangedDirection = false
+                        if didCorrectSwipe(.down){
+                        
+                            if !isKeyPressed[.down]!{
+                                isKeyPressed[.up] = false
+                                isKeyPressed[.right] = false
+                                isKeyPressed[.down] = true
+                                isKeyPressed[.left] = false
+                                myGameScene.controller.isChangedDirection = true
+                                myGameScene.controller.joyStickDirection = .down
+                            }else if isKeyPressed[.down]!{
+                                
+                                myGameScene.controller.isChangedDirection = false
+                            }
                         }
                     }
                 }else if panVelocity.y.abs() < panVelocity.x.abs(){
-                    print("pan - right")
+                    //print("pan - right")
                     if panVelocity.x > 0{//right
-                        if !isKeyPressed[.right]!{
-                            isKeyPressed[.up] = false
-                            isKeyPressed[.right] = true
-                            isKeyPressed[.down] = false
-                            isKeyPressed[.left] = false
-                            myGameScene.controller.isChangedDirection = true
-                            myGameScene.controller.joyStickDirection = .right
-                        }else if isKeyPressed[.right]!{
-                            
-                            myGameScene.controller.isChangedDirection = false
+                        print("pan - right")
+                        if didCorrectSwipe(.right){
+                        
+                            if !isKeyPressed[.right]!{
+                                isKeyPressed[.up] = false
+                                isKeyPressed[.right] = true
+                                isKeyPressed[.down] = false
+                                isKeyPressed[.left] = false
+                                myGameScene.controller.isChangedDirection = true
+                                myGameScene.controller.joyStickDirection = .right
+                            }else if isKeyPressed[.right]!{
+                                
+                                myGameScene.controller.isChangedDirection = false
+                            }
                         }
                     }else if panVelocity.x < 0{//left
                         print("pan - left")
-                        if !isKeyPressed[.left]!{
-                            isKeyPressed[.up] = false
-                            isKeyPressed[.right] = false
-                            isKeyPressed[.down] = false
-                            isKeyPressed[.left] = true
-                            myGameScene.controller.isChangedDirection = true
-                            myGameScene.controller.joyStickDirection = .left
-                        }else if isKeyPressed[.left]!{
-                            
-                            myGameScene.controller.isChangedDirection = false
+                        if didCorrectSwipe(.left){
+                        
+                            if !isKeyPressed[.left]!{
+                                isKeyPressed[.up] = false
+                                isKeyPressed[.right] = false
+                                isKeyPressed[.down] = false
+                                isKeyPressed[.left] = true
+                                myGameScene.controller.isChangedDirection = true
+                                myGameScene.controller.joyStickDirection = .left
+                            }else if isKeyPressed[.left]!{
+                                
+                                myGameScene.controller.isChangedDirection = false
+                            }
                         }
                     }
                 }else if panVelocity.y.abs() == panVelocity.x.abs(){
@@ -803,32 +857,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         
                         isGameOver = false
                         hasGameEnded = true
-                        //imageData.shuffle()  //done in the title's viewdidload
-                        
-                        //myGameScene.playerComeBackToLife(player)
                     }
                 }
                 
                 
-                //isGameOver = false
-                //******************
-                //******************  
-//                myGameScene.resetForGameOver()
-                //******************
-                //******************
-                
-                
-                //******************
-                //add logic to go back to title screen
-                //self.backToTitleScreen()
-                
-                //******************
-                
             }else{
-                //************************
-                //MARK: setting difficulty from options menu
-//                myHudOverlay.setDifficulty(gameDifficultySetting)
-                //************************
                 myGameScene.isFirstRound = false
                 
                 if let player = myPlayer{
@@ -1593,6 +1626,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     
                     myGameScene.afterArrivingInNewAreaAction(myGameScene.arrivingPosition, playerVelocity: myGameScene.leavingVelocity)
                     
+                    
                 }
                 
             }
@@ -1643,20 +1677,269 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
         }
     }
-    var hasChangedGlobalBackground:Bool = false
+    
+    var currentSwipeDirection:JoyStick.direction? = nil
+    func didCorrectSwipe(panDirection:JoyStick.direction)->Bool{
+        var isCorrectDirection:Bool = false
+        
+        let block:SmashBlock.blockPosition = myGameScene.activeSmashBlock!
+        let exit:SmashBlock.blockPosition = myGameScene.exitBlock
+        currentSwipeDirection = panDirection
+        //var correctSwipeDirection:JoyStick.direction = panDirection
+        
+        if myGameScene.level > 1 {
+            isCorrectDirection = true
+            didCorrectSwipeDirection = false
+        }else if !didCorrectSwipeDirection{
+        
+            switch block{
+            case .bottomLeft, .topLeft:
+                print("dodge right or exit left")
+                if block.opposite() == exit{
+                    //correctSwipeDirection = .left
+                    if currentSwipeDirection! == .left{
+                        isCorrectDirection = true
+                    }
+                }else{
+                    //correctSwipeDirection = .right
+                    if currentSwipeDirection! == .right{
+                        isCorrectDirection = true
+                    }
+                }
+            case .bottomRight, .topRight:
+                print("dodge left or exit right")
+                if block.opposite() == exit{
+                    //correctSwipeDirection = .right
+                    if currentSwipeDirection! == .right{
+                        isCorrectDirection = true
+                    }
+                }else{
+                    //correctSwipeDirection = .left
+                    if currentSwipeDirection! == .left{
+                        isCorrectDirection = true
+                    }
+                }
+            case .rightTop, .leftTop:
+                print("dodge down or exit up")
+                if block.opposite() == exit{
+                    //correctSwipeDirection = .up
+                    if currentSwipeDirection! == .up{
+                        isCorrectDirection = true
+                    }
+                }else{
+                    //correctSwipeDirection = .down
+                    if currentSwipeDirection! == .down{
+                        isCorrectDirection = true
+                    }
+                }
+            case .rightBottom, .leftBottom:
+                print("dodge up or exit down")
+                if block.opposite() == exit{
+                    //correctSwipeDirection = .down
+                    if currentSwipeDirection! == .down{
+                        isCorrectDirection = true
+                    }
+                }else{
+                    //correctSwipeDirection = .up
+                    if currentSwipeDirection! == .up{
+                        isCorrectDirection = true
+                    }
+                }
+            }
+            
+            didCorrectSwipeDirection = isCorrectDirection
+
+            //print("\(didCorrectSwipeDirection) ---- WHAT THE FUCK")
+        }
+        
+        
+        
+        
+        return isCorrectDirection
+    }
+    
+    
+    var hasTutorialImage:Bool = false
+    func addTutorialImage(){
+        let block:SmashBlock.blockPosition = myGameScene.activeSmashBlock!
+        let exit:SmashBlock.blockPosition = myGameScene.exitBlock
+        var correctSwipeDirection:JoyStick.direction? = nil//JoyStick.direction.down
+        
+        switch block{
+        case .bottomLeft, .topLeft:
+            if block.opposite() == exit{
+                correctSwipeDirection = .left
+            }else{
+                correctSwipeDirection = .right
+            }
+        case .bottomRight, .topRight:
+            if block.opposite() == exit{
+                correctSwipeDirection = .right
+            }else{
+                correctSwipeDirection = .left
+            }
+        case .rightTop, .leftTop:
+            if block.opposite() == exit{
+                correctSwipeDirection = .up
+            }else{
+                correctSwipeDirection = .down
+            }
+        case .rightBottom, .leftBottom:
+            if block.opposite() == exit{
+                correctSwipeDirection = .down
+            }else{
+                correctSwipeDirection = .up
+            }
+        }
+        //let folder = "tutorial images"
+        
+        //tutorialImages = ["left":UIImage.init(named: "\(folder)/left.png")!, "right":UIImage.init(named: "\(folder)/right.png")!, "up":UIImage.init(named: "\(folder)/up.png")!, "down":UIImage.init(named: "\(folder)/down.png")!, "in":UIImage.init(named: "\(folder)/in.png")!, "out":UIImage.init(named: "\(folder)/out.png")!, "tap":UIImage.init(named: "\(folder)/tap.png")!]
+        
+        //imageView.image = nil//UIImage.init(named: "\(folder)/right.png")!//tutorialImages["right"]
+        print("\(correctSwipeDirection)")
+        switch correctSwipeDirection!{
+        case .up:
+            myHudOverlay.image.texture = SKTexture(imageNamed: "tutorial images/up.png")
+            hasTutorialImage = true
+            print(" got here up image")
+        case .down:
+            myHudOverlay.image.texture = SKTexture(imageNamed: "tutorial images/down.png")
+            hasTutorialImage = true
+            print(" got here down image")
+        case .left:
+            myHudOverlay.image.texture = SKTexture(imageNamed: "tutorial images/left.png")
+            hasTutorialImage = true
+            print(" got here -left image")
+        case .right:
+            myHudOverlay.image.texture = SKTexture(imageNamed: "tutorial images/right.png")
+            hasTutorialImage = true
+            print(" got here -right image")
+        default:
+            break
+        }
+        
+        myHudOverlay.image.hidden = false
+        
+    }
+    
+    
+    var pauseControls:Bool = false
+    var didCorrectSwipeDirection:Bool = false
+    func updateTutorial(){
+        //myGameScene.isTrapWallPaused = true //this will pause the wall traps
+        
+        if myGameScene.level == 1{
+        
+            let timer:CFTimeInterval = myGameScene.wallTimer
+            let totalWaitingTime:CFTimeInterval = myGameScene.TIME_UNTIL_TRAP
+            let status:SmashBlock.activity = myGameScene.smashBlockStatus
+            //let exit:SmashBlock.blockPosition = myGameScene.exitBlock
+            //let block:SmashBlock.blockPosition = myGameScene.activeSmashBlock!
+            //let hasStatusChanged:Bool = myGameScene.smashStatusChanged
+            //var swipeDirection:UISwipeGestureRecognizerDirection? = currentSwipeDirection
+        
+            
+            if myGameScene.paused {
+                //imageView.hidden = false
+            }
+            
+            if status == .waiting{
+                var pauseOnSec:CFTimeInterval = totalWaitingTime/1.5
+                //if optionsData["difficulty"]
+                if gameDifficultySetting == .easy{
+                    pauseOnSec = totalWaitingTime/3
+                    
+                }
+                
+                
+                //pauseControls = false
+                
+                if timer >= pauseOnSec{
+                    //pauseControls = false
+                    if !didCorrectSwipeDirection{
+                        
+                        if !hasTutorialImage{
+                            addTutorialImage()
+                            
+                            
+                            //print(" got here \(imageView.image)")
+                            //imageView.hidden = false
+                            
+                        }
+                        
+                        myGameScene.paused = true
+                        myPlayer?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                        
+                        myGameScene.needsRecoveryTimeFromPause = true
+                        /*
+                        if exit.opposite() == block{
+                            //myGameScene.wallTimer = 0
+                            myGameScene.needsRecoveryTimeFromPause = true
+                            //myGameScene.paused = true
+                        }
+ */
+                        
+                    }else{
+                        myGameScene.paused = false
+                        myHudOverlay.image.hidden = true
+                    }
+                    
+                }else {
+                   // pauseControls = true
+                    myGameScene.paused = false
+                    myHudOverlay.image.hidden = true
+                    if !didCorrectSwipeDirection{
+                        
+                    }else{
+                        myGameScene.paused = false
+                    }
+                }
+                
+                
+                // ***************
+                //tutorial images setting
+                //if !isShowingMap && !isGameOver && (myPlayer?.isAlive)! && myGameScene.paused{
+                //    imageView.hidden = false
+                //}
+                // ***************
+               
+                
+            }else if status == .smashing || status == .returning{
+                //didCorrectSwipe = false
+                didCorrectSwipeDirection = false
+                pauseControls = true
+                hasTutorialImage = false
+                myHudOverlay.image.hidden = true
+                
+            }
+            
+        }
+    }
+    var showOneTime:Bool = false
+    var showOneTime2:Bool = false
+    //var hasChangedGlobalBackground:Bool = false
     func renderer(aRenderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+        
+        if showOneTime == false{
+          //  imageView.image = UIImage(named: "tutorial images/left.png")
+            showOneTime = true
+        }
+        
+        
+        //addTutorialImage()
         //****
         //checkPanGestureDuringActiveGame() //with map off
         // add a timer if going to use this function
         //***
         
+        /*
         if isGameOver && !hasChangedGlobalBackground{
             hasChangedGlobalBackground = true
         }
-    
+    */
         
         if hasGameEnded{
-            hasChangedGlobalBackground = false
+            //hasChangedGlobalBackground = false
             self.backToTitleScreen()
             return
         }
@@ -1684,6 +1967,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         self.deathEffectUpdate() // if isSlowedDown or not
         self.playerUpdate()
+        
+        self.updateTutorial() // only for Level 1
         
         self.cameraUpdate(time)
         

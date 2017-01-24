@@ -55,6 +55,18 @@ class OptionsViewController: UIViewController {
         
     }
     
+    func loadPropertyList(plistName:String, propertyListData:AnyObject){
+        
+        //let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
+        let plistPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
+        
+        (propertyListData as! NSDictionary).writeToFile(plistPath!, atomically: true)
+        
+    }
+    
     //MARK: TextLabel actions
    
     @IBAction func levelChangeAction(sender: AnyObject) {
@@ -82,6 +94,8 @@ class OptionsViewController: UIViewController {
     @IBAction func unwindFromOptionDetails(segue: UIStoryboardSegue) {
         
        // bannerView.loadRequest(GADRequest())
+        
+        loadPropertyList("Options", propertyListData: self.optionsData)
         
     }
    
