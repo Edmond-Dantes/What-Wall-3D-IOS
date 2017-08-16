@@ -84,16 +84,16 @@ class Maze: SCNNode {
     var mazeNumberMatrix:[Int] = []
     var mazeCellMatrix:[Int:MazeCell] = [:]
     var escapePath:[Int] = []
-    private var currentPath:[Int] = []
+    fileprivate var currentPath:[Int] = []
     var levelExitPathArray:[SmashBlock.blockPosition] = []
     var stageExitsArray:[Int:[SmashBlock.blockPosition]] = [:]
     
-    private var visitedCellCount:Int = 0
-    private var maxPathCount = 0
+    fileprivate var visitedCellCount:Int = 0
+    fileprivate var maxPathCount = 0
     var startPoint = 0
     var exitPoint = 0
-    private var currentPoint = 0
-    private var deadEndCount = 0
+    fileprivate var currentPoint = 0
+    fileprivate var deadEndCount = 0
     
     
     override init(){
@@ -120,7 +120,7 @@ class Maze: SCNNode {
             for column in 0 ..< MAZE_COLUMNS{
                 
                 let gridPoint = column + row * MAZE_COLUMNS
-                self.mazeNumberMatrix.insert(0, atIndex: gridPoint)
+                self.mazeNumberMatrix.insert(0, at: gridPoint)
                 
             }
         }
@@ -358,7 +358,7 @@ class Maze: SCNNode {
         
     }
     
-    func loadRealMaze(level:CGFloat){
+    func loadRealMaze(_ level:CGFloat){
         
         //note: cell matrix is flipped vertically so math matches x and y coordinates
         
@@ -423,43 +423,43 @@ class Maze: SCNNode {
                 
                 switch cellType{
                 case 1:  // visited
-                    cell.color = Color.blueColor()
+                    cell.color = Color.blue
                     cell.visited = true
                 case 2:  // start point
-                    cell.color = Color.blueColor()
+                    cell.color = Color.blue
                     cell.visited = true
                     self.startPoint = gridPoint
                     self.currentPoint = self.startPoint
                     
                 case 3:  // deadends
-                    cell.color = Color.grayColor()
+                    cell.color = Color.gray
                     cell.visited = true
                     
                 case 4:  // exit point
-                    cell.color = Color.redColor()
+                    cell.color = Color.red
                     cell.visited = true
                     
                 case 5: //escape path
                     cell.visited = true
                     cell.alpha = 1
-                    cell.color = Color.whiteColor()
+                    cell.color = Color.white
                     
                 case 6: //coverted to holes
-                    cell.color = Color.clearColor()
+                    cell.color = Color.clear
                     cell.visited = true
                 case 7://inbetween path points
-                    cell.color = Color.whiteColor()
+                    cell.color = Color.white
                     cell.visited = true
                 case 8: // barriers
-                    cell.color = Color.yellowColor()
+                    cell.color = Color.yellow
                 case 9: //surrounding barriers
-                    cell.color = Color.brownColor()
+                    cell.color = Color.brown
                 case 10: //continued Path point vertical
-                    cell.color = Color.orangeColor()
+                    cell.color = Color.orange
                 case 11: //continued Path point horizontal
-                    cell.color = Color.orangeColor()
+                    cell.color = Color.orange
                 default: // barriers = 0
-                    cell.color = Color.yellowColor()
+                    cell.color = Color.yellow
                     
                     
                     
@@ -534,7 +534,7 @@ class Maze: SCNNode {
         }
     }
     
-    func generateMazeRecursion(column column:Int, row:Int){
+    func generateMazeRecursion(column:Int, row:Int){
         
         
         visitedCellCount += 1

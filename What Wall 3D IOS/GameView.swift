@@ -14,7 +14,7 @@ class GameView: SCNView {
     
     weak var controller:GameViewController!
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if controller.isShowingMap{
             

@@ -23,7 +23,7 @@ class CornerBlock: SKSpriteNode{
         case leftTop = 0, leftBottom, rightTop, rightBottom
     }
     
-    private let pixelBuffer: CGFloat = 2
+    fileprivate let pixelBuffer: CGFloat = 2
     var originalPosition = CGPoint()
     let cornerPositionValue: cornerPosition
   
@@ -68,7 +68,7 @@ class CornerBlock: SKSpriteNode{
         self.originalPosition = self.position
         
         
-        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: 0, width: width, height: height))
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: 0, y: 0, width: width, height: height))
         
         
     }

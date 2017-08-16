@@ -63,7 +63,7 @@ class MazeCell:SCNNode{
         self.rotation = SCNVector4(x: 0, y: 0, z: 0, w: w )
         
         //self.geometry?.firstMaterial = SCNMaterial()
-        self.geometry?.firstMaterial?.doubleSided = true
+        self.geometry?.firstMaterial?.isDoubleSided = true
         
     }
     

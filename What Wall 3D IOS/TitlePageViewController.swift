@@ -37,14 +37,14 @@ class TitlePageViewController: UIViewController {
     let emittorNode = SCNNode()
     let particleSystem = SCNParticleSystem(named: "MyParticleSystem2.scnp", inDirectory: nil)
 
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
         print("shouldPerformSegueWithIdentifier called")
         return true//false
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     func updateBackgroundImage(){
         
@@ -56,7 +56,7 @@ class TitlePageViewController: UIViewController {
         //imageData.shuffle()
     }
     
-    func setupBackgroundImage(scene:SCNScene?){
+    func setupBackgroundImage(_ scene:SCNScene?){
         let myScene = scene
         
         //globalBackgroundNode = backgroundNode
@@ -76,7 +76,7 @@ class TitlePageViewController: UIViewController {
             
         #endif
         backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
-        backgroundNode.geometry!.firstMaterial!.doubleSided = true   //****** Fix sides
+        backgroundNode.geometry!.firstMaterial!.isDoubleSided = true   //****** Fix sides
         
         
         myScene!.rootNode.addChildNode(backgroundNode)
@@ -101,7 +101,7 @@ class TitlePageViewController: UIViewController {
         
         let myScene = SCNScene()
         titlePageSCNView.scene = myScene//SCNScene()
-        titlePageSCNView.backgroundColor = UIColor.blackColor()
+        titlePageSCNView.backgroundColor = UIColor.black
         titlePageSCNView.scene!.rootNode.addChildNode(emittorNode)
         emittorNode.position = SCNVector3(x: 0, y: 0, z: 0)
         emittorNode.addParticleSystem(particleSystem!)
@@ -117,37 +117,37 @@ class TitlePageViewController: UIViewController {
         if !(optionsData["optionsUnlocked"] as! Bool){
             bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
             bannerView.rootViewController = self
-            bannerView.loadRequest(GADRequest())
-            bannerView.hidden = false//true
+            bannerView.load(GADRequest())
+            bannerView.isHidden = false//true
         }else{
-            bannerView.hidden = true
+            bannerView.isHidden = true
         }
         
     }
     
     
-    func readPropertyList(plistName:String)->AnyObject?{//[String:AnyObject]{
+    func readPropertyList(_ plistName:String)->AnyObject?{//[String:AnyObject]{
         
         var data:AnyObject?
         let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
         //Bundle path
-        let plistSourcePath:String? = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")!
+        let plistSourcePath:String? = Bundle.main.path(forResource: plistName, ofType: "plist")!
         
         //Document Directory Path
-        let fileManager = NSFileManager.defaultManager()
+        let fileManager = FileManager.default
         //let documentDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, .UserDomainMask, true)[0]
-        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
-        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
-        let plistDestinationPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.applicationSupportDirectory, .userDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).appendingPathComponent("\(bundleID)/")
+        let plistDestinationPath:String? = (customDirectory as NSString).appendingPathComponent("\(plistName).plist")
 
         if plistName == "Options"{
             var plistData:[String:AnyObject] = [:]
             
-            if !fileManager.fileExistsAtPath(plistDestinationPath!){
+            if !fileManager.fileExists(atPath: plistDestinationPath!){
                 print("******************File Doesn't Exist******************")
                 print("Creating Directory******************")
                 do{
-                   try fileManager.createDirectoryAtPath(customDirectory, withIntermediateDirectories: false, attributes: nil)
+                   try fileManager.createDirectory(atPath: customDirectory, withIntermediateDirectories: false, attributes: nil)
                 }catch{
                     print("|||********* error creating Directory: \((error as NSError).localizedDescription) *********|||")
                 }
@@ -156,7 +156,7 @@ class TitlePageViewController: UIViewController {
                 plistData = NSDictionary(contentsOfFile: plistSourcePath!) as! [String : AnyObject]
                 
                 do{
-                    try fileManager.copyItemAtPath(plistSourcePath!, toPath: plistDestinationPath!)//documentDirectory)
+                    try fileManager.copyItem(atPath: plistSourcePath!, toPath: plistDestinationPath!)//documentDirectory)
                 }catch{
                     print("||| ************************** error copying options plist from bundle to directory: \((error as NSError).localizedDescription) ************************** |||")
                     
@@ -167,36 +167,36 @@ class TitlePageViewController: UIViewController {
                 plistData = NSDictionary(contentsOfFile: plistDestinationPath!) as! [String : AnyObject]
                 
             }
-            data = plistData //as [String:AnyObject]
-            return plistData
+            data = plistData as AnyObject? //as [String:AnyObject]
+            return plistData as AnyObject?
             
         }else if plistName == "NASAImages"{
             var plistData:[String] = []
             
             plistData = NSArray(contentsOfFile: plistSourcePath!) as! [String]
               
-            data = plistData //as [String]
-            return plistData
+            data = plistData as AnyObject? //as [String]
+            return plistData as AnyObject?
         }
         
         return data
     }
     
-    func loadPropertyList(plistName:String, propertyListData:AnyObject){
+    func loadPropertyList(_ plistName:String, propertyListData:AnyObject){
         
         //let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
-        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
-        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
-        let plistPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.applicationSupportDirectory, .userDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).appendingPathComponent("\(bundleID)/")
+        let plistPath:String? = (customDirectory as NSString).appendingPathComponent("\(plistName).plist")
         
-        (propertyListData as! NSDictionary).writeToFile(plistPath!, atomically: true)
+        (propertyListData as! NSDictionary).write(toFile: plistPath!, atomically: true)
         
     }
     
  
     
-    @IBAction func startGameAction(sender: AnyObject) {
+    @IBAction func startGameAction(_ sender: AnyObject) {
         //globalBackgroundNode.geometry!.firstMaterial!.diffuse.contents = nil
         //globalBackgroundNode.geometry!.firstMaterial!.diffuse.contents = UIColor.blackColor()
         
@@ -205,15 +205,15 @@ class TitlePageViewController: UIViewController {
         //backgroundNode.geometry!.firstMaterial!.diffuse.contents = nil
         //backgroundNode.geometry!.firstMaterial!.diffuse.contents = UIColor.blackColor()
         
-        self.performSegueWithIdentifier("startGameSegue", sender: nil)
+        self.performSegue(withIdentifier: "startGameSegue", sender: nil)
     }
     
     
-    @IBAction func optionsAction(sender: AnyObject) {
+    @IBAction func optionsAction(_ sender: AnyObject) {
         
         
         if optionsData["optionsUnlocked"] as! Bool {
-            self.performSegueWithIdentifier("optionsSegue", sender: nil)
+            self.performSegue(withIdentifier: "optionsSegue", sender: nil)
         }else{
             
             //add logic for in-app purchases
@@ -224,8 +224,8 @@ class TitlePageViewController: UIViewController {
         }
     }
     
-    @IBAction func testCongratsAction(sender: AnyObject) {
-        self.performSegueWithIdentifier("test", sender: nil)
+    @IBAction func testCongratsAction(_ sender: AnyObject) {
+        self.performSegue(withIdentifier: "test", sender: nil)
         
         
     }
@@ -233,7 +233,7 @@ class TitlePageViewController: UIViewController {
     
     var returnedFromGame:Bool = false
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("********************View Appeared********************")
         
@@ -243,12 +243,12 @@ class TitlePageViewController: UIViewController {
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier! == "startGameSegue" {
             
-            let rootVC = segue.destinationViewController as! RootViewController
+            let rootVC = segue.destination as! RootViewController
             rootVC.optionsData = self.optionsData
             //gameVC.imageData = self.imageData
             
@@ -263,7 +263,7 @@ class TitlePageViewController: UIViewController {
  
         }else if segue.identifier == "optionsSegue" {
             
-            let optionsVC = segue.destinationViewController as! OptionsViewController
+            let optionsVC = segue.destination as! OptionsViewController
             optionsVC.optionsData = self.optionsData
             print(optionsVC.optionsData)
             optionsVC.myScene = self.titlePageSCNView.scene!
@@ -272,7 +272,7 @@ class TitlePageViewController: UIViewController {
             
         }else if segue.identifier == "test" {
             
-            let testVC = segue.destinationViewController as! CongratulationsViewController
+            let testVC = segue.destination as! CongratulationsViewController
             testVC.optionsData = self.optionsData
             print(testVC.optionsData)
             
@@ -285,7 +285,7 @@ class TitlePageViewController: UIViewController {
         
     }
     
-    @IBAction func unwindFromOptions(segue: UIStoryboardSegue){
+    @IBAction func unwindFromOptions(_ segue: UIStoryboardSegue){
     
         //loadPropertyList("Options", propertyListData: optionsData)
     

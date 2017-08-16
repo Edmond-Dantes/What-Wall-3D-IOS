@@ -103,7 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var myGravityFieldNode = SKFieldNode()
     var myEmitterNode:SKEmitterNode? = nil
     
-    private var maxJointLimit:CGFloat{
+    fileprivate var maxJointLimit:CGFloat{
         get{
             return (gameFrame.width/2 - cornerBlockFrame.width - myPlayer!.radius) / 2
         }
@@ -117,38 +117,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /*private*/ var level:Int = 1//60  //could use LEVEL globally instead of public gamescene level
     /*private*/ var playerLives:Int = 9
     /*private*/ let playerLivesMAX:Int = 9
-    private var stageCount:Int = 0
-    private let entranceTime: NSTimeInterval = 0.5 / NSTimeInterval(SPEED_PERCENTAGE)
+    fileprivate var stageCount:Int = 0
+    fileprivate let entranceTime: TimeInterval = 0.5 / TimeInterval(SPEED_PERCENTAGE)
     
     /*private*/ var exitBlock: SmashBlock.blockPosition = SmashBlock.blockPosition.bottomLeft
-    private let exitBlockColor: SKColor = SKColor.blueColor()
-    private let wallColor: SKColor = SKColor.yellowColor()
-    private let smashingColor: SKColor = SKColor.redColor()
-    private let cornerColor: SKColor = SKColor.blueColor()
+    fileprivate let exitBlockColor: SKColor = SKColor.blue
+    fileprivate let wallColor: SKColor = SKColor.yellow
+    fileprivate let smashingColor: SKColor = SKColor.red
+    fileprivate let cornerColor: SKColor = SKColor.blue
     
-    private var hasCenterJointLogic:Bool = false//true
+    fileprivate var hasCenterJointLogic:Bool = false//true
     /*private*/ var hasWorldMovement:Bool = false//true
     /*private*/ var isFirstRound: Bool = true //*****don't change value
-    private var isFirstRoundStarted: Bool = false //*****don't change value
+    fileprivate var isFirstRoundStarted: Bool = false //*****don't change value
     /*private*/ var isEdgeHitDeathOn: Bool = false //true //false // *** used for the Ultra_Hard_Setting
-    private var playerScore:Int = 0
-    private var isPlayerTouched: Bool = false //*****don't change value
+    fileprivate var playerScore:Int = 0
+    fileprivate var isPlayerTouched: Bool = false //*****don't change value
     /*private*/ var isTrapWallPaused: Bool = false//true //change to true to pause the wall movement
     
     /*private*/ var isMovingToNextArea: Bool = false
-    private var islevelChange:Bool = false
+    fileprivate var islevelChange:Bool = false
     var isSlowedDown:Bool = false
     
     let controller:JoyStick = JoyStick()
     
-    private var WALLSPEED:CGFloat = CONSTANT_WALLSPEED
-    private let DEATHVELOCITY:CGFloat = 900
+    fileprivate var WALLSPEED:CGFloat = CONSTANT_WALLSPEED
+    fileprivate let DEATHVELOCITY:CGFloat = 900
     /*private*/ var smashBlockStatus: SmashBlock.activity = .waiting
     /*private*/ var smashStatusChanged: Bool = false
     /*private*/ var activeSmashBlock: SmashBlock.blockPosition? = nil
-    private var oldSmashBlock: SmashBlock.blockPosition? = nil
-    private var arrayOfBlocks: [SmashBlock.blockPosition] = SmashBlock.random8array()
-    private var restingSmashBlockPosition: CGPoint? = nil
+    fileprivate var oldSmashBlock: SmashBlock.blockPosition? = nil
+    fileprivate var arrayOfBlocks: [SmashBlock.blockPosition] = SmashBlock.random8array()
+    fileprivate var restingSmashBlockPosition: CGPoint? = nil
     //private var pauseSmashBlockLogic:Bool = false
     
     /*private*/ var deltaTime: CFTimeInterval = 0.0
@@ -159,10 +159,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var stunTime:CFTimeInterval = 0.1
     
-    private var playerHitAndDirection = (hit: false, vertical: false)
+    fileprivate var playerHitAndDirection = (hit: false, vertical: false)
     
     
-    private var world = SKNode()
+    fileprivate var world = SKNode()
     
     
 
@@ -180,7 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.isFirstRoundStarted = false
         */
         
-        self.backgroundColor = SKColor.clearColor()
+        self.backgroundColor = SKColor.clear
         
         myPlayer = nil
         
@@ -192,9 +192,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         levelNumberView.fontSize = 20//65
         levelNumberView.position = CGPoint(x: self.frame.width/2, y: self.frame.height/2 - cornerBlockFrame.height)
-        levelNumberView.fontColor = SKColor.whiteColor()
+        levelNumberView.fontColor = SKColor.white
         levelNumberView.alpha = 0.5
-        levelNumberView.hidden = false //true
+        levelNumberView.isHidden = false //true
         myLevelNumberLabel = levelNumberView
         myLevelNumberLabel.name = "world"
         myLevelNumberLabel.zPosition = -100
@@ -204,7 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.playerLives = START_LIVES
             
         myLevelNumberLabel.text = "LEVEL \(LEVEL)"
-        myLevelNumberLabel.hidden = true
+        myLevelNumberLabel.isHidden = true
         
         
         //Dictionary to hold the corner block objects
@@ -242,7 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for (position ,smashBlock) in mySmashBlocks {
             self.addChild(smashBlock)
-            self.physicsWorld.addJoint(smashBlock.slidingJoint)
+            self.physicsWorld.add(smashBlock.slidingJoint)
             world.addChild(myPresentationSmashBlocks[position]!)
         }
         self.activeSmashBlock = arrayOfBlocks[blockArrayCounter]
@@ -275,7 +275,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             centerNode.physicsBody!.categoryBitMask = 0x0
             centerNode.physicsBody!.collisionBitMask = 0x0
             centerNode.physicsBody!.contactTestBitMask = 0x0
-            centerNode.physicsBody!.dynamic = false
+            centerNode.physicsBody!.isDynamic = false
             if hasCenterJointLogic{
                 self.addChild(centerNode)
             }
@@ -289,9 +289,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             }
-            myPlayer!.hidden = true
+            myPlayer!.isHidden = true
             for element in myPlayerTail{
-                element.hidden = true
+                element.isHidden = true
             }
         
         
@@ -309,13 +309,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //myLabel.fontSize = 65;
         restartView.position = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
         //restartView.backgroundColor = Color.clearColor()
-        restartView.fontColor = SKColor.whiteColor()
+        restartView.fontColor = SKColor.white
         // myRestartView.center = self.view.convertPoint(CGPoint(x: gameFrame.width/2, y: gameFrame.height/2), toView: myRestartView)
         //skView.addSubview(myRestartView)
         //restartView.zPosition = 1000
             
 /************/
-        restartView.hidden = true
+        restartView.isHidden = true
 /************/
         
         myRestartLabel = restartView
@@ -351,10 +351,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         
         //Load Particle Emmitter
-        let burstPath = NSBundle.mainBundle().pathForResource("MyParticle",
+        let burstPath = Bundle.main.path(forResource: "MyParticle",
             ofType: "sks")
         
-        let burstNode = NSKeyedUnarchiver.unarchiveObjectWithFile(burstPath!)
+        let burstNode = NSKeyedUnarchiver.unarchiveObject(withFile: burstPath!)
             as! SKEmitterNode
         
         myEmitterNode = burstNode
@@ -379,11 +379,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for node in self.children {
             let child = node 
             if child.name != "world"{
-                child.hidden = true
+                child.isHidden = true
             }
         }
-        world.hidden = false
-        myEmitterNode!.hidden = false
+        world.isHidden = false
+        myEmitterNode!.isHidden = false
         
             
         
@@ -396,10 +396,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
 
-    private func slowDownSceneTime(){
+    fileprivate func slowDownSceneTime(){
         WALLSPEED /= 100
         myGravityFieldNode.strength = 0
-        world.runAction(SKAction.fadeAlphaTo(0.5, duration: 1))
+        world.run(SKAction.fadeAlpha(to: 0.5, duration: 1))
         self.isSlowedDown = true
         
         myTailGravityFieldNode.strength /= 5
@@ -409,7 +409,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func reloadSceneTime() {
+    fileprivate func reloadSceneTime() {
         
         WALLSPEED = CONSTANT_WALLSPEED
         myGravityFieldNode.strength = 9.8 * Float(SPEED_PERCENTAGE)
@@ -423,7 +423,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         arrayOfBlocks.shuffle()
         
-        world.runAction(SKAction.fadeInWithDuration(0))
+        world.run(SKAction.fadeIn(withDuration: 0))
         wallTimer = 0
         smashBlockStatus = .waiting
         smashStatusChanged = true
@@ -438,21 +438,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func updateLevelMaze(level:Int){
+    func updateLevelMaze(_ level:Int){
         myMaze = nil
         myMaze = Maze(level: CGFloat(level))
         self.currentStage = myMaze!.startPoint
     }
     
-    private func addJoint(a:SKPhysicsBody, b:SKPhysicsBody, limitLength:CGFloat)-> SKPhysicsJointLimit{
+    fileprivate func addJoint(_ a:SKPhysicsBody, b:SKPhysicsBody, limitLength:CGFloat)-> SKPhysicsJointLimit{
         var temp:SKPhysicsJointLimit = SKPhysicsJointLimit()
         if hasCenterJointLogic{
-            let tempJoint = SKPhysicsJointLimit.jointWithBodyA(a, bodyB: b, anchorA: a.node!.position, anchorB: b.node!.position)
+            let tempJoint = SKPhysicsJointLimit.joint(withBodyA: a, bodyB: b, anchorA: a.node!.position, anchorB: b.node!.position)
             tempJoint.maxLength = limitLength
             
             temp = tempJoint
         }else if !hasCenterJointLogic{
-            let tempJoint = SKPhysicsJointLimit.jointWithBodyA(a, bodyB: b, anchorA: self.convertPoint(a.node!.position, fromNode: myPlayer!), anchorB: self.convertPoint(b.node!.position, fromNode: myPlayer!))
+            let tempJoint = SKPhysicsJointLimit.joint(withBodyA: a, bodyB: b, anchorA: self.convert(a.node!.position, from: myPlayer!), anchorB: self.convert(b.node!.position, from: myPlayer!))
             tempJoint.maxLength = limitLength
             
             temp = tempJoint
@@ -462,12 +462,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-    private func reloadOriginalTrapPositions(duration:NSTimeInterval){
+    fileprivate func reloadOriginalTrapPositions(_ duration:TimeInterval){
         //---------------------
         //corner blocks
         for (_ ,corner) in myCorners {
             
-            corner.runAction(SKAction.moveTo(corner.originalPosition, duration: duration))
+            corner.run(SKAction.move(to: corner.originalPosition, duration: duration))
         }
         
         
@@ -476,8 +476,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for (blockLocation ,smashBlock) in mySmashBlocks {
             
-            smashBlock.runAction(SKAction.moveTo(smashBlock.orginalPosition, duration: duration))
-            myPresentationSmashBlocks[blockLocation]!.runAction(SKAction.moveTo(myPresentationSmashBlocks[blockLocation]!.orginalPosition, duration: duration))
+            smashBlock.run(SKAction.move(to: smashBlock.orginalPosition, duration: duration))
+            myPresentationSmashBlocks[blockLocation]!.run(SKAction.move(to: myPresentationSmashBlocks[blockLocation]!.orginalPosition, duration: duration))
             
             smashBlock.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
             smashBlock.color = self.wallColor
@@ -489,7 +489,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isNeutralCamera:Bool = false
     var hasEnteredNeutral:Bool = false
     
-    private func JoyStickTouchLogic()->CGVector{
+    fileprivate func JoyStickTouchLogic()->CGVector{
         
         let pixelBuffer:CGFloat = 0
         let speed:CGFloat = 5 * SPEED_PERCENTAGE * myPlayer!.timesTheWeight//fix this
@@ -584,7 +584,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     #if os(iOS)
-    func handleSwipe(gestureRecognize: UIGestureRecognizer){
+    func handleSwipe(_ gestureRecognize: UIGestureRecognizer){
         
             let swipeDirection:UISwipeGestureRecognizerDirection = (gestureRecognize as! UISwipeGestureRecognizer).direction
             
@@ -599,25 +599,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         
             switch swipeDirection{
-            case UISwipeGestureRecognizerDirection.Up://up
+            case UISwipeGestureRecognizerDirection.up://up
                 if self.controller.joyStickDirection != .up && !isKeyPressed[.up]!{
                     self.controller.joyStickDirection = .up
                     self.controller.isChangedDirection = true
                     isKeyPressed[.up] = true
                 }
-            case UISwipeGestureRecognizerDirection.Right://right
+            case UISwipeGestureRecognizerDirection.right://right
                 if self.controller.joyStickDirection != .right && !isKeyPressed[.right]!{
                     self.controller.joyStickDirection = .right
                     self.controller.isChangedDirection = true
                     isKeyPressed[.right] = true
                 }
-            case UISwipeGestureRecognizerDirection.Down://down
+            case UISwipeGestureRecognizerDirection.down://down
                 if self.controller.joyStickDirection != .down && !isKeyPressed[.down]!{
                     self.controller.joyStickDirection = .down
                     self.controller.isChangedDirection = true
                     isKeyPressed[.down] = true
                 }
-            case UISwipeGestureRecognizerDirection.Left://left
+            case UISwipeGestureRecognizerDirection.left://left
                 if self.controller.joyStickDirection != .left && !isKeyPressed[.left]!{
                     self.controller.joyStickDirection = .left
                     self.controller.isChangedDirection = true
@@ -751,7 +751,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     
     
-    private func playerIsAlive() -> Bool{
+    fileprivate func playerIsAlive() -> Bool{
         
         var playerIsAlive:Bool = false
         
@@ -766,7 +766,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return playerIsAlive
     }
     
-    private func playerDies(message: String){
+    fileprivate func playerDies(_ message: String){
         
         //if
         
@@ -784,7 +784,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 tailPiece.deathVelocity = tailPiece.physicsBody!.velocity
             }
             for tail in tailJoint{
-                self.physicsWorld.removeJoint(tail)
+                self.physicsWorld.remove(tail)
             }
             tailJoint = []
             
@@ -797,18 +797,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func playerComeBackToLife(player: Player){
+    func playerComeBackToLife(_ player: Player){
         
         if let player = myPlayer{
             
             player.isAlive = true
         }
-        world.runAction(SKAction.fadeAlphaTo(1.0, duration: 0))
+        world.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
         
         
     }
     
-    private func smashBlockEdgeHit(player: Player) -> Bool{
+    fileprivate func smashBlockEdgeHit(_ player: Player) -> Bool{
         
         
         var died = false
@@ -821,7 +821,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sign = -sign
         }
         
-        func speed(wallSpeed: CGVector){
+        func speed(_ wallSpeed: CGVector){
             player.physicsBody!.applyImpulse(wallSpeed)
         }
         
@@ -914,9 +914,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     isKeyPressed[.right] = false
                     isKeyPressed[.down] = false
                     isKeyPressed[.left] = false
-                    myPlayer!.runAction(SKAction.waitForDuration(self.stunTime * CFTimeInterval(SPEED_PERCENTAGE))){
+                    myPlayer!.run(SKAction.wait(forDuration: self.stunTime * CFTimeInterval(SPEED_PERCENTAGE)), completion: {
                         player.isStunned = false
-                    }
+                    })
                 }
             }
             player.hitDirection = nil
@@ -930,7 +930,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    private func updatePlayerAfterPhysics(){
+    fileprivate func updatePlayerAfterPhysics(){
         
         var sign:CGFloat = -1
         
@@ -979,7 +979,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         burst.position = player.deathPosition
                         print("2 death: \(player.deathPosition)")
                         
-                        myGravityFieldNode.position = self.convertPoint(myGravityFieldNode.position, fromNode: self.world)
+                        myGravityFieldNode.position = self.convert(myGravityFieldNode.position, from: self.world)
                         
                         print("1 gravity: \(myGravityFieldNode.position), world: \(self.world.position)")
                         
@@ -988,13 +988,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         myTailGravityFieldNode.position = gameFrameCenter
                         
                         for tailPiece in myPlayerTail{
-                            tailPiece.position = self.convertPoint(tailPiece.position, fromNode: myPlayer!)
+                            tailPiece.position = self.convert(tailPiece.position, from: myPlayer!)
                             tailPiece.removeFromParent()
                             self.addChild(tailPiece)
                             tailPiece.physicsBody!.velocity = tailPiece.deathVelocity
                         }
                         
-                        for (index, tailPiece) in myPresentationTail.enumerate(){
+                        for (index, tailPiece) in myPresentationTail.enumerated(){
                             if index <= playerLives - 2{
                                 tailPiece.removeFromParent()
                                 self.world.addChild(tailPiece)
@@ -1034,7 +1034,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    private func updatePresentationLayer(){
+    fileprivate func updatePresentationLayer(){
     
         //if myPlayer!.isDying{
          //   return
@@ -1057,13 +1057,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         myPresentationPlayer!.position = myPlayer!.position
-        for (index, element) in myPresentationTail.enumerate(){
+        for (index, element) in myPresentationTail.enumerated(){
             element.position = myPlayerTail[index].position
         }
     
     }
     
-    private func updateWorldMovement(){
+    fileprivate func updateWorldMovement(){
         if !hasWorldMovement{
             return
         }
@@ -1082,7 +1082,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    private func updatePlayer(){
+    fileprivate func updatePlayer(){
         
         centerNode.position = CGPoint(x: 0, y: 0)
         
@@ -1129,7 +1129,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if player.contactActive{
                             let playerJoints = player.physicsBody!.joints
                             for joint in playerJoints{
-                                self.physicsWorld.removeJoint(joint)
+                                self.physicsWorld.remove(joint)
                                 tailJoint.removeLast()
                             }
                         }else{
@@ -1162,7 +1162,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     player.position = player.originalPosition
                     player.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
-                    for (index, tailPiece) in myPlayerTail.enumerate(){
+                    for (index, tailPiece) in myPlayerTail.enumerated(){
                         tailPiece.position = tailPiece.originalPosition
                         if !hasCenterJointLogic && playerLives > 1{
                             //add logic fix this
@@ -1223,7 +1223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    private func reloadForPlayerLives(player:Player){
+    fileprivate func reloadForPlayerLives(_ player:Player){
         //clear tail pieces first then add back based on the lives
         for tailPiece in myPlayerTail{
             if tailPiece.parent != nil{
@@ -1258,7 +1258,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func connectPlayerJoints(){
+    fileprivate func connectPlayerJoints(){
         tailJoint = []
         let limitLength = (gameFrame.width/2 - cornerBlockFrame.width - myPlayer!.radius) / CGFloat(self.playerLives)
         
@@ -1283,7 +1283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             for joint in tailJoint{
-                self.physicsWorld.addJoint(joint)
+                self.physicsWorld.add(joint)
             }
             
         }else if !self.hasCenterJointLogic{
@@ -1303,7 +1303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             for joint in tailJoint{
-                self.physicsWorld.addJoint(joint)
+                self.physicsWorld.add(joint)
             }
             
         }
@@ -1313,10 +1313,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var contactSmashStatus:SmashBlock.activity = .waiting
     
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         let pixelBuffer:CGFloat = 2//10.0 * 2
         
-        func contactLogic(player:SKPhysicsBody, wall:SKPhysicsBody){
+        func contactLogic(_ player:SKPhysicsBody, wall:SKPhysicsBody){
             
             
             if myPlayer!.isAlive{
@@ -1324,7 +1324,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let smashBlock = wall.node as? SmashBlock{
                     let smashPosition = smashBlock.smashBlockPosition
                     
-                    if wall.dynamic == true{
+                    if wall.isDynamic == true{
                         
                         
                         
@@ -1405,7 +1405,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         isPlayerTouched = true
                         
                     }
-                    else if wall.dynamic == false { //static walls
+                    else if wall.isDynamic == false { //static walls
                         
                         let playerVelocity = sqrt( pow(player.velocity.dx, 2) + pow(player.velocity.dy, 2) )
                         
@@ -1497,18 +1497,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func didEndContact(contact: SKPhysicsContact) {
+    func didEnd(_ contact: SKPhysicsContact) {
         
         let pixelBuffer:CGFloat = 10.0
         
-        func contactLogic(player:SKPhysicsBody, wall:SKPhysicsBody){
+        func contactLogic(_ player:SKPhysicsBody, wall:SKPhysicsBody){
             
             
             if let smashBlock = wall.node as? SmashBlock{
                 let smashPosition = smashBlock.smashBlockPosition
                 
                 
-                if wall.dynamic == true{
+                if wall.isDynamic == true{
                     if myPlayer!.contactActive{
                         myPlayer!.hitCount -= 1
                         myPlayer!.contactActive = false
@@ -1589,7 +1589,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func stageUpLevelUp(){
         
         
-        func hasContinuedPath(exitSidePartA:SmashBlock.blockPosition, exitSidePartB:SmashBlock.blockPosition, direction:MazeCell.wallLocations)->Bool{
+        func hasContinuedPath(_ exitSidePartA:SmashBlock.blockPosition, exitSidePartB:SmashBlock.blockPosition, direction:MazeCell.wallLocations)->Bool{
             
             self.leavingTime += 0.5
             
@@ -1644,7 +1644,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func arrivedInNewArea(playerPosition:CGPoint, playerVelocity: CGVector){
+    func arrivedInNewArea(_ playerPosition:CGPoint, playerVelocity: CGVector){
         
         
         myPlayer!.position = playerPosition
@@ -1662,7 +1662,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leavingVelocity:CGVector = CGVector(dx: 0, dy: 0)
     var arrivingPosition:CGPoint = CGPoint(x: 0, y: 0)
    
-    private func movingToNextArea(moveAreaBy:CGPoint, playerPosition:CGPoint, playerVelocity: CGVector){
+    fileprivate func movingToNextArea(_ moveAreaBy:CGPoint, playerPosition:CGPoint, playerVelocity: CGVector){
         print("moving to new area")
         self.leavingVelocity = playerVelocity
         self.arrivingPosition = playerPosition
@@ -1704,11 +1704,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     var hasArrivedTutorial:Bool = false
-    func afterArrivingInNewAreaAction(playerPosition:CGPoint, playerVelocity: CGVector){
-        self.runAction(SKAction.waitForDuration(0.01)){ // stupid fix for player Velocity problem
+    func afterArrivingInNewAreaAction(_ playerPosition:CGPoint, playerVelocity: CGVector){
+        self.run(SKAction.wait(forDuration: 0.01), completion: { // stupid fix for player Velocity problem
             myPlayer!.physicsBody!.velocity = playerVelocity
             
-            self.runAction(SKAction.waitForDuration(0.5)){
+            self.run(SKAction.wait(forDuration: 0.5), completion: {
                 self.isMovingToNextArea = false
                 self.leavingTime = 0
                 
@@ -1727,9 +1727,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.hasArrivedTutorial = false
                     }
                 }
-            }
+            })
             
-        }
+        })
     }
     
     func resetForGameOver(){
@@ -1790,7 +1790,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 player.position = player.originalPosition
                 player.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
-                for (index, tailPiece) in myPlayerTail.enumerate(){ //fix this
+                for (index, tailPiece) in myPlayerTail.enumerated(){ //fix this
                     tailPiece.position = tailPiece.originalPosition
                     
                     if self.playerLives > 1{
@@ -1808,7 +1808,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.isAlive = false
                 player.contactActive = false
                 for tail in tailJoint{
-                    self.physicsWorld.removeJoint(tail)
+                    self.physicsWorld.remove(tail)
                 }
                 tailJoint = []
                 player.removeFromParent()
@@ -1844,7 +1844,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
 
-    private func deathScene(deltaTime: CFTimeInterval){
+    fileprivate func deathScene(_ deltaTime: CFTimeInterval){
         
         let centerPoint = CGPoint(x: gameFrame.width/2, y: gameFrame.height/2)
         var differenceVector = CGPoint(x: centerPoint.x - myPlayer!.deathPosition.x, y: centerPoint.y - myPlayer!.deathPosition.y)
@@ -1895,12 +1895,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         
     
-    private var sizeEffectSwitch:Bool = false
-    private var sizeEffectSwitchCounter = 0
+    fileprivate var sizeEffectSwitch:Bool = false
+    fileprivate var sizeEffectSwitchCounter = 0
     
     var needsRecoveryTimeFromPause:Bool = false
    
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         // giving a frame delay for the 3D side to catch up 
         updatePresentationLayer()
         
@@ -1999,20 +1999,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    private var blockArrayCounter:Int = 0
+    fileprivate var blockArrayCounter:Int = 0
     
     
-    private func SmashBlockLogicAfterPhysics(){
+    fileprivate func SmashBlockLogicAfterPhysics(){
         let pixelBuffer:CGFloat = 2//10.0
         
         
         
         for (position, block) in mySmashBlocks{
             
-            if block.physicsBody!.dynamic != true{
+            if block.physicsBody!.isDynamic != true{
                 block.position = block.orginalPosition
             }
-            else if block.physicsBody!.dynamic{
+            else if block.physicsBody!.isDynamic{
                 switch position{
                 case .leftBottom, .leftTop, .rightBottom, .rightTop:
                     block.position.y = block.orginalPosition.y
@@ -2046,7 +2046,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if trap.opposite() == self.exitBlock{
                         mySmashBlocks[self.exitBlock]!.color = self.wallColor
                     }
-                    smashBlock!.physicsBody!.dynamic = false
+                    smashBlock!.physicsBody!.isDynamic = false
                     smashBlock!.physicsBody!.categoryBitMask = CollisionType.staticWall.rawValue
                     smashBlock!.physicsBody!.contactTestBitMask = CollisionType.player.rawValue
                     self.restingSmashBlockPosition = smashBlock!.orginalPosition
@@ -2095,7 +2095,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if smashStatusChanged{
                     smashStatusChanged = false
-                    smashBlock!.physicsBody!.dynamic = true
+                    smashBlock!.physicsBody!.isDynamic = true
                     smashBlock!.physicsBody!.categoryBitMask = CollisionType.activeWall.rawValue
                     smashBlock!.physicsBody!.contactTestBitMask = CollisionType.player.rawValue
                 }else{
@@ -2197,7 +2197,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    private func SmashBlockLogic(deltaTime: CFTimeInterval) {
+    fileprivate func SmashBlockLogic(_ deltaTime: CFTimeInterval) {
         
         TIME_UNTIL_TRAP = 0.5 /// CFTimeInterval(SPEED_PERCENTAGE)
         if SPEED_PERCENTAGE < 1{
@@ -2208,7 +2208,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //smashBlockStatus - private property to keep track of the activty status of each SMASH BLOCK
         //wallTimer - private property to pace the time before a SMASH BLOCK is active
         
-        func speed(wallSpeed: CGVector){
+        func speed(_ wallSpeed: CGVector){
             if let trap = self.activeSmashBlock{
                 let smashBlock = mySmashBlocks[trap]
                 smashBlock!.physicsBody!.velocity = (wallSpeed)

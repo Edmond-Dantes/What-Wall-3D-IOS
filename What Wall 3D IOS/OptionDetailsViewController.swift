@@ -25,8 +25,8 @@ class OptionDetailsViewController: UIViewController, UIPickerViewDataSource, UIP
     
     var maxPickerViewRows:Int = 0
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
@@ -50,42 +50,42 @@ class OptionDetailsViewController: UIViewController, UIPickerViewDataSource, UIP
             pickerView.selectRow(optionLives, inComponent: 0, animated: false)
         }
         optionDetailsSCNView.scene = myScene
-        optionDetailsSCNView.backgroundColor = UIColor.blackColor()
+        optionDetailsSCNView.backgroundColor = UIColor.black
         
         if !(optionsData["optionsUnlocked"] as! Bool){
             bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
             bannerView.rootViewController = self
-            bannerView.loadRequest(GADRequest())
-            bannerView.hidden = false//true
+            bannerView.load(GADRequest())
+            bannerView.isHidden = false//true
         }else{
-            bannerView.hidden = true
+            bannerView.isHidden = true
         }
         
         
         
     }
 
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return maxPickerViewRows
     }
     
-    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 75
     }
     
-    func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 250
     }
     
-    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
         let label = view as? UILabel ?? UILabel()
         
-        label.textColor = UIColor.whiteColor()
+        label.textColor = UIColor.white
         var text = ""
         
         if maxPickerViewRows == 3{ //difficulty levels
@@ -113,23 +113,23 @@ class OptionDetailsViewController: UIViewController, UIPickerViewDataSource, UIP
         label.font = UIFont(name: "IowanOldStyle-Roman", size: 50)!
         
         label.text = text
-        label.textAlignment = NSTextAlignment.Center
+        label.textAlignment = NSTextAlignment.center
         
         return label
     }
     
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if maxPickerViewRows == 3{ //difficulty levels
             
-            optionsData["difficulty"] = row + 1
+            optionsData["difficulty"] = (row + 1) as AnyObject
             
         }else if maxPickerViewRows == 30{ //game levels
             
-            optionsData["level"] = row + 1
+            optionsData["level"] = (row + 1) as AnyObject
         }else if maxPickerViewRows == 9{ //game lives
             
-            optionsData["lives"] = row + 1
+            optionsData["lives"] = (row + 1) as AnyObject
         }
     }
     
@@ -137,18 +137,18 @@ class OptionDetailsViewController: UIViewController, UIPickerViewDataSource, UIP
     
     
     
-    @IBAction func backButtonAction(sender: AnyObject) {
+    @IBAction func backButtonAction(_ sender: AnyObject) {
         
-        self.performSegueWithIdentifier("unwindFromOptionDetails", sender: nil)
+        self.performSegue(withIdentifier: "unwindFromOptionDetails", sender: nil)
         
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier! == "unwindFromOptionDetails"{
             
-            let optionsVC = segue.destinationViewController as! OptionsViewController
+            let optionsVC = segue.destination as! OptionsViewController
             optionsVC.optionsData = self.optionsData
             
             optionDetailsSCNView.scene = nil

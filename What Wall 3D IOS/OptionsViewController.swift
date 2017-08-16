@@ -8,7 +8,7 @@
 
 import UIKit
 import SceneKit
-import GoogleMobileAds
+//import GoogleMobileAds
 
 
 //let myOptions = ["Level Select", "Difficulty", "Custom Walls" ,"Back"]
@@ -23,7 +23,7 @@ class OptionsViewController: UIViewController {
     @IBOutlet weak var livesOptionButton: UIButton!
     @IBOutlet weak var backOptionButton: UIButton!
     
-    @IBOutlet weak var bannerView: GADBannerView!
+    //@IBOutlet weak var bannerView: GADBannerView!
     
     weak var myScene:SCNScene!
     
@@ -32,8 +32,8 @@ class OptionsViewController: UIViewController {
     var myCamera:SCNCamera!
     var myCameraNode:SCNNode!
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
@@ -42,60 +42,60 @@ class OptionsViewController: UIViewController {
         //self.preferredStatusBarStyle()
         
         optionsPageSCNView.scene = myScene
-        optionsPageSCNView.backgroundColor = UIColor.blackColor()
-        
+        optionsPageSCNView.backgroundColor = UIColor.black
+        /*
         if !(optionsData["optionsUnlocked"] as! Bool){
             bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
             bannerView.rootViewController = self
-            bannerView.loadRequest(GADRequest())
-            bannerView.hidden = false//true
+            bannerView.load(GADRequest())
+            bannerView.isHidden = false//true
         }else{
-            bannerView.hidden = true
-        }
+            bannerView.isHidden = true
+        }*/
         
     }
     
-    func loadPropertyList(plistName:String, propertyListData:AnyObject){
+    func loadPropertyList(_ plistName:String, propertyListData:AnyObject){
         
         //let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
-        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
-        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
-        let plistPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.applicationSupportDirectory, .userDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).appendingPathComponent("\(bundleID)/")
+        let plistPath:String? = (customDirectory as NSString).appendingPathComponent("\(plistName).plist")
         
-        (propertyListData as! NSDictionary).writeToFile(plistPath!, atomically: true)
+        (propertyListData as! NSDictionary).write(toFile: plistPath!, atomically: true)
         
     }
     
     //MARK: TextLabel actions
    
-    @IBAction func levelChangeAction(sender: AnyObject) {
+    @IBAction func levelChangeAction(_ sender: AnyObject) {
         
-        self.performSegueWithIdentifier("optionDetailsSegue", sender: sender)
+        self.performSegue(withIdentifier: "optionDetailsSegue", sender: sender)
         
     }
     
-    @IBAction func difficultyChangeAction(sender: AnyObject) {
-        self.performSegueWithIdentifier("optionDetailsSegue", sender: sender)
+    @IBAction func difficultyChangeAction(_ sender: AnyObject) {
+        self.performSegue(withIdentifier: "optionDetailsSegue", sender: sender)
     }
     
-    @IBAction func livesChangeAction(sender: AnyObject) {
-        self.performSegueWithIdentifier("optionDetailsSegue", sender: sender)
+    @IBAction func livesChangeAction(_ sender: AnyObject) {
+        self.performSegue(withIdentifier: "optionDetailsSegue", sender: sender)
     }
     
     
    
-    @IBAction func backButtonAction(sender: AnyObject) {
+    @IBAction func backButtonAction(_ sender: AnyObject) {
         
-        self.performSegueWithIdentifier("unwindFromOptions", sender: nil)
+        self.performSegue(withIdentifier: "unwindFromOptions", sender: nil)
     }
     
     
-    @IBAction func unwindFromOptionDetails(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromOptionDetails(_ segue: UIStoryboardSegue) {
         
        // bannerView.loadRequest(GADRequest())
         
-        loadPropertyList("Options", propertyListData: self.optionsData)
+        loadPropertyList("Options", propertyListData: self.optionsData as AnyObject)
         
     }
    
@@ -103,12 +103,12 @@ class OptionsViewController: UIViewController {
     
  
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "optionDetailsSegue" {
             
-            let optionDetailsVC = segue.destinationViewController as! OptionDetailsViewController
+            let optionDetailsVC = segue.destination as! OptionDetailsViewController
             optionDetailsVC.optionsData = self.optionsData
             
             print(optionDetailsVC.optionsData)
@@ -128,7 +128,7 @@ class OptionsViewController: UIViewController {
             
         }else if segue.identifier == "unwindFromOptions"{
             
-            let titlePageVC = segue.destinationViewController as! TitlePageViewController
+            let titlePageVC = segue.destination as! TitlePageViewController
             titlePageVC.optionsData = self.optionsData
             
             self.optionsPageSCNView.scene = nil

@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import SceneKit
 import SpriteKit
-import GoogleMobileAds
+//import GoogleMobileAds
 
 extension SCNVector3 {
     init(_ x: Float, _ y: Float, _ z: Float) {
@@ -93,7 +93,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     var renderCount:Int = 0
     
-    @IBOutlet weak var bannerView: GADBannerView!
+    //@IBOutlet weak var bannerView: GADBannerView!
     
     @IBOutlet weak var gameView: GameView!
     
@@ -203,18 +203,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     */
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //imageView.image = UIImage(named: "tutorial images/up.png")
         //print(" got here \(imageView.image)")
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         clearMemoryAfterGame()
     }
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         
         super.viewDidDisappear(animated)
         
@@ -227,11 +227,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func backToTitleScreen() {
         //imageData.shuffle()
         //updateGlobalBackgroundImage()
-        self.performSegueWithIdentifier("unwindFromGame", sender: self)//nil)
+        self.performSegue(withIdentifier: "unwindFromGame", sender: self)//nil)
         
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         //let vc = parentViewController as! TitlePageViewController
         //vc.backgroundNode.geometry!.firstMaterial!.diffuse.contents = self.imageData[0]
         
@@ -240,7 +240,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         return false//true
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier! == "unwindFromGame"{
             
@@ -317,15 +317,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         setupGameOptionsLevel()
         setupGameOptionsLives()
         //************************
-        
+        /*
         if !(optionsData["optionsUnlocked"] as! Bool){
             bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
             bannerView.rootViewController = self
-            bannerView.loadRequest(GADRequest())
-            bannerView.hidden = false//true
+            bannerView.load(GADRequest())
+            bannerView.isHidden = false//true
         }else{
-            bannerView.hidden = true
-        }
+            bannerView.isHidden = true
+        }*/
       
         myView = self.gameView //global
         myScene = SCNScene()
@@ -333,7 +333,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         
         
-        myView.backgroundColor = Color.blackColor()
+        myView.backgroundColor = Color.black
         self.setupLights()
         self.setupCamera()
         
@@ -353,16 +353,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
         // add a swipe gesture recognizer
         let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
-        leftSwipeGesture.direction = .Left
+        leftSwipeGesture.direction = .left
         myView.addGestureRecognizer(leftSwipeGesture)
         let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
-        rightSwipeGesture.direction = .Right
+        rightSwipeGesture.direction = .right
         myView.addGestureRecognizer(rightSwipeGesture)
         let upSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
-        upSwipeGesture.direction = .Up
+        upSwipeGesture.direction = .up
         myView.addGestureRecognizer(upSwipeGesture)
         let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(GameViewController.handleSwipe(_:)))
-        downSwipeGesture.direction = .Down
+        downSwipeGesture.direction = .down
         myView.addGestureRecognizer(downSwipeGesture)
         
             
@@ -414,12 +414,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     #if os(iOS)
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     /*
@@ -438,7 +438,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     //var currentSwipeDirection:UISwipeGestureRecognizerDirection? = nil
     
-    func handleSwipe(gestureRecognize: UIGestureRecognizer){
+    func handleSwipe(_ gestureRecognize: UIGestureRecognizer){
         
         if !isShowingMap{
             
@@ -456,28 +456,28 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 isKeyPressed[.left] = false
             
             switch swipeDirection{
-            case UISwipeGestureRecognizerDirection.Up://up
+            case UISwipeGestureRecognizerDirection.up://up
                 print("handleSwipe - up")
                 if myGameScene.controller.joyStickDirection != .up && !isKeyPressed[.up]!{
                     myGameScene.controller.joyStickDirection = .up
                     myGameScene.controller.isChangedDirection = true
                     isKeyPressed[.up] = true
                 }
-            case UISwipeGestureRecognizerDirection.Right://right
+            case UISwipeGestureRecognizerDirection.right://right
                 print("handleSwipe - right")
                 if myGameScene.controller.joyStickDirection != .right && !isKeyPressed[.right]!{
                     myGameScene.controller.joyStickDirection = .right
                     myGameScene.controller.isChangedDirection = true
                     isKeyPressed[.right] = true
                 }
-            case UISwipeGestureRecognizerDirection.Down://down
+            case UISwipeGestureRecognizerDirection.down://down
                 print("handleSwipe - down")
                 if myGameScene.controller.joyStickDirection != .down && !isKeyPressed[.down]!{
                     myGameScene.controller.joyStickDirection = .down
                     myGameScene.controller.isChangedDirection = true
                     isKeyPressed[.down] = true
                 }
-            case UISwipeGestureRecognizerDirection.Left://left
+            case UISwipeGestureRecognizerDirection.left://left
                 print("handleSwipe - left")
                 if myGameScene.controller.joyStickDirection != .left && !isKeyPressed[.left]!{
                     myGameScene.controller.joyStickDirection = .left
@@ -496,21 +496,21 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var isPanGestureChanging:Bool = false
     var hasPanGestureEnded:Bool = false
     
-    func handlePan(gestureRecognize: UIGestureRecognizer){
+    func handlePan(_ gestureRecognize: UIGestureRecognizer){
         print("handlePan")
         if isShowingMap{
-            if gestureRecognize.state == .Changed{
+            if gestureRecognize.state == .changed{
                 hasPanGestureEnded = false
                 isPanGestureChanging = true
-                self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
+                self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocity(in: self.view)
                 
-            }else if gestureRecognize.state == .Ended{
+            }else if gestureRecognize.state == .ended{
                 //self.panVelocity = CGPoint(x: 0, y: 0)
                 
                 hasPanGestureEnded = true//false
             }
             
-            if gestureRecognize.state == UIGestureRecognizerState.Possible{
+            if gestureRecognize.state == UIGestureRecognizerState.possible{
                     panVelocity.y = 0
                     panVelocity.x = 0
             }
@@ -536,9 +536,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
             
             print("handlePan not in map")
-            if gestureRecognize.state == .Changed{
+            if gestureRecognize.state == .changed{
                 isPanGestureChanging = true
-                self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocityInView(self.view)
+                self.panVelocity = (gestureRecognize as! UIPanGestureRecognizer).velocity(in: self.view)
                 
                 let timer:CFTimeInterval = myGameScene.wallTimer
                 let totalWaitingTime:CFTimeInterval = myGameScene.TIME_UNTIL_TRAP
@@ -643,7 +643,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
                 
                 
-            }else if gestureRecognize.state == .Ended{
+            }else if gestureRecognize.state == .ended{
                 self.panVelocity = CGPoint(x: 0, y: 0)
                 
                 myGameScene.controller.isChangedDirection = false
@@ -676,24 +676,24 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var pinchScale:CGFloat = 0
     var isOutwardPinch:Bool = false
     
-    func handlePinch(gestureRecognize: UIGestureRecognizer){
+    func handlePinch(_ gestureRecognize: UIGestureRecognizer){
         
         if isChoosingDifficulty{
             return
         }
         
-        if gestureRecognize.state == .Ended{
+        if gestureRecognize.state == .ended{
             isPinching = false
             pinchScale = 0
             return
         }
         
-        if gestureRecognize.state == .Began{
+        if gestureRecognize.state == .began{
             pinchScale = (gestureRecognize as! UIPinchGestureRecognizer).scale
             return
         }
         
-        if gestureRecognize.state == .Changed {//&& !isPinching{
+        if gestureRecognize.state == .changed {//&& !isPinching{
             let nextPinchScale:CGFloat = (gestureRecognize as! UIPinchGestureRecognizer).scale
             if pinchScale - nextPinchScale < 0{
                 if !isOutwardPinch{isPinching = false}
@@ -728,7 +728,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 print("currentCameraNode x y = \(self.currentCameraPosition.x), \(self.currentCameraPosition.y)")
                 //myCameraNode.constraints = nil
                 //myCameraNode.position = cameraStartPosition
-                myGameScene.paused = true
+                myGameScene.isPaused = true
                 // --------------------------------
                 // need to pause 3D particle system here
                 // --------------------------------
@@ -737,15 +737,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 self.showMap()
                 
                 SCNTransaction.begin()
-                SCNTransaction.setAnimationDuration(self.showingMapTime)
+                SCNTransaction.animationDuration = self.showingMapTime
                 
                 myCameraNode.position.x = myPlayerNode.position.x//cameraStartPosition.x
                 myCameraNode.position.y = myPlayerNode.position.y//cameraStartPosition.y
                 myCameraNode.position.z = 100  //test this
                 
                 
-                SCNTransaction.setCompletionBlock(
-                    {
+                SCNTransaction.completionBlock = {
                         self.isShowingMap = true
                         self.isMapKeyPressed[.up] = false
                         self.isMapKeyPressed[.right] = false
@@ -763,7 +762,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         
                         
                     }
-                )
                 SCNTransaction.commit()
                 
             //map on
@@ -781,32 +779,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 isMapKeyPressed[.down] = false
                 isMapKeyPressed[.left] = false
                 
-                self.myStageNode.hidden = false
+                self.myStageNode.isHidden = false
                 self.isReturnToCurrentStageMap = true
                 
                 self.returningToCurrentStageMapTime = ( 1 ) * CFTimeInterval(self.cameraDistanceFromCurrentStage() / myMaze!.maxMapAreaXValue)
                 SCNTransaction.begin()
-                SCNTransaction.setAnimationDuration(self.returningToCurrentStageMapTime)
+                SCNTransaction.animationDuration = self.returningToCurrentStageMapTime
                 
                 myCameraNode.position.x = myPlayerNode.position.x
                 myCameraNode.position.y = myPlayerNode.position.y
                 
                 
-                SCNTransaction.setCompletionBlock(
-                    {
+                SCNTransaction.completionBlock = {
                         self.myScene.rootNode.addChildNode(self.emittorNode)
                         self.particleSystem.speedFactor = 3
                         self.isReturnToCurrentStageMap = false
                         SCNTransaction.begin()
-                        SCNTransaction.setAnimationDuration(self.showingMapTime)
+                        SCNTransaction.animationDuration = self.showingMapTime
                         self.myCameraNode.position = self.currentCameraPosition
-                        SCNTransaction.setCompletionBlock(
-                            {
+                        SCNTransaction.completionBlock = {
                                 self.particleSystem.speedFactor = 1
                                 self.removeMap()
                                 
                                 self.didReturnFromMap = true
-                                self.myGameScene.paused = false
+                                self.myGameScene.isPaused = false
                                 // --------------------------------
                                 // need to resume 3D particle system here
                                 // --------------------------------
@@ -817,10 +813,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                                 print("cameraNode x y = \(self.myCameraNode.position.x), \(self.myCameraNode.position.y)")
                                 print("currentCameraNode x y = \(self.currentCameraPosition.x), \(self.currentCameraPosition.y)")
                             }
-                        )
                         SCNTransaction.commit()
                     }
-                )
                 SCNTransaction.commit()
             }
             
@@ -830,23 +824,23 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     
     var hasGameEnded:Bool = false
-    func handleTap(gestureRecognize: UIGestureRecognizer) {
+    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
         
         print("GVC handle tap")
         if isChoosingDifficulty{
             
             //let scnView = self.view as! SCNView
             let scnView = self.gameView as SCNView
-            let viewPoint = gestureRecognize.locationInView(scnView)
+            let viewPoint = gestureRecognize.location(in: scnView)
             
-            let p = myHudOverlay.convertPointFromView(viewPoint)
+            let p = myHudOverlay.convertPoint(fromView: viewPoint)
             myHudOverlay.handleTap(p)
         
             return
         }
         
         
-        if !myGameScene.paused { //while not showing the map
+        if !myGameScene.isPaused { //while not showing the map
             
             
             
@@ -886,12 +880,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     #endif
 
     
-    private var FIELD_STRENGTH:CGFloat = 6 * CGFloat(SPEED_PERCENTAGE)
+    fileprivate var FIELD_STRENGTH:CGFloat = 6 * CGFloat(SPEED_PERCENTAGE)
     func addPhysicsField(){
         myPhysicsFieldNode = SCNNode()
         myScene.rootNode.addChildNode(myPhysicsFieldNode)
         myPhysicsFieldNode.position = SCNVector3(x: 0, y: 0, z: 0)
-        myPhysicsField = SCNPhysicsField.springField()
+        myPhysicsField = SCNPhysicsField.spring()
         myPhysicsFieldNode.physicsField = myPhysicsField
         myPhysicsField.strength = FIELD_STRENGTH
     }
@@ -899,11 +893,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func addEmittorNode(){
         myEmittorNode = SCNNode()
         myParticleSystem = SCNParticleSystem(named: "MyParticleSystem3.scnp", inDirectory: nil)
-        myParticleSystem.affectedByPhysicsFields = true
+        myParticleSystem.isAffectedByPhysicsFields = true
         myScene.rootNode.addChildNode(myEmittorNode)
     }
     
-    func physicsWorld(world: SCNPhysicsWorld, didBeginContact contact: SCNPhysicsContact) {
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         
     }
     //********************************************//
@@ -926,7 +920,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let currentStage = myGameScene.currentStage//myGameScene!.currentStage
         currentStageMapPosition = myMaze!.mazeCellMatrix[currentStage]!.position
         
-        myMaze!.mazeCellMatrix[currentStage]!.hidden = true
+        myMaze!.mazeCellMatrix[currentStage]!.isHidden = true
         myMaze!.position = SCNVector3(myStageNode.position.x - currentStageMapPosition.x, myStageNode.position.y -  currentStageMapPosition.y, 0)
         
     }
@@ -934,7 +928,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func removeMap(){
         let currentStage = myGameScene.currentStage//myGameScene!.currentStage
         
-        myMaze!.mazeCellMatrix[currentStage]!.hidden = false
+        myMaze!.mazeCellMatrix[currentStage]!.isHidden = false
         myMaze!.removeFromParentNode()
     }
     
@@ -1128,13 +1122,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func deathEffectUpdate(){
         if myGameScene.isSlowedDown{
-            if myParticleSystem.affectedByPhysicsFields{
-                myParticleSystem.affectedByPhysicsFields = false
+            if myParticleSystem.isAffectedByPhysicsFields{
+                myParticleSystem.isAffectedByPhysicsFields = false
             }
         }else if !myGameScene.isSlowedDown{
             
-            if !myParticleSystem.affectedByPhysicsFields{
-                myParticleSystem.affectedByPhysicsFields = true
+            if !myParticleSystem.isAffectedByPhysicsFields{
+                myParticleSystem.isAffectedByPhysicsFields = true
             }
         }
         
@@ -1167,29 +1161,29 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         //check if player is alive and relate it to 3D
         let isAlive = myPlayer!.isAlive
-        let isHidden = myPlayerNode.hidden
+        let isHidden = myPlayerNode.isHidden
         if isAlive {
             if isHidden{
-                myPlayerNode.hidden = false
+                myPlayerNode.isHidden = false
                 
-                for (_, tailPiece) in myPlayerTailNodeArray.enumerate(){
-                    tailPiece.hidden = true
+                for (_, tailPiece) in myPlayerTailNodeArray.enumerated(){
+                    tailPiece.isHidden = true
                 }
                 
                 let playerLives = myGameScene.playerLives
                 if playerLives > 1{
                     for tailIndex in 0...playerLives - 2{
-                        myPlayerTailNodeArray[tailIndex].hidden = false
+                        myPlayerTailNodeArray[tailIndex].isHidden = false
                     }
                     
                 }
                 
                 
                 if myGameScene.isFirstRound {
-                    myPlayerNode.hidden = true
-                    for (_, tailPiece) in myPlayerTailNodeArray.enumerate(){
+                    myPlayerNode.isHidden = true
+                    for (_, tailPiece) in myPlayerTailNodeArray.enumerated(){
                         
-                        tailPiece.hidden = true
+                        tailPiece.isHidden = true
                         
                     }
                 }
@@ -1232,15 +1226,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
                 if myGameScene.isFirstRound {
                     
-                    for (_, tailPiece) in myPlayerTailNodeArray.enumerate(){
+                    for (_, tailPiece) in myPlayerTailNodeArray.enumerated(){
                         
-                        tailPiece.hidden = true
+                        tailPiece.isHidden = true
                         
                     }
                 }
                 
                 
-                myPlayerNode.hidden = true
+                myPlayerNode.isHidden = true
                 
             }
         }
@@ -1251,20 +1245,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     let minimumCameraAngle:CGFloat = 25 //Maximum value allowed: 90
     
     var cameraMovingtoNewAreaPosition:SCNVector3 = SCNVector3(x: 0 , y: 0, z: 0)
-    var leavingLastUpdateTime: NSTimeInterval = 0
-    var leavingAreaTime: NSTimeInterval = 0
+    var leavingLastUpdateTime: TimeInterval = 0
+    var leavingAreaTime: TimeInterval = 0
     
     var willChangeCameraForNewArea:Bool = false
     var didChangeCameraForNewArea:Bool = false
     var didReturnFromMap:Bool = true
     
-    var mapLastUpdateTime: NSTimeInterval = 0
-    var mapDeltaTime: NSTimeInterval = 0
-    var mapCurrentTime: NSTimeInterval = 0
+    var mapLastUpdateTime: TimeInterval = 0
+    var mapDeltaTime: TimeInterval = 0
+    var mapCurrentTime: TimeInterval = 0
     
     
     
-    func cameraUpdate(currentTime: NSTimeInterval){
+    func cameraUpdate(_ currentTime: TimeInterval){
        
         
         self.mapCurrentTime = currentTime //used for KeyDown time keeping
@@ -1356,7 +1350,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }else if !isReturnToCurrentStageMap{
                 myCameraNode.constraints = nil
                 let lookAtPlayerConstraint = SCNLookAtConstraint(target: myPlayerNode)
-                lookAtPlayerConstraint.gimbalLockEnabled = false
+                lookAtPlayerConstraint.isGimbalLockEnabled = false
                 myCameraNode.constraints = [lookAtPlayerConstraint]
             }
             return
@@ -1448,7 +1442,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if myCameraNode.constraints == nil{
             
             let lookAtPlayerConstraint = SCNLookAtConstraint(target: myPlayerNode)
-            lookAtPlayerConstraint.gimbalLockEnabled = false
+            lookAtPlayerConstraint.isGimbalLockEnabled = false
             myCameraNode.constraints = [lookAtPlayerConstraint]
             
         }
@@ -1460,7 +1454,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func animationUpdate(){
         
-        myView.playing = true
+        myView.isPlaying = true
         
     }
     
@@ -1471,7 +1465,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             self.addPlayerNode()
         }
         
-        if myGameScene.paused{
+        if myGameScene.isPaused{
             return
         }
         
@@ -1516,7 +1510,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             
             let playerLives = myGameScene.playerLives
             if playerLives > 0{//1
-                for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerate(){
+                for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerated(){
                     
                         #if os(iOS)
                     if myPlayer!.isAlive{
@@ -1575,7 +1569,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 #endif
             
         
-            for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerate(){
+            for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerated(){
                 
                 
                     #if os(iOS)
@@ -1648,7 +1642,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
                 
                 
-                for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerate(){
+                for (tailIndex, _/*tailPiece*/) in myPlayerTailNodeArray.enumerated(){
                     
                     
                     myPlayerTailNodeArray[tailIndex].position = SCNVector3(x: myPlayerTailNodeArray[tailIndex].position.x - newPlayerNodePositionX , y: myPlayerTailNodeArray[tailIndex].position.y - newPlayerNodePositionY, z: 0)
@@ -1663,7 +1657,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func checkPanGestureDuringActiveGame(){
-        if !gameScene.paused{ //with map off
+        if !gameScene.isPaused{ //with map off
             if isPanGestureChanging {
                 isPanGestureChanging = false
             }else if !isPanGestureChanging{
@@ -1679,7 +1673,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     var currentSwipeDirection:JoyStick.direction? = nil
-    func didCorrectSwipe(panDirection:JoyStick.direction)->Bool{
+    func didCorrectSwipe(_ panDirection:JoyStick.direction)->Bool{
         var isCorrectDirection:Bool = false
         
         let block:SmashBlock.blockPosition = myGameScene.activeSmashBlock!
@@ -1818,7 +1812,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             break
         }
         
-        myHudOverlay.image.hidden = false
+        myHudOverlay.image.isHidden = false
         
     }
     
@@ -1839,7 +1833,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             //var swipeDirection:UISwipeGestureRecognizerDirection? = currentSwipeDirection
         
             
-            if myGameScene.paused {
+            if myGameScene.isPaused {
                 //imageView.hidden = false
             }
             
@@ -1867,7 +1861,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                             
                         }
                         
-                        myGameScene.paused = true
+                        myGameScene.isPaused = true
                         myPlayer?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
                         
                         myGameScene.needsRecoveryTimeFromPause = true
@@ -1880,18 +1874,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
  */
                         
                     }else{
-                        myGameScene.paused = false
-                        myHudOverlay.image.hidden = true
+                        myGameScene.isPaused = false
+                        myHudOverlay.image.isHidden = true
                     }
                     
                 }else {
                    // pauseControls = true
-                    myGameScene.paused = false
-                    myHudOverlay.image.hidden = true
+                    myGameScene.isPaused = false
+                    myHudOverlay.image.isHidden = true
                     if !didCorrectSwipeDirection{
                         
                     }else{
-                        myGameScene.paused = false
+                        myGameScene.isPaused = false
                     }
                 }
                 
@@ -1909,7 +1903,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 didCorrectSwipeDirection = false
                 pauseControls = true
                 hasTutorialImage = false
-                myHudOverlay.image.hidden = true
+                myHudOverlay.image.isHidden = true
                 
             }
             
@@ -1918,7 +1912,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var showOneTime:Bool = false
     var showOneTime2:Bool = false
     //var hasChangedGlobalBackground:Bool = false
-    func renderer(aRenderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+    func renderer(_ aRenderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
         if showOneTime == false{
           //  imageView.image = UIImage(named: "tutorial images/left.png")
@@ -1949,7 +1943,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 myGameScene.myMaze = nil
                 self.myMaze = nil
                 
-                self.performSegueWithIdentifier("CongratulationsScreen", sender: nil)
+                self.performSegue(withIdentifier: "CongratulationsScreen", sender: nil)
                 return
             }
             updateBackgroundImage(myGameScene.level)
@@ -1989,19 +1983,19 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
     }
     
-    func renderer(aRenderer: SCNSceneRenderer, didApplyAnimationsAtTime time: NSTimeInterval) {
+    func renderer(_ aRenderer: SCNSceneRenderer, didApplyAnimationsAtTime time: TimeInterval) {
         
     }
     
-    func renderer(aRenderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: NSTimeInterval) {
+    func renderer(_ aRenderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
     
     }
     
-    func renderer(aRenderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: NSTimeInterval) {
+    func renderer(_ aRenderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
         
     }
     
-    func renderer(aRenderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: NSTimeInterval) {
+    func renderer(_ aRenderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         
         
         
@@ -2017,21 +2011,21 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let player = myPlayerNode
        
         
-        player.geometry = SCNSphere(radius: myPlayer!.radius * 10 / gameFrame.width)
-        player.position = SCNVector3(x: 0, y: 0, z: 0)
-        player.geometry!.firstMaterial!.diffuse.contents = Color.blueColor()
+        player?.geometry = SCNSphere(radius: myPlayer!.radius * 10 / gameFrame.width)
+        player?.position = SCNVector3(x: 0, y: 0, z: 0)
+        player?.geometry!.firstMaterial!.diffuse.contents = Color.blue
         
         
-        myScene.rootNode.addChildNode(player)
+        myScene.rootNode.addChildNode(player!)
         
-        player.hidden = true
+        player?.isHidden = true
         
         func addPlayerTailNode()->SCNNode{
             let tail = SCNNode()
             tail.geometry = SCNSphere(radius: myPlayerTail[0].radius * 10 / gameFrame.width)
             
             tail.position = SCNVector3(x: 0, y: 0, z: 0)
-            tail.geometry!.firstMaterial!.diffuse.contents = Color.blueColor()
+            tail.geometry!.firstMaterial!.diffuse.contents = Color.blue
             
             return tail
             
@@ -2044,7 +2038,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             for life in 0...(myGameScene.playerLivesMAX - 2){//(myGameScene.playerLivesMAX - 2){
                 
                 myPlayerTailNodeArray.append(addPlayerTailNode())
-                myPlayerTailNodeArray[life].hidden = true
+                myPlayerTailNodeArray[life].isHidden = true
                 myScene.rootNode.addChildNode(myPlayerTailNodeArray[life])
             }
         }
@@ -2068,10 +2062,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         let myMaterial = imageData[(LEVEL - 1) % imageData.count ]
         backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
-        backgroundNode.geometry!.firstMaterial!.doubleSided = true
+        backgroundNode.geometry!.firstMaterial!.isDoubleSided = true
     }
     
-    func updateBackgroundImage(level:Int){
+    func updateBackgroundImage(_ level:Int){
         
         let myMaterial = imageData[(level - 1) % 10 ]
         backgroundNode.geometry!.firstMaterial!.diffuse.contents = myMaterial
@@ -2106,7 +2100,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 
             #endif
         myTestTrap.geometry!.firstMaterial!.diffuse.contents = materialScene
-        myTestTrap.geometry!.firstMaterial!.doubleSided = true   //****** Fix sides
+        myTestTrap.geometry!.firstMaterial!.isDoubleSided = true   //****** Fix sides
         
         
         myScene.rootNode.addChildNode(myTestTrap)
@@ -2161,12 +2155,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     
     
-    private var sizeEffectSwitch:Bool = false
-    private var sizeEffectSwitchCounter = 0
+    fileprivate var sizeEffectSwitch:Bool = false
+    fileprivate var sizeEffectSwitchCounter = 0
     
-    private func deathScene(deltaTime: CFTimeInterval){
+    fileprivate func deathScene(_ deltaTime: CFTimeInterval){
         
-        if myGameScene.paused{
+        if myGameScene.isPaused{
             return
         }
         

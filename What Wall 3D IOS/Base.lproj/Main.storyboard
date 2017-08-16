@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xpp-b0-Twp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xpp-b0-Twp">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Game View Controller-->
@@ -15,29 +18,29 @@
                         <viewControllerLayoutGuide type="bottom" id="j8K-TN-a26"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="mME-aD-Bpe">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCx-jA-02u" customClass="GameView" customModule="What_Wall_3D_IOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FCx-jA-02u" customClass="GameView" customModule="What_Wall_3D_IOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
-                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1tr-wp-s4C">
+                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1tr-wp-s4C">
                                         <rect key="frame" x="180" y="180" width="240" height="221"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="240" id="Rba-Hg-fYp"/>
                                             <constraint firstAttribute="height" constant="221" id="wkr-PH-eJN"/>
                                         </constraints>
                                     </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v0o-tg-CqU" customClass="GADBannerView">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v0o-tg-CqU" customClass="GADBannerView">
                                         <rect key="frame" x="140" y="0.0" width="320" height="50"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="320" id="cnG-Vo-4Px"/>
                                             <constraint firstAttribute="height" constant="50" id="g0s-q9-JLx"/>
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="1tr-wp-s4C" firstAttribute="centerY" secondItem="FCx-jA-02u" secondAttribute="centerY" id="Ura-7C-wOz"/>
                                     <constraint firstItem="v0o-tg-CqU" firstAttribute="top" secondItem="FCx-jA-02u" secondAttribute="top" id="Wn6-iU-emP"/>
@@ -46,7 +49,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="FCx-jA-02u" firstAttribute="bottom" secondItem="j8K-TN-a26" secondAttribute="top" id="FtN-pO-Mhb"/>
                             <constraint firstItem="FCx-jA-02u" firstAttribute="top" secondItem="hlj-2c-5Nk" secondAttribute="bottom" id="qcw-aZ-f87"/>
@@ -76,20 +79,20 @@
                         <viewControllerLayoutGuide type="bottom" id="HQl-mP-c3N"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ecE-wW-Ggd">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.aggressiveturtle.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZA5-F1-uZK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="www.aggressiveturtle.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZA5-F1-uZK">
                                 <rect key="frame" x="197" y="559" width="206" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="206" id="T40-sS-Nyt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="ZA5-F1-uZK" secondAttribute="bottom" constant="20" symbolic="YES" id="2HM-7w-05e"/>
                             <constraint firstItem="ZA5-F1-uZK" firstAttribute="centerX" secondItem="ecE-wW-Ggd" secondAttribute="centerX" id="8EK-ey-6RN"/>
@@ -113,34 +116,34 @@
                         <viewControllerLayoutGuide type="bottom" id="gJt-Cq-NfS"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="dm2-uo-e8F">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uyN-gI-esk">
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uyN-gI-esk">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                             </sceneKitView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ufr-7N-aXQ" customClass="GADBannerView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ufr-7N-aXQ" customClass="GADBannerView">
                                 <rect key="frame" x="140" y="20" width="320" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="zdL-dw-w7r"/>
                                     <constraint firstAttribute="width" constant="320" id="zeB-TH-4xL"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PoS-ld-SF3">
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PoS-ld-SF3">
                                 <rect key="frame" x="146" y="66" width="309" height="274"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WHAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yg3-fl-KY9">
-                                        <rect key="frame" x="0.0" y="0.0" width="309" height="137"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="308.5" height="137"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" name="IowanOldStyle-BoldItalic" family="Iowan Old Style" pointSize="100"/>
-                                        <color key="textColor" red="1" green="0.81048276100855632" blue="0.058521001936069683" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="1" green="0.81048276100855632" blue="0.058521001936069683" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WALL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buM-6B-JWt">
-                                        <rect key="frame" x="14" y="137" width="281" height="137"/>
+                                        <rect key="frame" x="13.5" y="137" width="281" height="137"/>
                                         <fontDescription key="fontDescription" name="IowanOldStyle-BoldItalic" family="Iowan Old Style" pointSize="100"/>
-                                        <color key="textColor" red="1" green="0.81176470588235294" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="1" green="0.81176470588235294" blue="0.058823529411764705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -148,15 +151,15 @@
                                     <outletCollection property="gestureRecognizers" destination="vAl-Hr-V5y" appends="YES" id="UMM-zM-sO8"/>
                                 </connections>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Oci-eq-r2e">
-                                <rect key="frame" x="20" y="343" width="560" height="249"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Oci-eq-r2e">
+                                <rect key="frame" x="20" y="343" width="343" height="249"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1sX-sY-O7U">
-                                        <rect key="frame" x="265" y="0.0" width="30" height="83"/>
+                                        <rect key="frame" x="156.5" y="0.0" width="30" height="83"/>
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="50"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2wu-8V-Re7">
-                                        <rect key="frame" x="220" y="83" width="120" height="83"/>
+                                        <rect key="frame" x="111.5" y="83" width="120" height="83"/>
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="50"/>
                                         <state key="normal" title="Start"/>
                                         <connections>
@@ -164,10 +167,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TaV-Gg-ULI">
-                                        <rect key="frame" x="196" y="166" width="168" height="83"/>
+                                        <rect key="frame" x="87.5" y="166" width="168" height="83"/>
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="50"/>
                                         <state key="normal" title="Options">
-                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="optionsAction:" destination="gAE-jQ-9IK" eventType="touchUpInside" id="Xik-ut-yAS"/>
@@ -176,7 +179,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Oci-eq-r2e" firstAttribute="bottom" secondItem="gJt-Cq-NfS" secondAttribute="top" constant="-8" id="11N-1L-Jnw"/>
                             <constraint firstItem="Ufr-7N-aXQ" firstAttribute="centerX" secondItem="dm2-uo-e8F" secondAttribute="centerX" id="3LD-xf-e5p"/>
@@ -241,7 +244,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ucX-nd-AV5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7NW-Zk-diD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LOI-yX-bgb">
@@ -251,43 +254,43 @@
                                     <constraint firstAttribute="height" constant="580" id="Dj9-sm-33L"/>
                                 </constraints>
                             </sceneKitView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L1d-Jc-i4H" customClass="GADBannerView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L1d-Jc-i4H" customClass="GADBannerView">
                                 <rect key="frame" x="140" y="20" width="320" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="QN9-jG-E0I"/>
                                     <constraint firstAttribute="width" constant="320" id="r1y-fb-5xP"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lR2-6b-MF1">
-                                <rect key="frame" x="0.0" y="78" width="600" height="522"/>
+                                <rect key="frame" x="0.0" y="78" width="375" height="589"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKp-V6-7u4">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="131"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="148"/>
                                         <accessibility key="accessibilityConfiguration" identifier="level"/>
                                         <fontDescription key="fontDescription" name="IowanOldStyle-Roman" family="Iowan Old Style" pointSize="50"/>
                                         <state key="normal" title="LEVEL">
-                                            <color key="titleColor" red="1" green="0.81048276100000005" blue="0.058521001939999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="1" green="0.81048276100000005" blue="0.058521001939999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="levelChangeAction:" destination="tfP-tp-4h0" eventType="touchUpInside" id="p97-h3-ol9"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jii-V3-BFW">
-                                        <rect key="frame" x="0.0" y="131" width="600" height="130"/>
+                                        <rect key="frame" x="0.0" y="148" width="375" height="146.5"/>
                                         <fontDescription key="fontDescription" name="IowanOldStyle-Roman" family="Iowan Old Style" pointSize="50"/>
                                         <state key="normal" title="DIFFICULTY">
-                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="difficultyChangeAction:" destination="tfP-tp-4h0" eventType="touchUpInside" id="t31-7w-CmX"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RL4-Fu-kiY">
-                                        <rect key="frame" x="0.0" y="261" width="600" height="131"/>
+                                        <rect key="frame" x="0.0" y="294.5" width="375" height="148"/>
                                         <fontDescription key="fontDescription" name="IowanOldStyle-Roman" family="Iowan Old Style" pointSize="50"/>
                                         <state key="normal" title="LIVES">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="livesChangeAction:" destination="tfP-tp-4h0" eventType="touchUpInside" id="tF7-aQ-gku"/>
@@ -295,10 +298,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqG-Zd-cEZ">
-                                        <rect key="frame" x="0.0" y="392" width="600" height="130"/>
+                                        <rect key="frame" x="0.0" y="442.5" width="375" height="146.5"/>
                                         <fontDescription key="fontDescription" name="IowanOldStyle-Roman" family="Iowan Old Style" pointSize="30"/>
                                         <state key="normal" title="BACK">
-                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="backButtonAction:" destination="tfP-tp-4h0" eventType="touchUpInside" id="aD7-C4-aKf"/>
@@ -313,7 +316,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="LOI-yX-bgb" firstAttribute="top" secondItem="L1d-Jc-i4H" secondAttribute="top" id="B7O-HI-f12"/>
                             <constraint firstItem="lR2-6b-MF1" firstAttribute="bottom" secondItem="ucX-nd-AV5" secondAttribute="top" id="J1N-at-eg5"/>
@@ -350,17 +353,17 @@
                         <viewControllerLayoutGuide type="bottom" id="iZz-pZ-dPo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="amf-ga-6ya">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOU BEAT THE GAME!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jde-jF-WQh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="YOU BEAT THE GAME!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jde-jF-WQh">
                                 <rect key="frame" x="0.0" y="225" width="600" height="149"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="jde-jF-WQh" firstAttribute="centerY" secondItem="amf-ga-6ya" secondAttribute="centerY" id="L2l-wF-eA6"/>
@@ -395,39 +398,39 @@
                         <viewControllerLayoutGuide type="bottom" id="mpI-6r-YBj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ced-uz-4QZ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HiM-9n-UrU">
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HiM-9n-UrU">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                             </sceneKitView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BZn-RV-boV" customClass="GADBannerView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZn-RV-boV" customClass="GADBannerView">
                                 <rect key="frame" x="140" y="20" width="320" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="7ie-ai-kzF"/>
                                     <constraint firstAttribute="height" constant="50" id="ytH-Wd-Zp2"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5H-Mh-EuL">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5H-Mh-EuL">
                                 <rect key="frame" x="0.0" y="477" width="600" height="123"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="123" id="7Ne-gx-as6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="IowanOldStyle-Roman" family="Iowan Old Style" pointSize="30"/>
                                 <state key="normal" title="BACK">
-                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="backButtonAction:" destination="5aE-Qu-fVd" eventType="touchUpInside" id="4h1-NN-Amp"/>
                                     <action selector="backButtonAction:" destination="tfP-tp-4h0" eventType="touchUpInside" id="eux-aP-Y9c"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L8A-Du-JSu">
+                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L8A-Du-JSu">
                                 <rect key="frame" x="20" y="192" width="560" height="216"/>
                             </pickerView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="l5H-Mh-EuL" firstAttribute="top" secondItem="L8A-Du-JSu" secondAttribute="bottom" constant="69" id="BRj-Zl-sU9"/>
                             <constraint firstItem="l5H-Mh-EuL" firstAttribute="centerX" secondItem="BZn-RV-boV" secondAttribute="centerX" id="E8h-1u-Pc6"/>

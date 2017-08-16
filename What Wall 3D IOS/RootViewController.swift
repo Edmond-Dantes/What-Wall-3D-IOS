@@ -22,13 +22,13 @@ class RootViewController: UIViewController {
     //@IBOutlet weak var pressMe: UIButton!
     
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         print("shouldPerformSegueWithIdentifier called")
         return true//false
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
@@ -36,14 +36,14 @@ class RootViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         if goingToTitle{
-            performSegueWithIdentifier("showTitle", sender: nil)
+            performSegue(withIdentifier: "showTitle", sender: nil)
             goingToTitle = false
         }else{ //going to the game
             goingToTitle = true
-            performSegueWithIdentifier("showGame", sender: nil)
+            performSegue(withIdentifier: "showGame", sender: nil)
         }
     }
     
@@ -54,31 +54,31 @@ class RootViewController: UIViewController {
     
     */
     
-    func loadPropertyList(plistName:String, propertyListData:AnyObject){
+    func loadPropertyList(_ plistName:String, propertyListData:AnyObject){
         
         //let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         let bundleID = "com.aggressiveTurtle.What-Wall-3D-IOS"
-        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true)[0]
-        let customDirectory = (applicationSupportDirectory as NSString).stringByAppendingPathComponent("\(bundleID)/")
-        let plistPath:String? = (customDirectory as NSString).stringByAppendingPathComponent("\(plistName).plist")
+        let applicationSupportDirectory = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.applicationSupportDirectory, .userDomainMask, true)[0]
+        let customDirectory = (applicationSupportDirectory as NSString).appendingPathComponent("\(bundleID)/")
+        let plistPath:String? = (customDirectory as NSString).appendingPathComponent("\(plistName).plist")
         
-        (propertyListData as! NSDictionary).writeToFile(plistPath!, atomically: true)
+        (propertyListData as! NSDictionary).write(toFile: plistPath!, atomically: true)
         
     }
     
-    @IBAction func unwindFromGameBeaten(segue: UIStoryboardSegue){
-        loadPropertyList("Options", propertyListData: self.optionsData)
+    @IBAction func unwindFromGameBeaten(_ segue: UIStoryboardSegue){
+        loadPropertyList("Options", propertyListData: self.optionsData as AnyObject)
     }
     
-    @IBAction func unwindFromTitleToGame(segue: UIStoryboardSegue){
+    @IBAction func unwindFromTitleToGame(_ segue: UIStoryboardSegue){
         //performSegueWithIdentifier("showGame", sender: nil)
     }
     
-    @IBAction func unwindFromGameToTitle(segue: UIStoryboardSegue){
+    @IBAction func unwindFromGameToTitle(_ segue: UIStoryboardSegue){
         //performSegueWithIdentifier("showTitle", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //add segue related information
         if segue.identifier! == "showTitle"{
             
@@ -90,7 +90,7 @@ class RootViewController: UIViewController {
             
         }else if segue.identifier! == "showGame" {
             
-            let gameVC = segue.destinationViewController as! GameViewController
+            let gameVC = segue.destination as! GameViewController
             gameVC.optionsData = self.optionsData
             //gameVC.imageData = self.imageData
             

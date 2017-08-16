@@ -17,30 +17,32 @@ class Color: UIColor {
         var colorArray:[UIColor]{
         
         get{
-        return [.blueColor(),
-        .brownColor(),
-        .cyanColor(),
-        .greenColor(),
-        .magentaColor(),
-        .orangeColor(),
-        .purpleColor(),
-        .redColor(),
-        .whiteColor(),
-        .yellowColor()]
+        return [.blue,
+        .brown,
+        .cyan,
+        .green,
+        .magenta,
+        .orange,
+        .purple,
+        .red,
+        .white,
+        .yellow]
         }
         }
     
-    override init(){
+   /* override init(){
         super.init()
     }
-
-    required convenience init(colorLiteralRed red: Float, green: Float, blue: Float, alpha: Float) {
+    
+    @nonobjc required convenience init(colorLiteralRed red: Float, green: Float, blue: Float, alpha: Float) {
         fatalError("init(colorLiteralRed:green:blue:alpha:) has not been implemented")
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
+    }*/
+
+
 //        class func nextColor(index:Int){
         
 //        return self.colorArray[index]

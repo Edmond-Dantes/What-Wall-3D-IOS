@@ -11,41 +11,41 @@ import UIKit
 class CongratulationsViewController: UIViewController {
 
     var optionsData:[String:AnyObject] = [:]
-    var congratsTimer:NSTimer!
+    var congratsTimer:Timer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        congratsTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(timerFireMethod(_:)), userInfo: nil, repeats: false)
+        congratsTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(timerFireMethod(_:)), userInfo: nil, repeats: false)
         //congratsTimer.fire()
         
     }
     
-    func timerFireMethod(timer:NSTimer){
+    func timerFireMethod(_ timer:Timer){
         isCreditsStarted = true
     }
     
     var isCreditsStarted:Bool = false
-    @IBAction func returnToTitleTapAction(sender: AnyObject) {
+    @IBAction func returnToTitleTapAction(_ sender: AnyObject) {
         
         if isCreditsStarted{
-            performSegueWithIdentifier("unwindFromGameBeaten", sender: self)
+            performSegue(withIdentifier: "unwindFromGameBeaten", sender: self)
         }
         
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "unwindFromGameBeaten"{
-            let rootVC = segue.destinationViewController as! RootViewController
+            let rootVC = segue.destination as! RootViewController
             rootVC.goingToTitle = true
-            self.optionsData["optionsUnlocked"] = true
+            self.optionsData["optionsUnlocked"] = true as AnyObject?
             rootVC.optionsData = self.optionsData
         }
         

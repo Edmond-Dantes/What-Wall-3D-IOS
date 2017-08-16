@@ -16,7 +16,6 @@
 		5E6BC1321CD751DB00F6FF05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1301CD751DB00F6FF05 /* LaunchScreen.storyboard */; };
 		5E6BC13D1CD751DB00F6FF05 /* What_Wall_3D_IOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC13C1CD751DB00F6FF05 /* What_Wall_3D_IOSTests.swift */; };
 		5E6BC1481CD751DB00F6FF05 /* What_Wall_3D_IOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1471CD751DB00F6FF05 /* What_Wall_3D_IOSUITests.swift */; };
-		5E6BC1981CD7723200F6FF05 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1821CD7723200F6FF05 /* Color.swift */; };
 		5E6BC1991CD7723200F6FF05 /* CornerBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */; };
 		5E6BC19A1CD7723200F6FF05 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E6BC1841CD7723200F6FF05 /* GameScene.sks */; };
 		5E6BC19B1CD7723200F6FF05 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6BC1851CD7723200F6FF05 /* GameScene.swift */; };
@@ -43,6 +42,7 @@
 		855A3BF61D5DFB18008AF847 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BF51D5DFB18008AF847 /* RootViewController.swift */; };
 		855A3BF81D5F03BB008AF847 /* CongratulationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A3BF71D5F03BB008AF847 /* CongratulationsViewController.swift */; };
 		855A3BFA1D5F58A3008AF847 /* Options.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855A3BF91D5F58A3008AF847 /* Options.plist */; };
+		85C3480D1EACC8FA00F228C3 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C3480C1EACC8FA00F228C3 /* Color.swift */; };
 		85F9EEA61D2A9F170033F1F0 /* TitlePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */; };
 		85F9EEAA1D2ACEC90033F1F0 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */; };
 		BAC443EE66F5A67E0DB57DA0 /* Pods_What_Wall_3D_IOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3515F94219850C7CF23BCE6 /* Pods_What_Wall_3D_IOS.framework */; };
@@ -82,7 +82,6 @@
 		5E6BC1431CD751DB00F6FF05 /* What Wall 3D IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "What Wall 3D IOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6BC1471CD751DB00F6FF05 /* What_Wall_3D_IOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = What_Wall_3D_IOSUITests.swift; sourceTree = "<group>"; };
 		5E6BC1491CD751DB00F6FF05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E6BC1821CD7723200F6FF05 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerBlock.swift; sourceTree = "<group>"; };
 		5E6BC1841CD7723200F6FF05 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		5E6BC1851CD7723200F6FF05 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -108,6 +107,7 @@
 		855A3BF51D5DFB18008AF847 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		855A3BF71D5F03BB008AF847 /* CongratulationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CongratulationsViewController.swift; sourceTree = "<group>"; };
 		855A3BF91D5F58A3008AF847 /* Options.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Options.plist; sourceTree = "<group>"; };
+		85C3480C1EACC8FA00F228C3 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitlePageViewController.swift; sourceTree = "<group>"; };
 		85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		8AAE02ED659CC14A36048DF3 /* Pods-What Wall 3D IOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-What Wall 3D IOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-What Wall 3D IOSTests/Pods-What Wall 3D IOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,39 +172,39 @@
 		5E6BC1241CD751DB00F6FF05 /* What Wall 3D IOS */ = {
 			isa = PBXGroup;
 			children = (
-				5E6BC1821CD7723200F6FF05 /* Color.swift */,
-				5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */,
+				5E6BC1251CD751DB00F6FF05 /* AppDelegate.swift */,
 				5E6BC1841CD7723200F6FF05 /* GameScene.sks */,
 				5E6BC1851CD7723200F6FF05 /* GameScene.swift */,
+				5E6BC1291CD751DB00F6FF05 /* GameViewController.swift */,
+				5E6BC12B1CD751DB00F6FF05 /* Main.storyboard */,
+				5E6BC12E1CD751DB00F6FF05 /* Assets.xcassets */,
+				5E6BC1301CD751DB00F6FF05 /* LaunchScreen.storyboard */,
+				5E6BC1331CD751DB00F6FF05 /* Info.plist */,
+				5E6BC1861CD7723200F6FF05 /* GameView.swift */,
+				5E6BC1831CD7723200F6FF05 /* CornerBlock.swift */,
 				5E6BC1871CD7723200F6FF05 /* HudOverlay.swift */,
 				5E6BC1881CD7723200F6FF05 /* JoyStick.swift */,
 				5E6BC1891CD7723200F6FF05 /* Maze.swift */,
 				5E6BC18A1CD7723200F6FF05 /* MazeCell.swift */,
-				5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */,
-				5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */,
-				5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */,
+				85C3480C1EACC8FA00F228C3 /* Color.swift */,
 				5E6BC1921CD7723200F6FF05 /* Player.swift */,
-				5E6BC1951CD7723200F6FF05 /* spark.png */,
 				5E6BC1941CD7723200F6FF05 /* SmashBlock.swift */,
-				5E6BC1961CD7723200F6FF05 /* star.png */,
-				5E6BC1251CD751DB00F6FF05 /* AppDelegate.swift */,
-				5E6BC1861CD7723200F6FF05 /* GameView.swift */,
-				5E6BC1291CD751DB00F6FF05 /* GameViewController.swift */,
 				855A3BF71D5F03BB008AF847 /* CongratulationsViewController.swift */,
-				5E6BC12B1CD751DB00F6FF05 /* Main.storyboard */,
 				855A3BF51D5DFB18008AF847 /* RootViewController.swift */,
-				5E6BC1301CD751DB00F6FF05 /* LaunchScreen.storyboard */,
 				85F9EEA51D2A9F170033F1F0 /* TitlePageViewController.swift */,
 				85F9EEA91D2ACEC90033F1F0 /* OptionsViewController.swift */,
 				855A3BED1D58CCD0008AF847 /* OptionDetailsViewController.swift */,
+				5E6BC1961CD7723200F6FF05 /* star.png */,
+				5E6BC1951CD7723200F6FF05 /* spark.png */,
+				5E6BC18D1CD7723200F6FF05 /* MyParticle.sks */,
+				5E6BC1901CD7723200F6FF05 /* MyParticleSystem2.scnp */,
+				5E6BC1911CD7723200F6FF05 /* MyParticleSystem3.scnp */,
 				855A3BF91D5F58A3008AF847 /* Options.plist */,
-				5E6BC1331CD751DB00F6FF05 /* Info.plist */,
 				855A3BE51D58551A008AF847 /* GoogleService-Info.plist */,
 				8505160C1D3F104D004D8047 /* NasaAPIAccountInfo */,
 				855A3BF31D5C826D008AF847 /* NASAImages.plist */,
 				851115BF1D90D681006CF8C3 /* Logo image */,
 				5E6BC1271CD751DB00F6FF05 /* art.scnassets */,
-				5E6BC12E1CD751DB00F6FF05 /* Assets.xcassets */,
 				854188D51D62177700006F02 /* tutorial images */,
 				855A3BF11D5B536A008AF847 /* NASA images */,
 			);
@@ -323,19 +323,22 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = future;
 				TargetAttributes = {
 					5E6BC1211CD751DB00F6FF05 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 8897JVSJ4V;
+						LastSwiftMigration = 0820;
 					};
 					5E6BC1371CD751DB00F6FF05 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0820;
 						TestTargetID = 5E6BC1211CD751DB00F6FF05;
 					};
 					5E6BC1421CD751DB00F6FF05 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0820;
 						TestTargetID = 5E6BC1211CD751DB00F6FF05;
 					};
 				};
@@ -533,6 +536,7 @@
 				855A3BF61D5DFB18008AF847 /* RootViewController.swift in Sources */,
 				5E6BC19B1CD7723200F6FF05 /* GameScene.swift in Sources */,
 				5E6BC19E1CD7723200F6FF05 /* JoyStick.swift in Sources */,
+				85C3480D1EACC8FA00F228C3 /* Color.swift in Sources */,
 				5E6BC19F1CD7723200F6FF05 /* Maze.swift in Sources */,
 				5E6BC1991CD7723200F6FF05 /* CornerBlock.swift in Sources */,
 				85F9EEAA1D2ACEC90033F1F0 /* OptionsViewController.swift in Sources */,
@@ -545,7 +549,6 @@
 				855A3BF81D5F03BB008AF847 /* CongratulationsViewController.swift in Sources */,
 				5E6BC19C1CD7723200F6FF05 /* GameView.swift in Sources */,
 				855A3BEE1D58CCD0008AF847 /* OptionDetailsViewController.swift in Sources */,
-				5E6BC1981CD7723200F6FF05 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,8 +616,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -636,11 +641,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -658,8 +664,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -675,9 +683,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -695,6 +705,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.aggressiveTurtle.What-Wall-3D-IOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -710,6 +721,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.aggressiveTurtle.What-Wall-3D-IOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -723,6 +735,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.future.What-Wall-3D-IOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/What Wall 3D IOS.app/What Wall 3D IOS";
 			};
 			name = Debug;
@@ -736,6 +749,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.future.What-Wall-3D-IOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/What Wall 3D IOS.app/What Wall 3D IOS";
 			};
 			name = Release;
@@ -750,6 +764,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.future.What-Wall-3D-IOSUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "What Wall 3D IOS";
 				USES_XCTRUNNER = YES;
 			};
@@ -764,6 +779,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.future.What-Wall-3D-IOSUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "What Wall 3D IOS";
 				USES_XCTRUNNER = YES;
 			};

@@ -11,7 +11,7 @@ import SpriteKit
 
 class Player: SKSpriteNode{
     
-    private var rad:CGFloat = 40 * gameFrame.height/1000
+    fileprivate var rad:CGFloat = 40 * gameFrame.height/1000
     var radius:CGFloat {
         get {
             return self.rad
@@ -54,7 +54,7 @@ class Player: SKSpriteNode{
     init(){
         let initTexture:SKTexture? = nil
         let initSize = CGSize()
-        let initColor = Color.whiteColor()
+        let initColor = Color.white
         
         super.init(texture: initTexture, color: initColor, size: initSize)
         
@@ -77,7 +77,7 @@ class Player: SKSpriteNode{
     init(r:CGFloat){
         let initTexture:SKTexture? = nil
         let initSize = CGSize()
-        let initColor = Color.whiteColor()
+        let initColor = Color.white
         
         super.init(texture: initTexture, color: initColor, size: initSize)
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.radius/2)
@@ -109,7 +109,7 @@ class Player: SKSpriteNode{
         return clone
     }
     
-    func clone(r:CGFloat) -> Player{
+    func clone(_ r:CGFloat) -> Player{
         let clone = Player(r: r)
         clone.physicsBody = nil
         
